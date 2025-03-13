@@ -20,14 +20,14 @@ func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
-	var is_authority = true #is_multiplayer_authority() or multiplayer == null
+	var is_authority = is_multiplayer_authority()
 	camera.current = is_authority
 	set_process_unhandled_input(is_authority)
 	set_physics_process(is_authority)
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		var sens = aim_sensitivity if Input.is_action_pressed("weapon_aim") else mouse_sensitivity
+		var sens = mouse_sensitivity #aim_sensitivity if Input.is_action_pressed("weapon_aim") else mouse_sensitivity
 		rotate_y(-event.relative.x * sens.x)
 		camera_root.rotate_x(-event.relative.y * sens.y)
 		camera_root.rotation.x = clamp(camera_root.rotation.x, deg_to_rad(-70), deg_to_rad(70))

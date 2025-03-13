@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://cl5s7dpdff0jc"]
+[gd_scene load_steps=3 format=3 uid="uid://cl5s7dpdff0jc"]
+
+[ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="1_g0jqw"]
+[ext_resource type="Script" path="res://proximity-chat/multiplayer_joiner.gd" id="1_prjtu"]
 
 [node name="ProximityChat" type="Node3D"]
 
@@ -9,3 +12,11 @@ size = Vector3(10, 0.1, 10)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.976758, -0.0950129, -0.192134, 0.214343, 0.432972, 0.875552, 0, -0.896386, 0.443275, 0, 4.33354, 3.3497)
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://proximity-chat/fps_player.tscn")
+spawn_path = NodePath("../Root")
+script = ExtResource("1_prjtu")
+player = ExtResource("1_g0jqw")
+
+[node name="Root" type="Node3D" parent="."]

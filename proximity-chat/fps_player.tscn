@@ -1,10 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=7 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
+[ext_resource type="Script" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
 height = 1.12775
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_f37t5"]
+buffer_length = 2.5
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_bp3w1"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_t1bxn"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root")]
 script = ExtResource("1_krq8x")
@@ -22,3 +33,17 @@ height = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366298, -0.364282)
+
+[node name="ProximityAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamGenerator_f37t5")
+autoplay = true
+
+[node name="MicrophoneAudio" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("audio_player")]
+stream = SubResource("AudioStreamMicrophone_bp3w1")
+bus = &"Record"
+script = ExtResource("2_ehckg")
+buffer_size = 1024
+audio_player = NodePath("../ProximityAudioPlayer")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_t1bxn")
