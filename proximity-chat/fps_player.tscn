@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjemhxyjs5ne6"]
+
+[ext_resource type="Script" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
+radius = 0.206044
+height = 1.12775
+
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root")]
+script = ExtResource("1_krq8x")
+camera = NodePath("CameraRoot/Camera3D")
+camera_root = NodePath("CameraRoot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1rodb")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+radius = 0.2
+height = 1.0
+
+[node name="CameraRoot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366298, -0.364282)

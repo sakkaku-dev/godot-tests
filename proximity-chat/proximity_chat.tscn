@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cl5s7dpdff0jc"]
+
+[node name="ProximityChat" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.589737, 0)
+use_collision = true
+size = Vector3(10, 0.1, 10)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.976758, -0.0950129, -0.192134, 0.214343, 0.432972, 0.875552, 0, -0.896386, 0.443275, 0, 4.33354, 3.3497)

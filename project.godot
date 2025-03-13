@@ -14,6 +14,17 @@ config/name="godot-tests"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+driver/enable_input=true
+
+[file_customization]
+
+folder_colors={
+"res://physics_player/": "red",
+"res://proximity-chat/": "red"
+}
+
 [input]
 
 move_up={
