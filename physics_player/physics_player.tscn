@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7exu8d63ypbl"]
+
+[ext_resource type="Script" path="res://physics_player/physics_player.gd" id="1_hhr6h"]
+[ext_resource type="PackedScene" uid="uid://cchxvyy7i7i02" path="res://physics_player/projectile.tscn" id="2_52fws"]
+[ext_resource type="Script" path="res://physics_player/ground_spring_cast.gd" id="3_1yvub"]
+[ext_resource type="Script" path="res://util/chargeable.gd" id="3_lin6f"]
+[ext_resource type="Script" path="res://input/PlayerInput.gd" id="4_rwr02"]
+
+[sub_resource type="Curve" id="Curve_nfugg"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(0.511521, 1), 0.0701357, 0.0701357, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_peor3"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(0.506912, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h85tp"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:global_rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Body:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r425a"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2gucp"]
+radius = 0.261094
+height = 0.98271
+
+[node name="PhysicsPlayer" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.740292, 0)
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_hhr6h")
+projectile_scene = ExtResource("2_52fws")
+max_speed = 5
+acceleration = 30
+acceleration_factor_from_dot = SubResource("Curve_nfugg")
+max_accel_force = 70
+max_acceleration_factor_from_dot = SubResource("Curve_peor3")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_h85tp")
+
+[node name="Chargeable" type="Node" parent="."]
+script = ExtResource("3_lin6f")
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("4_rwr02")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="PlayerInput"]
+replication_config = SubResource("SceneReplicationConfig_r425a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_2gucp")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Body"]
+radius = 0.2
+height = 1.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.310788, 0.163772)
+size = Vector3(0.296631, 0.158203, 0.116943)
+
+[node name="GroundSpringCast" type="RayCast3D" parent="."]
+script = ExtResource("3_1yvub")
