@@ -1,14 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=10 format=3 uid="uid://bjemhxyjs5ne6"]
 
-[ext_resource type="Script" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
-[ext_resource type="Script" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
+[ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
+[ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
+[ext_resource type="Texture2D" uid="uid://dr8bn2ivgef62" path="res://proximity-chat/flair_circle_8.png" id="3_40uvb"]
+[ext_resource type="Script" uid="uid://ceq8ebgeawn0u" path="res://proximity-chat/microphone_icon.gd" id="3_etqxp"]
+[ext_resource type="Texture2D" uid="uid://8mfn6xq54pgk" path="res://proximity-chat/flair_disabled_cross.png" id="4_lg10s"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
 height = 1.12775
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_f37t5"]
-buffer_length = 2.5
+mix_rate_mode = 1
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_bp3w1"]
 
@@ -42,8 +45,31 @@ autoplay = true
 stream = SubResource("AudioStreamMicrophone_bp3w1")
 bus = &"Record"
 script = ExtResource("2_ehckg")
-buffer_size = 1024
 audio_player = NodePath("../ProximityAudioPlayer")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_t1bxn")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MicrophoneIcon" type="TextureButton" parent="CanvasLayer" node_paths=PackedStringArray("microphone", "fade_timer", "icon_texture")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+toggle_mode = true
+texture_normal = ExtResource("4_lg10s")
+texture_pressed = ExtResource("3_40uvb")
+script = ExtResource("3_etqxp")
+microphone = NodePath("../../MicrophoneAudio")
+fade_timer = NodePath("FadeTimer")
+icon_texture = NodePath(".")
+
+[node name="FadeTimer" type="Timer" parent="CanvasLayer/MicrophoneIcon"]
+one_shot = true
