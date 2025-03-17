@@ -16,4 +16,3 @@ func update_list(players: Array):
 		var label = Label.new()
 		label.text = Networking.get_player_name(id)
 		container.add_child(label)
-		print(id)

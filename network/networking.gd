@@ -20,13 +20,13 @@ func _ready():
 	network = SteamNetwork.new(SteamManager.steam, DEFAULT_PORT, MAX_PEERS) if Env.is_steam() else ENetNetwork.new(DEFAULT_PORT, MAX_PEERS)
 	add_child(network)
 
+	multiplayer.peer_connected.connect(func(id): print("Peer connected: %s" % id))
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 
 	# Only called by clients
 	multiplayer.connected_to_server.connect(func():
 		logger.info("Connection success")
-		_player_connected(multiplayer.get_unique_id())
 		connection_success.emit()
 	)
 	multiplayer.connection_failed.connect(func():
@@ -43,7 +43,7 @@ func _ready():
 
 	network.peer_created.connect(func(peer):
 		multiplayer.multiplayer_peer = peer
-		_player_connected(1)
+		_player_connected(multiplayer.get_unique_id())
 		connection_success.emit()
 	)
 	network.connection_failed.connect(func(): connection_failed.emit())

@@ -4,7 +4,7 @@ extends MultiplayerSpawner
 signal game_started()
 signal players_updated(joined_players: Array)
 
-@export var spawn_radius := 1.0
+@export var spawn_radius := 3.0
 @export var player: PackedScene
 @onready var root = get_node(spawn_path)
 
@@ -15,12 +15,10 @@ func _ready() -> void:
 	Networking.player_connected.connect(func(id):
 		joined_players.append(id)
 		players_updated.emit(joined_players)
-		print("Player %s joined" % id)
 	)
 	Networking.player_disconnected.connect(func(id):
 		joined_players.erase(id)
 		players_updated.emit(joined_players)
-		print("Player %s left" % id)
 
 		if id in spawned_players:
 			remove_player(id)
@@ -38,10 +36,11 @@ func _unhandled_input(event: InputEvent) -> void:
 				Networking.join_game("localhost")
 
 func start_game():
-	for id in joined_players:
-		add_player(id)
-
-	game_started.emit()
+	for i in joined_players.size():
+		var angle = (TAU / joined_players.size()) * i
+		add_player(joined_players[i], angle)
+	
+	_game_started.rpc()
 
 func remove_player(id: int):
 	if not id in spawned_players: return
@@ -49,10 +48,13 @@ func remove_player(id: int):
 	spawned_players[id].queue_free()
 	spawned_players.erase(id)
 
-func add_player(id: int):
+func add_player(id: int, angle: float):
 	var node = player.instantiate()
 	node.name = str(id)
-	var angle = TAU / joined_players.size()
 	node.position = (Vector3.FORWARD * spawn_radius).rotated(Vector3.UP, angle)
 	root.add_child(node)
 	spawned_players[id] = node
+
+@rpc("call_local")
+func _game_started():
+	game_started.emit()
