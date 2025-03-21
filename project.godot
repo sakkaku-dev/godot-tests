@@ -28,6 +28,7 @@ SteamManager="*res://steam/steam_manager.gd"
 
 folder_colors={
 "res://physics_player/": "red",
+"res://proc-cave/": "red",
 "res://proximity-chat/": "red"
 }
 
