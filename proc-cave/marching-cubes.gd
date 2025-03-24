@@ -311,37 +311,27 @@ var voxel_grid: VoxelGrid
 
 func init_grid(resolution: int):
 	voxel_grid = VoxelGrid.new(resolution)
+	for c in get_children():
+		c.queue_free()
 
 func set_grid_value(pos: Vector3i, v: float):
 	var value = v + (pos.y + pos.y % TERRAIN_TERRACE) / float(voxel_grid.resolution) - 0.5
 	voxel_grid.write(pos.x, pos.y, pos.z, value)
 
-func generate():
-	#generate terrain
-	#for x in range(1, voxel_grid.resolution - 1):
-		#for y in range(1, voxel_grid.resolution - 1):
-			#for z in range(1, voxel_grid.resolution - 1):
-				#set_grid_value(Vector3(x, y, z), NOISE.get_noise_3d(x, y, z))
-
-	build_mesh()
+func set_empty(pos: Vector3):
+	set_grid_value(pos, 1)
 
 func build_mesh():
-	#for x in voxel_grid.resolution - 1:
-		#for y in voxel_grid.resolution - 1:
-			#for z in voxel_grid.resolution - 1:
-				#if x == 0 or y == 0 or z == 0 or x == voxel_grid.resolution - 1 or y == voxel_grid.resolution - 1 or z == voxel_grid.resolution - 1:
-					#print(Vector3(x, y, z))
-					#voxel_grid.write(x, y, z, 0)
-	
 	var vertices = PackedVector3Array()
 	for x in voxel_grid.resolution - 1:
 		for y in voxel_grid.resolution - 1:
 			for z in voxel_grid.resolution - 1:
-				march_cube(x, y, z, voxel_grid, vertices)
+				_march_cube(x, y, z, voxel_grid, vertices)
 	
-	create_mesh(vertices)
+	_create_mesh(vertices)
+	create_trimesh_collision()
 
-func create_mesh(vertices):
+func _create_mesh(vertices):
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
@@ -356,8 +346,8 @@ func create_mesh(vertices):
 	surface_tool.set_material(MATERIAL)
 	mesh = surface_tool.commit()
 
-func march_cube(x: int, y: int, z: int, voxel_grid: VoxelGrid, vertices: PackedVector3Array):
-	var tri = get_triangulation(x, y, z, voxel_grid)
+func _march_cube(x: int, y: int, z: int, voxel_grid: VoxelGrid, vertices: PackedVector3Array):
+	var tri = _get_triangulation(x, y, z, voxel_grid)
 	for edge_index in tri:
 		if edge_index < 0: break
 		var point_indices = EDGES[edge_index]
@@ -366,16 +356,16 @@ func march_cube(x: int, y: int, z: int, voxel_grid: VoxelGrid, vertices: PackedV
 		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z)
 		var pos_b = Vector3(x + p1.x, y + p1.y, z + p1.z)
 		
-		var position = calculate_interpolation(pos_a, pos_b, voxel_grid)
+		var position = _calculate_interpolation(pos_a, pos_b, voxel_grid)
 		vertices.append(position)
 
-func calculate_interpolation(a: Vector3, b: Vector3, voxel_grid: VoxelGrid):
+func _calculate_interpolation(a: Vector3, b: Vector3, voxel_grid: VoxelGrid):
 	var val_a = voxel_grid.read(a.x, a.y, a.z)
 	var val_b = voxel_grid.read(b.x, b.y, b.z)
 	var t = (ISO_LEVEL - val_a) / (val_b - val_a)
 	return a + t * (b - a)
 		
-func get_triangulation(x: int, y: int, z: int, voxel_grid: VoxelGrid):
+func _get_triangulation(x: int, y: int, z: int, voxel_grid: VoxelGrid):
 	var idx = 0b00000000
 	idx |= int(voxel_grid.read(x, y, z) < ISO_LEVEL) << 0
 	idx |= int(voxel_grid.read(x, y, z + 1) < ISO_LEVEL) << 1
