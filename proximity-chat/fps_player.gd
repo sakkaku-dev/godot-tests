@@ -13,6 +13,7 @@ signal ammo_changed()
 
 @export var camera: Camera3D
 @export var camera_root: Node3D
+@export var light: Light3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -35,6 +36,8 @@ func _unhandled_input(event):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_VISIBLE
+	elif event.is_action_pressed("flashlight"):
+		light.light_energy = 0 if light.light_energy == 1 else 0
 
 func _physics_process(delta):
 	if not is_on_floor():

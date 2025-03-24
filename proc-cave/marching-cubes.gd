@@ -350,7 +350,7 @@ func _march_cube(x: int, y: int, z: int, voxel_grid: VoxelGrid, vertices: Packed
 	var tri = _get_triangulation(x, y, z, voxel_grid)
 	for edge_index in tri:
 		if edge_index < 0: break
-		var point_indices = EDGES[edge_index]
+		var point_indices = EDGES[edge_index]	
 		var p0 = POINTS[point_indices.x]
 		var p1 = POINTS[point_indices.y]
 		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z)

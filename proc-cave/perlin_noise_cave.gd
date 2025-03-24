@@ -188,12 +188,13 @@ func carve_rect(pos, size, height):
 						grid_map.set_cell_item(p, 0)
 
 func carve_out_caves_using_noise():
-	for x in range(GRID_SIZE):
-		for y in range(GRID_SIZE):
-			for z in range(GRID_SIZE):
+	for x in range(1, GRID_SIZE - 1):
+		for y in range(1, GRID_SIZE - 1):
+			for z in range(1, GRID_SIZE - 1):
 				var noise_value = noise.get_noise_3d(x, y, z)
+				var p = Vector3i(x,y,z)
 				if noise_value > threshold:
-					grid_map.set_cell_item(Vector3i(x,y,z), 0)
+					grid_map.set_cell_item(p, 0)
 
 func apply_cellular_automata(iterations=5):
 	for i in range(iterations):
@@ -233,7 +234,7 @@ func get_neighbors_of_neighbors(pos: Vector3):
 	for n in neighbors:
 		result.append(n)
 		result.append_array(get_neighbors_of_neighbors(n))
-			
+		
 	return result
 
 func count_solid_neighbors(x, y, z):
@@ -259,5 +260,5 @@ func _is_empty(p):
 
 func _is_not_edge(pos: Vector3):
 	return pos.x > 1 and pos.x < GRID_SIZE - 1 \
-		and pos.y > 1 and pos.y < GRID_SIZE \
+		and pos.y > 1 and pos.y < GRID_SIZE - 1 \
 		and pos.z > 1 and pos.z < GRID_SIZE - 1

@@ -35,7 +35,7 @@ func _ready():
 	)
 	multiplayer.server_disconnected.connect(func():
 		reset_network()
-		get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+		#get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 		logger.info("Server disconnected")
 		game_error.emit("Server disconnected")
 	)

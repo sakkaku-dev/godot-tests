@@ -19,11 +19,18 @@ mix_rate_mode = 1
 properties/0/path = NodePath(".:global_position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:global_rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("CameraRoot:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
-[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root")]
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root", "light")]
 script = ExtResource("1_krq8x")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
+light = NodePath("CameraRoot/SpotLight3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_1rodb")
@@ -33,6 +40,15 @@ radius = 0.2
 height = 1.0
 
 [node name="CameraRoot" type="Node3D" parent="."]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CameraRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3158, -0.473173)
+light_volumetric_fog_energy = 16.0
+shadow_enabled = true
+spot_range = 50.0
+spot_attenuation = 0.5
+spot_angle = 30.0
+spot_angle_attenuation = 0.482968
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366298, -0.364282)

@@ -133,7 +133,7 @@ func carve_room(pos):
 					var noise = room_noise.get_noise_3d(p.x, p.y, p.z)
 					if noise > 0.0:
 						var dir = Vector3.UP if dy == -room_size else Vector3.DOWN
-						var height = clamp((noise+1) * (room_size/4), 0, room_size / 2)
+						var height = clamp((noise+1) * (room_size/4.), 0, room_size / 2.)
 						create_spikes(p, dir, height)
 
 func _random_direction():

@@ -38,7 +38,7 @@ func _ready():
 	if _enable_steam and Build.STEAM_APP != APP_ID and not is_editor():
 		_live = false
 		_logger.warn("This build isn't designed to be used live")
-	
+		
 	_logger.info("Running version %s (%s) on %s: %s" % [version, Build.GIT_SHA, OS.get_name(), {
 		"demo": is_demo(),
 		"steam": is_steam(),

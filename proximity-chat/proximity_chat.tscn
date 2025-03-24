@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cl5s7dpdff0jc"]
 
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="1_g0jqw"]
-[ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://proximity-chat/multiplayer_joiner.gd" id="1_prjtu"]
-[ext_resource type="Script" uid="uid://cbg5sl0dy2oq5" path="res://proximity-chat/player_list.gd" id="3_ctunq"]
+[ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_prjtu"]
+[ext_resource type="Script" uid="uid://cbg5sl0dy2oq5" path="res://multiplayer/player_list.gd" id="3_ctunq"]
 
 [node name="ProximityChat" type="Node3D"]
 
