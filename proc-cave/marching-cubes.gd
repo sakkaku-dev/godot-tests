@@ -270,9 +270,9 @@ class VoxelGrid:
 	var data: PackedFloat32Array
 	var resolution: int
 	
-	func _init(resolution: int):
-		self.resolution = resolution
-		self.data.resize(resolution * resolution * resolution)
+	func _init(res: int):
+		self.resolution = res
+		self.data.resize(res * res * res)
 		self.data.fill(0.0)
 	
 	func read(x: int, y: int, z: int):

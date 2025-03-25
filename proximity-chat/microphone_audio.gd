@@ -15,11 +15,9 @@ signal microphone_capturing()
 
 var received_buffer := PackedVector2Array()
 
-func _enter_tree():
-	set_multiplayer_authority(name.to_int())
-
 func _ready() -> void:
-	set_process_unhandled_input(is_multiplayer_authority())
+	if Networking.has_network():
+		set_process_unhandled_input(is_multiplayer_authority())
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("push_to_talk"):

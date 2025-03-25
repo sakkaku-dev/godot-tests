@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpsylvgw4iysy"]
+[gd_scene load_steps=5 format=3 uid="uid://bpsylvgw4iysy"]
 
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_24a28"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_p732r"]
-[ext_resource type="Script" uid="uid://cbg5sl0dy2oq5" path="res://multiplayer/player_list.gd" id="3_p732r"]
 [ext_resource type="PackedScene" uid="uid://boqta6oub5x2n" path="res://proc-cave/procedural_cave.tscn" id="4_ekn36"]
 
 [sub_resource type="Environment" id="Environment_ekn36"]
@@ -15,29 +14,17 @@ volumetric_fog_enabled = true
 
 [node name="Prototype" type="Node3D"]
 
-[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
-spawn_path = NodePath("../Root")
-script = ExtResource("1_24a28")
-player = ExtResource("2_p732r")
-
-[node name="Root" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5919, 118.791, 25.3979)
-
 [node name="ProceduralCave" parent="." instance=ExtResource("4_ekn36")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("container")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_p732r")
-container = NodePath("VBoxContainer")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
-layout_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ekn36")
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
+spawn_path = NodePath("../Room")
+script = ExtResource("1_24a28")
+player = ExtResource("2_p732r")
+metadata/_custom_type_script = "uid://dvxpoocnl7avh"
+
+[node name="Room" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.7821, 114.296, 19.4363)

@@ -21,11 +21,14 @@ func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
-	var is_authority = is_multiplayer_authority()
-	camera.current = is_authority
-	set_process_unhandled_input(is_authority)
-	set_physics_process(is_authority)
-	
+	if Networking.has_network():
+		var is_authority = is_multiplayer_authority()
+		camera.current = is_authority
+		set_process_unhandled_input(is_authority)
+		set_physics_process(is_authority)
+	else:
+		camera.current = true
+
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var sens = mouse_sensitivity #aim_sensitivity if Input.is_action_pressed("weapon_aim") else mouse_sensitivity
@@ -37,7 +40,7 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_VISIBLE
 	elif event.is_action_pressed("flashlight"):
-		light.light_energy = 0 if light.light_energy == 1 else 0
+		light.light_energy = 0 if light.light_energy > 0 else 1
 
 func _physics_process(delta):
 	if not is_on_floor():

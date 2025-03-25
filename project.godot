@@ -24,6 +24,10 @@ Env="*res://Env.gd"
 Networking="*res://network/networking.gd"
 SteamManager="*res://network/steam_manager.gd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

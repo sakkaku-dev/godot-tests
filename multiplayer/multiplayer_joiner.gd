@@ -11,6 +11,10 @@ signal game_started()
 var ready_players := []
 
 func _ready() -> void:
+	if not Networking.has_network():
+		add_player(0, 0)
+		return
+	
 	await get_tree().create_timer(1.0).timeout
 	_set_player_ready.rpc_id(1)
 	print("Sending server ready state")
@@ -25,15 +29,19 @@ func _set_player_ready():
 
 func _check_players_ready():
 	var expected_players = Networking.players.size()
-	if ready_players.size() == expected_players:
+	if ready_players.size() >= expected_players:
 		all_players_ready.emit()
-		start_game()
 		print("All players ready")
+		start_game()
 
 func start_game():
-	for i in Networking.players.size():
-		var angle = (TAU / Networking.players.size()) * i
-		add_player(Networking.players.keys()[i], angle)
+	var players = Networking.players.keys()
+	if players.is_empty():
+		players.append(0)
+	
+	for i in players.size():
+		var angle = (TAU / players.size()) * i
+		add_player(players[i], angle)
 	
 	_game_started.rpc()
 
