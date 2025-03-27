@@ -10,6 +10,7 @@ signal ammo_changed()
 
 @export var mouse_sensitivity := Vector2(0.001, 0.001)
 @export var aim_sensitivity := Vector2(0.0003, 0.0003)
+@export var body: Node3D
 
 @export var camera: Camera3D
 @export var camera_root: Node3D
@@ -26,6 +27,7 @@ func _ready():
 		camera.current = is_authority
 		set_process_unhandled_input(is_authority)
 		set_physics_process(is_authority)
+		body.visible = not is_authority
 	else:
 		camera.current = true
 

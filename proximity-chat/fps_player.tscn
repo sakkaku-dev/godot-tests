@@ -1,14 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=13 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
+[ext_resource type="Script" uid="uid://ftnb5hbcffkp" path="res://prototype/hand.gd" id="2_eodsd"]
 [ext_resource type="Texture2D" uid="uid://dr8bn2ivgef62" path="res://proximity-chat/flair_circle_8.png" id="3_40uvb"]
 [ext_resource type="Script" uid="uid://ceq8ebgeawn0u" path="res://proximity-chat/microphone_icon.gd" id="3_etqxp"]
 [ext_resource type="Texture2D" uid="uid://8mfn6xq54pgk" path="res://proximity-chat/flair_disabled_cross.png" id="4_lg10s"]
+[ext_resource type="Script" uid="uid://b5x5lk8n2flba" path="res://prototype/items.gd" id="7_ubged"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
 height = 1.12775
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ve1mo"]
+size = Vector3(0.687744, 1, 0.69043)
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_f37t5"]
 mix_rate_mode = 1
@@ -29,8 +34,10 @@ properties/3/path = NodePath("CameraRoot/SpotLight3D:light_energy")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root", "light")]
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "camera", "camera_root", "light")]
+collision_layer = 0
 script = ExtResource("1_krq8x")
+body = NodePath("CSGCylinder3D")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
 light = NodePath("CameraRoot/SpotLight3D")
@@ -55,6 +62,15 @@ spot_angle_attenuation = 0.482968
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366298, -0.364282)
+
+[node name="Hand" type="Area3D" parent="CameraRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0893785, -0.59146)
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("2_eodsd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraRoot/Hand"]
+shape = SubResource("BoxShape3D_ve1mo")
 
 [node name="ProximityAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamGenerator_f37t5")
@@ -92,3 +108,13 @@ icon_texture = NodePath(".")
 
 [node name="FadeTimer" type="Timer" parent="CanvasLayer/MicrophoneIcon"]
 one_shot = true
+
+[node name="Items" type="VBoxContainer" parent="CanvasLayer" node_paths=PackedStringArray("hand")]
+offset_right = 28.0
+offset_bottom = 23.0
+script = ExtResource("7_ubged")
+hand = NodePath("../../CameraRoot/Hand")
+
+[node name="Label" type="Label" parent="CanvasLayer/Items"]
+layout_mode = 2
+text = "Item: 0"
