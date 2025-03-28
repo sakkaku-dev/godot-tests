@@ -5,5 +5,3 @@ signal interacted()
 
 func interact():
 	interacted.emit()
-	get_parent().queue_free()
-	return "Item"

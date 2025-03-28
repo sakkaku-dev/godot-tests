@@ -6,11 +6,9 @@
 
 [sub_resource type="Environment" id="Environment_ekn36"]
 background_mode = 2
-sdfgi_enabled = true
 fog_enabled = true
 fog_light_color = Color(0.32856, 0.35778, 0.40371, 1)
 fog_aerial_perspective = 0.5
-volumetric_fog_enabled = true
 
 [node name="Prototype" type="Node3D"]
 

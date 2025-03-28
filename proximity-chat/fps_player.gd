@@ -5,16 +5,17 @@ signal player_ready()
 signal weapon_changed()
 signal ammo_changed()
 
-@export var SPEED = 8.0
-@export var JUMP_VELOCITY = 4.5
+@export var SPEED = 6.0
+@export var ZIP_SPEED = 0.1
+@export var JUMP_VELOCITY = 4.0
 
 @export var mouse_sensitivity := Vector2(0.001, 0.001)
 @export var aim_sensitivity := Vector2(0.0003, 0.0003)
 @export var body: Node3D
+@export var hand: Hand
 
 @export var camera: Camera3D
 @export var camera_root: Node3D
-@export var light: Light3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -30,6 +31,7 @@ func _ready():
 		body.visible = not is_authority
 	else:
 		camera.current = true
+		body.hide()
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -41,18 +43,26 @@ func _unhandled_input(event):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif event.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_VISIBLE
-	elif event.is_action_pressed("flashlight"):
-		light.light_energy = 0 if light.light_energy > 0 else 1
 
 func _physics_process(delta):
+	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	if hand.zip_follow:
+		var zip_dir = hand.get_zip_direction()
+		var zip_move_dir = sign(zip_dir.dot(direction))
+		
+		#if hand.zip_follow.progress_ratio >= 0.00 and hand.zip_follow.progress_ratio <= 1.0:
+		hand.zip_follow.progress += zip_dir.dot(direction) * ZIP_SPEED
+		hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
+		return
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var _speed = SPEED
 	
 	if is_on_floor():

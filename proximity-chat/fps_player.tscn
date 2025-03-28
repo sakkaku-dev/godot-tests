@@ -1,11 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=17 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
 [ext_resource type="Script" uid="uid://ftnb5hbcffkp" path="res://prototype/hand.gd" id="2_eodsd"]
+[ext_resource type="Script" uid="uid://cxcl8hhrd8h8r" path="res://prototype/flashlight.gd" id="2_jhtns"]
 [ext_resource type="Texture2D" uid="uid://dr8bn2ivgef62" path="res://proximity-chat/flair_circle_8.png" id="3_40uvb"]
 [ext_resource type="Script" uid="uid://ceq8ebgeawn0u" path="res://proximity-chat/microphone_icon.gd" id="3_etqxp"]
+[ext_resource type="Script" uid="uid://bpvmidaxg05om" path="res://prototype/zip_line_gun.gd" id="3_ffq0p"]
+[ext_resource type="Script" uid="uid://bx5ikel45ayd6" path="res://prototype/slots.gd" id="4_5nf5r"]
 [ext_resource type="Texture2D" uid="uid://8mfn6xq54pgk" path="res://proximity-chat/flair_disabled_cross.png" id="4_lg10s"]
+[ext_resource type="PackedScene" uid="uid://4fkmbdia1h6h" path="res://prototype/zip_line.tscn" id="4_wt4vc"]
 [ext_resource type="Script" uid="uid://b5x5lk8n2flba" path="res://prototype/items.gd" id="7_ubged"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
@@ -34,13 +38,13 @@ properties/3/path = NodePath("CameraRoot/SpotLight3D:light_energy")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "camera", "camera_root", "light")]
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "hand", "camera", "camera_root")]
 collision_layer = 0
 script = ExtResource("1_krq8x")
 body = NodePath("CSGCylinder3D")
+hand = NodePath("CameraRoot/Hand")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
-light = NodePath("CameraRoot/SpotLight3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_1rodb")
@@ -50,8 +54,9 @@ radius = 0.2
 height = 1.0
 
 [node name="CameraRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.372057, 0)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="CameraRoot"]
+[node name="Flashlight" type="SpotLight3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3158, -0.473173)
 light_volumetric_fog_energy = 16.0
 shadow_enabled = true
@@ -59,18 +64,27 @@ spot_range = 50.0
 spot_attenuation = 0.5
 spot_angle = 30.0
 spot_angle_attenuation = 0.482968
+script = ExtResource("2_jhtns")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366298, -0.364282)
 
-[node name="Hand" type="Area3D" parent="CameraRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0893785, -0.59146)
+[node name="Hand" type="Area3D" parent="CameraRoot" node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.283627, -0.529021)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("2_eodsd")
+player = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CameraRoot/Hand"]
 shape = SubResource("BoxShape3D_ve1mo")
+
+[node name="Slots" type="Node3D" parent="CameraRoot" node_paths=PackedStringArray("label")]
+script = ExtResource("4_5nf5r")
+label = NodePath("../../CanvasLayer/Slot")
+
+[node name="ZipLineGun" type="Node3D" parent="CameraRoot/Slots"]
+script = ExtResource("3_ffq0p")
+zip_line = ExtResource("4_wt4vc")
 
 [node name="ProximityAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamGenerator_f37t5")
@@ -118,3 +132,12 @@ hand = NodePath("../../CameraRoot/Hand")
 [node name="Label" type="Label" parent="CanvasLayer/Items"]
 layout_mode = 2
 text = "Item: 0"
+
+[node name="Slot" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+horizontal_alignment = 2
