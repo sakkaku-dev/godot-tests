@@ -10,11 +10,16 @@ var zip_follow: PathFollow3D
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
-		if zip_follow:
-			zip_follow.queue_free()
-			zip_follow = null
-		else:
+		if not remove_zip():
 			interact()
+
+func remove_zip():
+	if zip_follow:
+		zip_follow.queue_free()
+		zip_follow = null
+		return true
+	
+	return false
 
 func interact():
 	for area in get_overlapping_areas():

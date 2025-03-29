@@ -1,7 +1,7 @@
 class_name ZipLine
 extends CharacterBody3D
 
-@export var projectile_speed := 10
+@export var projectile_speed := 30.0
 
 @onready var path_3d: Path3D = $Path3D
 @onready var end_interact: Area3D = $EndInteract
@@ -14,13 +14,15 @@ extends CharacterBody3D
 var move_dir := Vector3.FORWARD
 
 func _ready() -> void:
+	#move_dir = move_dir * global_basis
+	print(move_dir)
 	start_pole.hide()
 
 func _physics_process(delta: float) -> void:
 	if not move_dir: return
 	
-	velocity = move_dir * global_basis * projectile_speed
-	velocity += gravity * delta
+	velocity = move_dir * projectile_speed
+	#velocity += gravity
 	
 	body.basis = Basis.looking_at(velocity)
 	
@@ -29,7 +31,6 @@ func _physics_process(delta: float) -> void:
 
 func _on_landing():
 	move_dir = Vector3.ZERO
-	
 	
 	var curve = Curve3D.new()
 	curve.add_point(Vector3.ZERO)

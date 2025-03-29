@@ -7,7 +7,7 @@ signal ammo_changed()
 
 @export var SPEED = 6.0
 @export var ZIP_SPEED = 0.1
-@export var JUMP_VELOCITY = 4.0
+@export var JUMP_VELOCITY = 8.0
 
 @export var mouse_sensitivity := Vector2(0.001, 0.001)
 @export var aim_sensitivity := Vector2(0.0003, 0.0003)
@@ -17,7 +17,7 @@ signal ammo_changed()
 @export var camera: Camera3D
 @export var camera_root: Node3D
 
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity = 20
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
@@ -49,19 +49,23 @@ func _physics_process(delta):
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if hand.zip_follow:
-		var zip_dir = hand.get_zip_direction()
-		var zip_move_dir = sign(zip_dir.dot(direction))
-		
-		#if hand.zip_follow.progress_ratio >= 0.00 and hand.zip_follow.progress_ratio <= 1.0:
-		hand.zip_follow.progress += zip_dir.dot(direction) * ZIP_SPEED
-		hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
-		return
-	
-	if not is_on_floor():
-		velocity.y -= gravity * delta
+		if Input.is_action_just_pressed("jump"):
+			hand.remove_zip()
+			velocity.y = JUMP_VELOCITY
+		else:
+			var zip_dir = hand.get_zip_direction()
+			var zip_move_dir = sign(zip_dir.dot(direction))
+			
+			#if hand.zip_follow.progress_ratio >= 0.00 and hand.zip_follow.progress_ratio <= 1.0:
+			hand.zip_follow.progress += zip_dir.dot(direction) * ZIP_SPEED
+			hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
+			return
+	else:
+		if not is_on_floor():
+			velocity.y -= gravity * delta
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		if Input.is_action_just_pressed("jump") and is_on_floor():
+			velocity.y = JUMP_VELOCITY
 
 	var _speed = SPEED
 	
