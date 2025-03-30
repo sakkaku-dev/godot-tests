@@ -5,6 +5,5 @@ extends Node3D
 # Not called with scatter??
 func _ready() -> void:
 	interactable.interacted.emit(func():
-		print("Remove")
 		queue_free()
 	)

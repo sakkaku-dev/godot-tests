@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://4fkmbdia1h6h"]
+[gd_scene load_steps=6 format=3 uid="uid://4fkmbdia1h6h"]
 
 [ext_resource type="Script" uid="uid://c4hrq0bcsuemk" path="res://prototype/zip_line.gd" id="1_ugygu"]
 [ext_resource type="Script" uid="uid://cu8nqfx4kmvbo" path="res://prototype/ZipInteract.gd" id="2_prpli"]
@@ -8,6 +8,17 @@ size = Vector3(0.228516, 0.166992, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ugygu"]
 size = Vector3(1.3252, 1.91187, 1.62988)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_j5b72"]
+properties/0/path = NodePath(".:global_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Body:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("StartPole:position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="ZipLine" type="CharacterBody3D"]
 script = ExtResource("1_ugygu")
@@ -46,3 +57,6 @@ speed = 0.01
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StartPole/StartInteract"]
 shape = SubResource("BoxShape3D_ugygu")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_j5b72")

@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var end_interact: Area3D = $EndInteract
 @onready var start_pole: CSGBox3D = $StartPole
 @onready var body: Node3D = $Body
+@onready var multiplayer_synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 @onready var gravity: Vector3 = ProjectSettings.get_setting("physics/3d/default_gravity") * Vector3.DOWN
 @onready var start: Vector3 = global_position
@@ -39,3 +40,6 @@ func _on_landing():
 	
 	start_pole.position = curve.get_point_position(curve.point_count - 1)
 	start_pole.show()
+	
+	await get_tree().physics_frame
+	multiplayer_synchronizer.process_mode = Node.PROCESS_MODE_DISABLED

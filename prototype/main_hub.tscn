@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://buaeo6vvfrvnn"]
+
+[ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_lxs1d"]
+[ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_gfco3"]
+[ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_tsy7q"]
+
+[node name="main_hub" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(10, 0.05, 10)
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="." groups=["spawner"]]
+_spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
+spawn_path = NodePath("../Root")
+script = ExtResource("1_lxs1d")
+player = ExtResource("2_gfco3")
+metadata/_custom_type_script = "uid://dvxpoocnl7avh"
+
+[node name="PlayerReady" type="Node" parent="MultiplayerJoiner"]
+script = ExtResource("3_tsy7q")
+
+[node name="Root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60383, 0)
