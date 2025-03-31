@@ -58,7 +58,8 @@ height = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.372057, 0)
 
 [node name="Flashlight" type="SpotLight3D" parent="CameraRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3158, -0.473173)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0451757, -0.303639)
+light_energy = 0.0
 light_volumetric_fog_energy = 10.0
 shadow_enabled = true
 spot_range = 50.0

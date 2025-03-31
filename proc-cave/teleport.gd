@@ -1,6 +1,6 @@
 extends Interactable
 
-@export var scene: PackedScene
+@export var scene: String
 @onready var player_ready: PlayerReady = $PlayerReady
 
 func _ready() -> void:
@@ -9,4 +9,4 @@ func _ready() -> void:
 
 @rpc("call_local", "reliable")
 func teleport():
-	get_tree().change_scene_to_packed(scene)
+	get_tree().change_scene_to_file(scene)

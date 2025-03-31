@@ -1,10 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://buaeo6vvfrvnn"]
+[gd_scene load_steps=6 format=3 uid="uid://buaeo6vvfrvnn"]
 
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_lxs1d"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_gfco3"]
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_tsy7q"]
+[ext_resource type="PackedScene" uid="uid://crb4ulldg48mb" path="res://prototype/teleport.tscn" id="4_gfco3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gfco3"]
+radius = 1.03564
 
 [node name="main_hub" type="Node3D"]
+
+[node name="Teleport" parent="." instance=ExtResource("4_gfco3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.87696, 0.75572, 0)
+scene = "res://prototype/prototype.tscn"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Teleport"]
+shape = SubResource("CylinderShape3D_gfco3")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 use_collision = true

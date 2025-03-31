@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://crb4ulldg48mb"]
+
+[ext_resource type="Script" uid="uid://b032xnai0h0yw" path="res://proc-cave/teleport.gd" id="1_neqoq"]
+[ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_1w6o4"]
+
+[node name="Teleport" type="Area3D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_neqoq")
+
+[node name="PlayerReady" type="Node" parent="."]
+script = ExtResource("3_1w6o4")
+toggleable = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0203085, 1.47852, -4.76837e-07)
+radius = 0.915527
+height = 0.160278
