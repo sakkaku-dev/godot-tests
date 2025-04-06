@@ -17,7 +17,7 @@ signal ammo_changed()
 @export var camera: Camera3D
 @export var camera_root: Node3D
 
-var gravity = 20
+var gravity = 8.0
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
@@ -64,7 +64,7 @@ func _physics_process(delta):
 		if not is_on_floor():
 			velocity.y -= gravity * delta
 
-		if Input.is_action_just_pressed("jump") and is_on_floor():
+		if Input.is_action_just_pressed("jump"): # and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 
 	var _speed = SPEED

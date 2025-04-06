@@ -3,8 +3,8 @@ class_name MarchingCubes
 extends MeshInstance3D
 
 @export var MATERIAL: Material
-@export var ISO_LEVEL := 0.0
-@export var FLAT_SHADED := false
+@export var ISO_LEVEL := 0.5
+@export var FLAT_SHADED := true
 @export var TERRAIN_TERRACE: int = 1
 
 const TRIANGULATIONS = [
@@ -273,13 +273,89 @@ class VoxelGrid:
 	func _init(res: int):
 		self.resolution = res
 		self.data.resize(res * res * res)
-		self.data.fill(0.0)
+		self.data.fill(1.0)
 	
 	func read(x: int, y: int, z: int):
 		return self.data[x + self.resolution * (y + self.resolution * z)]
 	
 	func write(x: int, y: int, z: int, value: float):
 		self.data[x + self.resolution * (y + self.resolution * z)] = value
+
+class VoxelChunk:
+	var chunk_size = 16
+	var data: PackedFloat32Array
+	
+	func _init(size = 16):
+		chunk_size = size
+		self.data.resize(chunk_size * chunk_size * chunk_size)
+		self.data.fill(0.0)
+	
+	func read_local(x: int, y: int, z: int) -> float:
+		return data[x + chunk_size * (y + chunk_size * z)]
+	
+	func write_local(x: int, y: int, z: int, value: float):
+		data[x + chunk_size * (y + chunk_size * z)] = value
+
+class VoxelWorld:
+	var CHUNK_SIZE: int
+	var chunks: Dictionary
+	
+	func _init(size: int) -> void:
+		CHUNK_SIZE = size
+	
+	func get_chunk_coord(v: float) -> int:
+		return floor(v / CHUNK_SIZE)
+	
+	func get_chunk_key(x: int, y: int, z: int) -> String:
+		return "%d_%d_%d" % [x, y, z]
+	
+	func read(x: int, y: int, z: int) -> float:
+		var cx = get_chunk_coord(x)
+		var cy = get_chunk_coord(y)
+		var cz = get_chunk_coord(z)
+		var key = get_chunk_key(cx, cy, cz)
+		
+		if not chunks.has(key):
+			return 0.0  # Default air value
+			
+		var lx = posmod(x, CHUNK_SIZE)
+		var ly = posmod(y, CHUNK_SIZE)
+		var lz = posmod(z, CHUNK_SIZE)
+		
+		return chunks[key].read_local(lx, ly, lz)
+	
+	func write(x: int, y: int, z: int, value: float):
+		var cx = get_chunk_coord(x)
+		var cy = get_chunk_coord(y)
+		var cz = get_chunk_coord(z)
+		var key = get_chunk_key(cx, cy, cz)
+		
+		if not chunks.has(key):
+			chunks[key] = VoxelChunk.new(CHUNK_SIZE)
+			
+		var lx = posmod(x, CHUNK_SIZE)
+		var ly = posmod(y, CHUNK_SIZE)
+		var lz = posmod(z, CHUNK_SIZE)
+		
+		chunks[key].write_local(lx, ly, lz, value)
+	
+	func iterate_all_voxels(callback: Callable):
+		for chunk_key in chunks:
+			var chunk = chunks[chunk_key]
+			var chunk_coords = chunk_key.split("_")
+			var chunk_x = int(chunk_coords[0])
+			var chunk_y = int(chunk_coords[1])
+			var chunk_z = int(chunk_coords[2])
+			
+			for lx in CHUNK_SIZE:
+				for ly in CHUNK_SIZE:
+					for lz in CHUNK_SIZE:
+						var wx = chunk_x * CHUNK_SIZE + lx
+						var wy = chunk_y * CHUNK_SIZE + ly
+						var wz = chunk_z * CHUNK_SIZE + lz
+						var value = chunk.read_local(lx, ly, lz)
+						callback.call(wx, wy, wz, value)
+
 	
 const POINTS = [
 	Vector3i(0, 0, 0),
@@ -307,26 +383,37 @@ const EDGES = [
 	Vector2i(3, 7),
 ]
 
-var voxel_grid: VoxelGrid
+class CustomGrid extends GridMap:
+	func read(x, y, z):
+		return 1 if get_cell_item(Vector3i(x, y, z)) != -1 else 0
+	func write(x: int, y: int, z: int, value: float):
+		set_cell_item(Vector3i(x, y, z), value)
 
-func init_grid(resolution: int):
-	voxel_grid = VoxelGrid.new(resolution)
-	for c in get_children():
-		c.queue_free()
+var grid: VoxelWorld
 
-func set_grid_value(pos: Vector3i, v: float):
-	var value = v + (pos.y + pos.y % TERRAIN_TERRACE) / float(voxel_grid.resolution) - 0.5
-	voxel_grid.write(pos.x, pos.y, pos.z, value)
+func _init(chunk_size: int) -> void:
+	grid = VoxelWorld.new(chunk_size)
 
-func set_empty(pos: Vector3):
-	set_grid_value(pos, 1)
+#func init_grid(resolution: int):
+	#grid = VoxelGrid.new(resolution)
+	#for c in get_children():
+		#c.queue_free()
+
+func set_cell_item(pos: Vector3i, v: float):
+	#var value = v + (pos.y + pos.y % TERRAIN_TERRACE) / float(voxel_grid.resolution) - 0.5
+	grid.write(pos.x, pos.y, pos.z, v)
+
+#func set_empty(pos: Vector3):
+	#set_cell_item(pos, 1)
 
 func build_mesh():
 	var vertices = PackedVector3Array()
-	for x in voxel_grid.resolution - 1:
-		for y in voxel_grid.resolution - 1:
-			for z in voxel_grid.resolution - 1:
-				_march_cube(x, y, z, voxel_grid, vertices)
+	grid.iterate_all_voxels(func(x, y, z, v): _march_cube(Vector3(x, y, z), vertices))
+	#for x in voxel_grid.resolution - 1:
+		#for y in voxel_grid.resolution - 1:
+			#for z in voxel_grid.resolution - 1:
+	#for c in grid.get_used_cells():
+		#_march_cube(c, vertices)
 	
 	_create_mesh(vertices)
 	create_trimesh_collision()
@@ -346,33 +433,36 @@ func _create_mesh(vertices):
 	surface_tool.set_material(MATERIAL)
 	mesh = surface_tool.commit()
 
-func _march_cube(x: int, y: int, z: int, voxel_grid: VoxelGrid, vertices: PackedVector3Array):
-	var tri = _get_triangulation(x, y, z, voxel_grid)
+func _march_cube(p: Vector3, vertices: PackedVector3Array):
+	var tri = _get_triangulation(p)
 	for edge_index in tri:
 		if edge_index < 0: break
-		var point_indices = EDGES[edge_index]	
+		var point_indices = EDGES[edge_index]
 		var p0 = POINTS[point_indices.x]
 		var p1 = POINTS[point_indices.y]
-		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z)
-		var pos_b = Vector3(x + p1.x, y + p1.y, z + p1.z)
+		var pos_a = Vector3(p.x + p0.x, p.y + p0.y, p.z + p0.z)
+		var pos_b = Vector3(p.x + p1.x, p.y + p1.y, p.z + p1.z)
 		
-		var position = _calculate_interpolation(pos_a, pos_b, voxel_grid)
+		var position = _calculate_interpolation(pos_a, pos_b)
 		vertices.append(position)
 
-func _calculate_interpolation(a: Vector3, b: Vector3, voxel_grid: VoxelGrid):
-	var val_a = voxel_grid.read(a.x, a.y, a.z)
-	var val_b = voxel_grid.read(b.x, b.y, b.z)
+func _calculate_interpolation(a: Vector3, b: Vector3):
+	var val_a = grid.read(a.x, a.y, a.z)
+	var val_b = grid.read(b.x, b.y, b.z)
 	var t = (ISO_LEVEL - val_a) / (val_b - val_a)
 	return a + t * (b - a)
-		
-func _get_triangulation(x: int, y: int, z: int, voxel_grid: VoxelGrid):
+
+func _get_triangulation(p: Vector3):
+	var x = p.x
+	var y = p.y
+	var z = p.z
 	var idx = 0b00000000
-	idx |= int(voxel_grid.read(x, y, z) < ISO_LEVEL) << 0
-	idx |= int(voxel_grid.read(x, y, z + 1) < ISO_LEVEL) << 1
-	idx |= int(voxel_grid.read(x + 1, y, z + 1) < ISO_LEVEL) << 2
-	idx |= int(voxel_grid.read(x + 1, y, z) < ISO_LEVEL) << 3
-	idx |= int(voxel_grid.read(x, y + 1, z) < ISO_LEVEL) << 4
-	idx |= int(voxel_grid.read(x, y + 1, z + 1) < ISO_LEVEL) << 5
-	idx |= int(voxel_grid.read(x + 1, y + 1, z + 1) < ISO_LEVEL) << 6
-	idx |= int(voxel_grid.read(x + 1, y + 1, z) < ISO_LEVEL) << 7
+	idx |= int(grid.read(x, y, z) < ISO_LEVEL) << 0
+	idx |= int(grid.read(x, y, z + 1) < ISO_LEVEL) << 1
+	idx |= int(grid.read(x + 1, y, z + 1) < ISO_LEVEL) << 2
+	idx |= int(grid.read(x + 1, y, z) < ISO_LEVEL) << 3
+	idx |= int(grid.read(x, y + 1, z) < ISO_LEVEL) << 4
+	idx |= int(grid.read(x, y + 1, z + 1) < ISO_LEVEL) << 5
+	idx |= int(grid.read(x + 1, y + 1, z + 1) < ISO_LEVEL) << 6
+	idx |= int(grid.read(x + 1, y + 1, z) < ISO_LEVEL) << 7
 	return TRIANGULATIONS[idx]

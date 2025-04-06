@@ -1,0 +1,103 @@
+class_name TerrainChunk
+extends MeshInstance3D
+
+@export var chunk_size := 32  # Number of vertices per side
+@export var resolution := 1.0  # Space between vertices
+@export var noise_height := 10
+
+@export var max_height_limit := 0.8
+@export var min_height_limit := -0.2
+
+@export var max_scatter := 0.2
+@export var min_scatter := 0.0
+
+var noise: Noise
+var scatter_noise: Noise
+var chunk_position := Vector2()
+
+func generate_chunk():
+	create_mesh()
+	add_collision()
+	populate_stones()
+
+func create_mesh():
+	var surface_tool = SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface_tool.set_smooth_group(-1)
+	
+	# Generate vertices
+	for z in chunk_size:
+		for x in chunk_size:
+			var height = get_height(x, z)
+			var vertex = Vector3(x * resolution, height, z * resolution)
+			
+			surface_tool.add_vertex(vertex)
+	
+	# Generate indices (triangle strips)
+	for z in chunk_size - 1:
+		for x in chunk_size - 1:
+			var top_left = z * chunk_size + x
+			var top_right = top_left + 1
+			var bottom_left = (z + 1) * chunk_size + x
+			var bottom_right = bottom_left + 1
+			
+			# First triangle
+			surface_tool.add_index(top_left)
+			surface_tool.add_index(top_right)
+			surface_tool.add_index(bottom_left)
+			
+			# Second triangle
+			surface_tool.add_index(top_right)
+			surface_tool.add_index(bottom_right)
+			surface_tool.add_index(bottom_left)
+	
+	surface_tool.generate_normals()
+	mesh = surface_tool.commit()
+
+func get_height(x, z):
+	var world_x = chunk_position.x * (chunk_size - 1) + x
+	var world_z = chunk_position.y * (chunk_size - 1) + z
+	var h = noise.get_noise_2d(world_x, world_z)
+	h = clamp(h, min_height_limit, max_height_limit)
+	
+	return h * noise_height
+
+func add_collision():
+	var static_body = StaticBody3D.new()
+	var collision_shape = CollisionShape3D.new()
+	var shape = mesh.create_trimesh_shape()
+	collision_shape.shape = shape
+	static_body.add_child(collision_shape)
+	add_child(static_body)
+
+func populate_stones():
+	var multi_mesh = MultiMeshInstance3D.new()
+	multi_mesh.multimesh = MultiMesh.new()
+	multi_mesh.multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	
+	var scatter_pos = []
+	for z in chunk_size:
+		for x in chunk_size:
+			var scatter = scatter_noise.get_noise_2d(x, z)
+			if scatter >= min_scatter and scatter <= max_scatter:
+				scatter_pos.append(Vector2(x, z))
+	
+	multi_mesh.multimesh.instance_count = scatter_pos.size()
+	multi_mesh.multimesh.mesh = BoxMesh.new()
+
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash(chunk_position)
+	
+	for i in scatter_pos.size():
+		var pos = scatter_pos[i]
+		var height = get_height(pos.x, pos.y)
+		var mesh_trans = Transform3D().scaled(Vector3(
+			0.1 + rng.randf_range(-0.05, 0.05),
+			0.1 + rng.randf_range(-0.1, 0.1),
+			0.1 + rng.randf_range(-0.05, 0.05)
+		))
+		mesh_trans = mesh_trans.rotated(Vector3.UP, rng.randf_range(0, 2 * PI))
+		mesh_trans.origin = Vector3(pos.x * resolution, height, pos.y * resolution)
+		multi_mesh.multimesh.set_instance_transform(i, mesh_trans)
+	
+	add_child(multi_mesh)

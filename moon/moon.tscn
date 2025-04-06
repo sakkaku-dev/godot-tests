@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://6iq6djubqg6u"]
+
+[ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_d1jpp"]
+[ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_74q82"]
+[ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_nrv5f"]
+[ext_resource type="Script" uid="uid://citox6dvdtmn0" path="res://moon/terrain.gd" id="5_e8keb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sqrqv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_67q1n"]
+noise = SubResource("FastNoiseLite_sqrqv")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sqrqv"]
+sky_top_color = Color(0.686727, 0.355129, 0.261051, 1)
+sky_horizon_color = Color(0.985746, 0.792146, 0.748795, 1)
+sky_cover = SubResource("NoiseTexture2D_67q1n")
+sky_cover_modulate = Color(0.659359, 0.267501, 0.180644, 1)
+
+[sub_resource type="Sky" id="Sky_67q1n"]
+sky_material = SubResource("ProceduralSkyMaterial_sqrqv")
+
+[sub_resource type="Environment" id="Environment_67q1n"]
+background_mode = 2
+sky = SubResource("Sky_67q1n")
+fog_enabled = true
+fog_light_color = Color(0.49, 0.30478, 0.2254, 1)
+fog_aerial_perspective = 0.1
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8cjw6"]
+noise_type = 3
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e8keb"]
+
+[node name="Moon" type="Node3D"]
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
+spawn_path = NodePath("../Root")
+script = ExtResource("1_d1jpp")
+player = ExtResource("2_74q82")
+metadata/_custom_type_script = "uid://dvxpoocnl7avh"
+
+[node name="PlayerReady" type="Node" parent="MultiplayerJoiner"]
+script = ExtResource("3_nrv5f")
+metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_67q1n")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Control" type="ColorRect" parent="CanvasLayer/MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/MarginContainer/Control/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/MarginContainer/Control/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 357.884, 0)
+projection = 1
+size = 725.737
+
+[node name="Terrain" type="Node3D" parent="."]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
+script = ExtResource("5_e8keb")
+chunk_size = 64
+render_distance = 1
+height_noise = SubResource("FastNoiseLite_8cjw6")
+scatter_noise = SubResource("FastNoiseLite_e8keb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.976398, -0.21598, 0, 0.21598, 0.976398, 0, 596.316, 0)
+light_color = Color(1, 0.797, 0.71, 1)
+light_volumetric_fog_energy = 3.0
+shadow_enabled = true
+directional_shadow_mode = 0

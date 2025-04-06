@@ -36,6 +36,7 @@ func add_player(id: int, angle: float):
 	var node = player.instantiate()
 	node.name = str(id)
 	node.position = (Vector3.FORWARD * spawn_radius).rotated(Vector3.UP, angle)
+	node.add_to_group(str(id))
 	root.add_child(node)
 
 @rpc("call_local")

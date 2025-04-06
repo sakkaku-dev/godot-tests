@@ -1,0 +1,80 @@
+[gd_scene load_steps=20 format=3 uid="uid://bh38gfb3li0b6"]
+
+[ext_resource type="PackedScene" uid="uid://1dp2poby76j6" path="res://assets/Space Station Kit/Models/GLB format/stairs-corner-inner.glb" id="1_352va"]
+[ext_resource type="PackedScene" uid="uid://btgj08iswfnfc" path="res://assets/Space Station Kit/Models/GLB format/floor-detail.glb" id="1_a8of4"]
+[ext_resource type="PackedScene" uid="uid://dyfqr5w2cdho8" path="res://assets/Space Station Kit/Models/GLB format/stairs-corner.glb" id="2_8psen"]
+[ext_resource type="PackedScene" uid="uid://nhf8kw2yscjd" path="res://assets/Space Station Kit/Models/GLB format/floor.glb" id="2_8svdu"]
+[ext_resource type="PackedScene" uid="uid://brtu6bcpwdnr7" path="res://assets/Space Station Kit/Models/GLB format/floor-panel-corner.glb" id="3_8kcf7"]
+[ext_resource type="PackedScene" uid="uid://dlqip6wkfo8s8" path="res://assets/Space Station Kit/Models/GLB format/stairs.glb" id="3_noq3f"]
+[ext_resource type="PackedScene" uid="uid://brtuke505l7y8" path="res://assets/Space Station Kit/Models/GLB format/floor-panel-end.glb" id="4_c1gjg"]
+[ext_resource type="PackedScene" uid="uid://doi57nsna8xpt" path="res://assets/Space Station Kit/Models/GLB format/floor-panel-straight.glb" id="5_mryh4"]
+[ext_resource type="PackedScene" uid="uid://4tq3fsjp720s" path="res://assets/Space Station Kit/Models/GLB format/floor-panel.glb" id="6_352va"]
+[ext_resource type="PackedScene" uid="uid://0mvi06mp87aa" path="res://assets/Space Station Kit/Models/GLB format/floor-corner.glb" id="7_8svdu"]
+[ext_resource type="PackedScene" uid="uid://cy31nxcfr2g7e" path="res://assets/Space Station Kit/Models/GLB format/rocks.glb" id="8_8kcf7"]
+[ext_resource type="PackedScene" uid="uid://bpewgne20b6h6" path="res://assets/Space Station Kit/Models/GLB format/wall-banner.glb" id="12_205ma"]
+[ext_resource type="PackedScene" uid="uid://ct6xk86uig0ew" path="res://assets/Space Station Kit/Models/GLB format/wall-corner-banner.glb" id="13_gh1h5"]
+[ext_resource type="PackedScene" uid="uid://dc3juypeee12d" path="res://assets/Space Station Kit/Models/GLB format/wall-corner-round-banner.glb" id="14_ek7yw"]
+[ext_resource type="PackedScene" uid="uid://d2t044jqw43j4" path="res://assets/Space Station Kit/Models/GLB format/wall-corner-round.glb" id="15_t2yrm"]
+[ext_resource type="PackedScene" uid="uid://dp8mva0twu8wp" path="res://assets/Space Station Kit/Models/GLB format/wall-corner.glb" id="16_b4syr"]
+[ext_resource type="PackedScene" uid="uid://u0febvg2ypl4" path="res://assets/Space Station Kit/Models/GLB format/wall-detail.glb" id="17_spi86"]
+[ext_resource type="PackedScene" uid="uid://coumuwg7ium70" path="res://assets/Space Station Kit/Models/GLB format/wall-door-banner.glb" id="18_xl1n6"]
+[ext_resource type="PackedScene" uid="uid://dlqbckphbaqah" path="res://assets/Space Station Kit/Models/GLB format/wall-window.glb" id="19_ek7yw"]
+
+[node name="Meshes" type="Node3D"]
+
+[node name="stairs-corner-inner2" parent="." instance=ExtResource("1_352va")]
+visible = false
+
+[node name="stairs-corner2" parent="." instance=ExtResource("2_8psen")]
+visible = false
+
+[node name="stairs2" parent="." instance=ExtResource("3_noq3f")]
+visible = false
+
+[node name="floor-detail2" parent="." instance=ExtResource("1_a8of4")]
+visible = false
+
+[node name="floor2" parent="." instance=ExtResource("2_8svdu")]
+visible = false
+
+[node name="floor-panel-corner2" parent="." instance=ExtResource("3_8kcf7")]
+visible = false
+
+[node name="floor-panel-end2" parent="." instance=ExtResource("4_c1gjg")]
+visible = false
+
+[node name="floor-panel-straight2" parent="." instance=ExtResource("5_mryh4")]
+visible = false
+
+[node name="floor-panel2" parent="." instance=ExtResource("6_352va")]
+visible = false
+
+[node name="floor-corner2" parent="." instance=ExtResource("7_8svdu")]
+visible = false
+
+[node name="rocks2" parent="." instance=ExtResource("8_8kcf7")]
+visible = false
+
+[node name="wall-banner2" parent="." instance=ExtResource("12_205ma")]
+
+[node name="wall-banner" parent="wall-banner2" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+
+[node name="wall-corner-banner2" parent="." instance=ExtResource("13_gh1h5")]
+
+[node name="wall-corner-round-banner2" parent="." instance=ExtResource("14_ek7yw")]
+
+[node name="wall-corner-round2" parent="." instance=ExtResource("15_t2yrm")]
+
+[node name="wall-corner2" parent="." instance=ExtResource("16_b4syr")]
+
+[node name="wall-detail2" parent="." instance=ExtResource("17_spi86")]
+
+[node name="wall-door-banner2" parent="." instance=ExtResource("18_xl1n6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+
+[node name="wall-window2" parent="." instance=ExtResource("19_ek7yw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
+
+[editable path="wall-banner2"]
+[editable path="wall-window2"]

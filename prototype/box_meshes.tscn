@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ng1nhlbfkw5u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_115ct"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_115ct"]
+
+[node name="BoxMeshes" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_115ct")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_115ct")
