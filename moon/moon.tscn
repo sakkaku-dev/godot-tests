@@ -1,35 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://6iq6djubqg6u"]
+[gd_scene load_steps=8 format=3 uid="uid://6iq6djubqg6u"]
 
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_d1jpp"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_74q82"]
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_nrv5f"]
+[ext_resource type="Environment" uid="uid://dw05xermwhgef" path="res://moon/mars_env.tres" id="4_67q1n"]
 [ext_resource type="Script" uid="uid://citox6dvdtmn0" path="res://moon/terrain.gd" id="5_e8keb"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_sqrqv"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_67q1n"]
-noise = SubResource("FastNoiseLite_sqrqv")
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sqrqv"]
-sky_top_color = Color(0.686727, 0.355129, 0.261051, 1)
-sky_horizon_color = Color(0.985746, 0.792146, 0.748795, 1)
-sky_cover = SubResource("NoiseTexture2D_67q1n")
-sky_cover_modulate = Color(0.659359, 0.267501, 0.180644, 1)
-
-[sub_resource type="Sky" id="Sky_67q1n"]
-sky_material = SubResource("ProceduralSkyMaterial_sqrqv")
-
-[sub_resource type="Environment" id="Environment_67q1n"]
-background_mode = 2
-sky = SubResource("Sky_67q1n")
-fog_enabled = true
-fog_light_color = Color(0.49, 0.30478, 0.2254, 1)
-fog_aerial_perspective = 0.1
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8cjw6"]
-noise_type = 3
+noise_type = 0
+cellular_jitter = 1.35
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_e8keb"]
+frequency = 0.02
 
 [node name="Moon" type="Node3D"]
 
@@ -47,7 +29,7 @@ metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
 [node name="Root" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_67q1n")
+environment = ExtResource("4_67q1n")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -90,12 +72,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
 script = ExtResource("5_e8keb")
 chunk_size = 64
 render_distance = 1
+max_height = 15.0
 height_noise = SubResource("FastNoiseLite_8cjw6")
 scatter_noise = SubResource("FastNoiseLite_e8keb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.976398, -0.21598, 0, 0.21598, 0.976398, 0, 596.316, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 596.316, 0)
 light_color = Color(1, 0.797, 0.71, 1)
 light_volumetric_fog_energy = 3.0
 shadow_enabled = true
-directional_shadow_mode = 0
