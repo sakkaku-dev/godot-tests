@@ -1,12 +1,14 @@
 class_name MultiplayerJoiner
 extends MultiplayerSpawner
 
-signal game_started()
+signal finished()
 
 @export var spawn_radius := 3.0
 @export var player: PackedScene
 @onready var root = get_node(spawn_path)
 @onready var player_ready: PlayerReady = $PlayerReady
+
+var logger = NetworkLogger.new("MultiplayerJoiner")
 
 func _ready() -> void:
 	if not Networking.has_network():
@@ -36,10 +38,11 @@ func add_player(id: int, angle: float):
 	var node = player.instantiate()
 	node.name = str(id)
 	node.position = (Vector3.FORWARD * spawn_radius).rotated(Vector3.UP, angle)
-	node.add_to_group(str(id))
 	root.add_child(node)
+
+func get_player_node(id: int = Networking.get_player_id()):
+	return root.get_node("%s" % id)
 
 @rpc("call_local")
 func _game_started():
-	game_started.emit()
-	print("Starting game")
+	finished.emit()

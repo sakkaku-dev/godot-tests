@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://6iq6djubqg6u"]
+[gd_scene load_steps=9 format=3 uid="uid://6iq6djubqg6u"]
 
+[ext_resource type="Script" uid="uid://blt1rf3ccwjty" path="res://moon/game_init.gd" id="1_8cjw6"]
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_d1jpp"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_74q82"]
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_nrv5f"]
@@ -15,14 +16,25 @@ frequency = 0.02
 
 [node name="Moon" type="Node3D"]
 
-[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="."]
+[node name="GameInit" type="Node" parent="." node_paths=PackedStringArray("loading_screen", "terrain")]
+process_mode = 3
+script = ExtResource("1_8cjw6")
+loading_screen = NodePath("../CanvasLayer/LoadingBG")
+terrain = NodePath("../Terrain")
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="GameInit"]
 _spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
-spawn_path = NodePath("../Root")
+spawn_path = NodePath("../../Root")
 script = ExtResource("1_d1jpp")
+spawn_radius = 5.0
 player = ExtResource("2_74q82")
 metadata/_custom_type_script = "uid://dvxpoocnl7avh"
 
-[node name="PlayerReady" type="Node" parent="MultiplayerJoiner"]
+[node name="PlayerReady" type="Node" parent="GameInit/MultiplayerJoiner"]
+script = ExtResource("3_nrv5f")
+metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
+
+[node name="PlayerReady" type="Node" parent="GameInit"]
 script = ExtResource("3_nrv5f")
 metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
 
@@ -65,6 +77,14 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 357.884, 0)
 projection = 1
 size = 725.737
+
+[node name="LoadingBG" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Terrain" type="Node3D" parent="."]
 process_mode = 3

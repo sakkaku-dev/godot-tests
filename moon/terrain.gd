@@ -1,4 +1,7 @@
+class_name Terrain
 extends Node
+
+signal finished()
 
 @export var chunk_size := 32
 @export var render_distance := 4
@@ -6,21 +9,24 @@ extends Node
 @export var max_height := 20.0
 
 @export var player: Player
-@export var height_noise: Noise
-@export var scatter_noise: Noise
+@export var height_noise: FastNoiseLite
+@export var scatter_noise: FastNoiseLite
 
+var has_finished = false
 var active_chunks := {}
 
-func _ready() -> void:
-	get_tree().paused = true
+func apply_seed(seed: int):
+	height_noise.seed = seed
+	scatter_noise.seed = seed
 
 func _process(_delta):
 	if not player:
-		player = get_tree().get_first_node_in_group(str(Networking.get_player_id()))
 		return
 	
 	update_chunks()
-	get_tree().paused = false
+	if not has_finished:
+		has_finished = true
+		finished.emit()
 
 func update_chunks():
 	var player_pos = player.global_transform.origin

@@ -32,8 +32,11 @@ func error(msg: String):
 func debug(msg: String):
 	_log_for_level(Level.DEBUG, msg)
 
+func _format_message(msg):
+	return msg
+
 func _log_for_level(level: int, msg: String):
-	var text = "[%s] [color=%s]%s[/color] %s: %s" % [_now(), COLORS[level].to_html(), Level.keys()[level], name, msg]
+	var text = "[%s] [color=%s]%s[/color] %s: %s" % [_now(), COLORS[level].to_html(), Level.keys()[level], name, _format_message(msg)]
 	print_rich(text)
 
 func _now() -> String:
