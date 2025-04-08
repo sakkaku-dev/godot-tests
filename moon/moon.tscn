@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://6iq6djubqg6u"]
+[gd_scene load_steps=11 format=3 uid="uid://6iq6djubqg6u"]
 
 [ext_resource type="Script" uid="uid://blt1rf3ccwjty" path="res://moon/game_init.gd" id="1_8cjw6"]
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_d1jpp"]
@@ -6,13 +6,16 @@
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_nrv5f"]
 [ext_resource type="Environment" uid="uid://dw05xermwhgef" path="res://moon/mars_env.tres" id="4_67q1n"]
 [ext_resource type="Script" uid="uid://citox6dvdtmn0" path="res://moon/terrain.gd" id="5_e8keb"]
+[ext_resource type="PackedScene" uid="uid://h2rsqahqtenq" path="res://moon/cave.tscn" id="7_e8keb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e8keb"]
+frequency = 0.02
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m8kt2"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8cjw6"]
 noise_type = 0
 cellular_jitter = 1.35
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_e8keb"]
-frequency = 0.02
 
 [node name="Moon" type="Node3D"]
 
@@ -88,13 +91,16 @@ color = Color(0, 0, 0, 1)
 
 [node name="Terrain" type="Node3D" parent="."]
 process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 script = ExtResource("5_e8keb")
-chunk_size = 64
-render_distance = 1
-max_height = 15.0
-height_noise = SubResource("FastNoiseLite_8cjw6")
 scatter_noise = SubResource("FastNoiseLite_e8keb")
+cave_noise = SubResource("FastNoiseLite_m8kt2")
+min_cave_distance = 100.0
+cave_scene = ExtResource("7_e8keb")
+height_noise = SubResource("FastNoiseLite_8cjw6")
+chunk_size = 64
+render_distance = 2
+max_height = 15.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 596.316, 0)
