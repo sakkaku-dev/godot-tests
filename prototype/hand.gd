@@ -26,7 +26,7 @@ func remove_zip():
 
 func interact():
 	for area in get_overlapping_areas():
-		var item = area.interact()
+		var item = area.interact(self)
 		if item is PathFollow3D:
 			_add_zip_line(item)
 		else:

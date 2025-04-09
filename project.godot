@@ -23,6 +23,7 @@ driver/enable_input=true
 Env="*res://Env.gd"
 Networking="*res://network/networking.gd"
 SteamManager="*res://network/steam_manager.gd"
+ResourceManager="*res://moon/resource_manager.gd"
 
 [editor_plugins]
 

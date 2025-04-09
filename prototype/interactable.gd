@@ -3,5 +3,5 @@ extends Area3D
 
 signal interacted()
 
-func interact():
-	interacted.emit()
+func interact(actor):
+	interacted.emit(actor)

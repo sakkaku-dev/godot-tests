@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TerrainResource" load_steps=4 format=3 uid="uid://c64yfl73un7yu"]
+
+[ext_resource type="PackedScene" uid="uid://dyaytnshkvwgh" path="res://moon/resources/collectable.tscn" id="1_ah6kd"]
+[ext_resource type="Script" uid="uid://dib50noqgdy12" path="res://moon/resources/terrain_resource.gd" id="1_ynd75"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ynd75"]
+
+[resource]
+script = ExtResource("1_ynd75")
+type = "collect"
+scene = ExtResource("1_ah6kd")
+noise = SubResource("FastNoiseLite_ynd75")
+threshold = -0.5
+min_distance = 0.0
+sample_points = 10
+metadata/_custom_type_script = "uid://dib50noqgdy12"

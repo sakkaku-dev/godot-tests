@@ -20,7 +20,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		slot = 2 if slot != 2 else -1
 
 func get_item():
-	if slot < 0:
+	if slot < 0 and slot >= get_child_count():
 		return null
 		
 	return get_child(slot)

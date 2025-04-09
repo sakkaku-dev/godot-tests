@@ -6,12 +6,9 @@
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_nrv5f"]
 [ext_resource type="Environment" uid="uid://dw05xermwhgef" path="res://moon/mars_env.tres" id="4_67q1n"]
 [ext_resource type="Script" uid="uid://citox6dvdtmn0" path="res://moon/terrain.gd" id="5_e8keb"]
-[ext_resource type="PackedScene" uid="uid://h2rsqahqtenq" path="res://moon/cave.tscn" id="7_e8keb"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_e8keb"]
-frequency = 0.02
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_m8kt2"]
+[ext_resource type="Script" uid="uid://dib50noqgdy12" path="res://moon/resources/terrain_resource.gd" id="7_e8keb"]
+[ext_resource type="Resource" uid="uid://c05jmas8uc75v" path="res://moon/resources/caves.tres" id="8_m8kt2"]
+[ext_resource type="Resource" uid="uid://c64yfl73un7yu" path="res://moon/resources/collectables.tres" id="9_0q6oh"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8cjw6"]
 noise_type = 0
@@ -93,10 +90,7 @@ color = Color(0, 0, 0, 1)
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 script = ExtResource("5_e8keb")
-scatter_noise = SubResource("FastNoiseLite_e8keb")
-cave_noise = SubResource("FastNoiseLite_m8kt2")
-min_cave_distance = 100.0
-cave_scene = ExtResource("7_e8keb")
+resources = Array[ExtResource("7_e8keb")]([ExtResource("8_m8kt2"), ExtResource("9_0q6oh")])
 height_noise = SubResource("FastNoiseLite_8cjw6")
 chunk_size = 64
 render_distance = 2

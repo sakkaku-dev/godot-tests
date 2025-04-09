@@ -4,7 +4,7 @@ extends Interactable
 @export var progress := 0.0
 @export var speed := 1.0
 
-func interact():
+func interact(actor):
 	if path.curve.point_count <= 0:
 		return
 	
