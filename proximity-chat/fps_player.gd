@@ -32,7 +32,10 @@ func _ready():
 	else:
 		camera.current = true
 		body.hide()
-
+	
+	DebugWindow.add_action("speed", func(v): SPEED = float(v))
+	DebugWindow.add_action("gravity", func(v): gravity = float(v))
+	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var sens = mouse_sensitivity #aim_sensitivity if Input.is_action_pressed("weapon_aim") else mouse_sensitivity
