@@ -32,9 +32,10 @@ func _process(_delta):
 		finished.emit()
 
 func update_chunks():
+	var global_chunk_size = chunk_size * chunk_resolution
 	var player_pos = player.global_transform.origin
-	var player_chunk_x = int(player_pos.x / (chunk_size * chunk_resolution))
-	var player_chunk_z = int(player_pos.z / (chunk_size * chunk_resolution))
+	var player_chunk_x = int(player_pos.x / global_chunk_size)
+	var player_chunk_z = int(player_pos.z / global_chunk_size)
 	
 	var new_chunks := {}
 	
@@ -74,7 +75,6 @@ func _render_chunk(chunk_key):
 func generate_resources_for_chunk(chunk: TerrainChunk):
 	for res in resources:
 		generate_resource(chunk, res)
-
 
 func generate_resource(chunk: TerrainChunk, res: TerrainResource):
 	var step = chunk_size / float(res.sample_points)

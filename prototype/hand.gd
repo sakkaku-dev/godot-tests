@@ -16,6 +16,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not remove_zip():
 			interact()
 
+func take_items(item: String, count = -1):
+	if not item in items:
+		return 0
+	
+	var actual_count = items[item]
+	var amount = actual_count if count == -1 else min(count, actual_count)
+	
+	items[item] -= amount
+	items_updated.emit()
+	return amount
+
 func remove_zip():
 	if zip_follow:
 		zip_follow.queue_free()

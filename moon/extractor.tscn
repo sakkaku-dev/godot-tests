@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://demgljuj2ho4m"]
+
+[ext_resource type="Script" uid="uid://cas14hbtiuaoe" path="res://moon/extractor.gd" id="1_gn1sp"]
+[ext_resource type="Script" uid="uid://ctjob7bxvo7x8" path="res://prototype/interactable.gd" id="1_qm5ia"]
+[ext_resource type="Material" uid="uid://ctleo7shrckx4" path="res://moon/placement.tres" id="3_p2sms"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gn1sp"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qm5ia"]
+height = 2.41504
+radius = 0.867676
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ahdn8"]
+
+[node name="Extractor" type="Node3D" node_paths=PackedStringArray("interactable", "label_3d")]
+script = ExtResource("1_gn1sp")
+interactable = NodePath("MeshInstance3D/Interactable")
+label_3d = NodePath("MeshInstance3D/Label3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.84677, 0)
+mesh = SubResource("CylinderMesh_gn1sp")
+
+[node name="Interactable" type="Area3D" parent="MeshInstance3D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_qm5ia")
+metadata/_custom_type_script = "uid://ctjob7bxvo7x8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Interactable"]
+shape = SubResource("CylinderShape3D_qm5ia")
+
+[node name="Label3D" type="Label3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86931, 0)
+billboard = 1
+text = "Test"
+font_size = 64
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("CylinderShape3D_ahdn8")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material = ExtResource("3_p2sms")

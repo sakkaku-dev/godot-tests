@@ -1,6 +1,8 @@
 class_name TerrainChunk
 extends MeshInstance3D
 
+const EXTRACTOR = preload("res://moon/extractor.tscn")
+
 @export var max_height_limit := 0.3
 @export var min_height_limit := -0.3
 
@@ -13,6 +15,14 @@ var chunk_position := Vector2()
 func generate_chunk():
 	create_mesh()
 	add_collision()
+
+	if chunk_position == Vector2.ZERO:
+		_create_pod()
+
+func _create_pod():
+	var pod = EXTRACTOR.instantiate()
+	pod.position.y = get_height(0, 0)
+	add_child(pod)
 
 func create_mesh():
 	var surface_tool = SurfaceTool.new()
