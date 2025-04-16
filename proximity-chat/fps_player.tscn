@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=27 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
+[ext_resource type="Script" uid="uid://dvtnn5e0b4wbd" path="res://moon/oxygen.gd" id="2_emtku"]
 [ext_resource type="Script" uid="uid://ftnb5hbcffkp" path="res://prototype/hand.gd" id="2_eodsd"]
 [ext_resource type="Script" uid="uid://cxcl8hhrd8h8r" path="res://prototype/flashlight.gd" id="2_jhtns"]
 [ext_resource type="Texture2D" uid="uid://dr8bn2ivgef62" path="res://proximity-chat/flair_circle_8.png" id="3_40uvb"]
@@ -17,7 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://hx7df064mocl" path="res://moon/shop/shop_item.tscn" id="13_we0o2"]
 [ext_resource type="Script" uid="uid://0wxtu3pydyis" path="res://moon/placement_ray_cast.gd" id="15_l7of8"]
 [ext_resource type="Script" uid="uid://b413w1pu1oh8l" path="res://moon/shop/shop_item_resource.gd" id="15_obu4u"]
-[ext_resource type="Resource" uid="uid://cdjt7fl0g0qs6" path="res://moon/shop/item_radar.tres" id="16_negau"]
+[ext_resource type="Resource" uid="uid://cdjt7fl0g0qs6" path="res://moon/shop/shop_radar.tres" id="16_negau"]
+[ext_resource type="Resource" uid="uid://u773lv6yt5ow" path="res://moon/shop/shop_walkie.tres" id="19_xkmlx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
@@ -56,6 +58,10 @@ body = NodePath("CSGCylinder3D")
 hand = NodePath("CameraRoot/Hand")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
+
+[node name="Oxygen" type="Node" parent="." node_paths=PackedStringArray("progress_bar")]
+script = ExtResource("2_emtku")
+progress_bar = NodePath("../CanvasLayer/MarginContainer/ProgressBar")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_1rodb")
@@ -171,7 +177,7 @@ script = ExtResource("12_8xdy4")
 placement = NodePath("../../CameraRoot/Camera3D/PlacementRayCast")
 container = NodePath("PanelContainer/VBoxContainer")
 shop_item_scene = ExtResource("13_we0o2")
-items = Array[ExtResource("15_obu4u")]([ExtResource("16_negau")])
+items = Array[ExtResource("15_obu4u")]([ExtResource("16_negau"), ExtResource("19_xkmlx")])
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Shop"]
 custom_minimum_size = Vector2(500, 500)
@@ -190,6 +196,27 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Shop/PanelContainer"]
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/MarginContainer"]
+custom_minimum_size = Vector2(20, 150)
+layout_mode = 2
+fill_mode = 3
+show_percentage = false
 
 [node name="FogVolume" type="FogVolume" parent="."]
 size = Vector3(5, 5, 5)

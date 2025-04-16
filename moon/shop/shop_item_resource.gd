@@ -3,6 +3,7 @@ extends Resource
 
 enum Type {
 	RADAR,
+	WALKIE_TALKIE,
 }
 
 @export var name := ""

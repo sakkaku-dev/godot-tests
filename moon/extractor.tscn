@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://demgljuj2ho4m"]
+[gd_scene load_steps=6 format=3 uid="uid://demgljuj2ho4m"]
 
 [ext_resource type="Script" uid="uid://cas14hbtiuaoe" path="res://moon/extractor.gd" id="1_gn1sp"]
 [ext_resource type="Script" uid="uid://ctjob7bxvo7x8" path="res://prototype/interactable.gd" id="1_qm5ia"]
-[ext_resource type="Material" uid="uid://ctleo7shrckx4" path="res://moon/placement.tres" id="3_p2sms"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gn1sp"]
 
@@ -40,6 +39,3 @@ font_size = 64
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("CylinderShape3D_ahdn8")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-material = ExtResource("3_p2sms")

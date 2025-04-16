@@ -1,18 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://buaeo6vvfrvnn"]
+[gd_scene load_steps=10 format=3 uid="uid://buaeo6vvfrvnn"]
 
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_lxs1d"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="2_gfco3"]
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_tsy7q"]
 [ext_resource type="PackedScene" uid="uid://crb4ulldg48mb" path="res://prototype/teleport.tscn" id="4_gfco3"]
+[ext_resource type="Script" uid="uid://h1q1c3shoqx4" path="res://prototype/terminal.gd" id="5_tsy7q"]
+[ext_resource type="Script" uid="uid://ctjob7bxvo7x8" path="res://prototype/interactable.gd" id="6_n4jpv"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_gfco3"]
 radius = 1.03564
+
+[sub_resource type="Environment" id="Environment_gfco3"]
+background_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gfco3"]
+size = Vector3(3.58301, 1.09155, 1.14429)
 
 [node name="main_hub" type="Node3D"]
 
 [node name="Teleport" parent="." instance=ExtResource("4_gfco3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.87696, 0.75572, 0)
-scene = "res://prototype/prototype.tscn"
+scene = "res://moon/moon.tscn"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Teleport"]
 shape = SubResource("CylinderShape3D_gfco3")
@@ -21,10 +29,16 @@ shape = SubResource("CylinderShape3D_gfco3")
 use_collision = true
 size = Vector3(10, 0.05, 10)
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2385, 0)
+use_collision = true
+size = Vector3(10, 0.05, 10)
+
 [node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="." groups=["spawner"]]
 _spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
 spawn_path = NodePath("../Root")
 script = ExtResource("1_lxs1d")
+spawn_radius = 2.0
 player = ExtResource("2_gfco3")
 metadata/_custom_type_script = "uid://dvxpoocnl7avh"
 
@@ -33,3 +47,39 @@ script = ExtResource("3_tsy7q")
 
 [node name="Root" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60383, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gfco3")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.87475, 0)
+light_color = Color(0.81, 0.946167, 1, 1)
+spot_range = 7.0
+spot_attenuation = 0.0
+spot_angle = 102.22
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(-0.750123, -2.89063e-08, 0.661299, -0.661299, 3.27889e-08, -0.750123, 0, -1, -4.37114e-08, 5.64609, -0.139399, 0)
+visible = false
+light_color = Color(0.81, 0.946167, 1, 1)
+spot_range = 7.0
+spot_attenuation = 0.5
+spot_angle = 29.8243
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_color = Color(0.368493, 0.580347, 0.837254, 1)
+sky_mode = 2
+
+[node name="Terminal" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.482591, -4.55695)
+script = ExtResource("5_tsy7q")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terminal"]
+use_collision = true
+size = Vector3(2.94629, 0.843994, 0.702881)
+
+[node name="Interactable" type="Area3D" parent="Terminal"]
+script = ExtResource("6_n4jpv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terminal/Interactable"]
+shape = SubResource("BoxShape3D_gfco3")

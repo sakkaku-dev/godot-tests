@@ -3,6 +3,7 @@ extends MultiplayerSpawner
 
 signal finished()
 
+@export var use_oxygen := false
 @export var spawn_radius := 3.0
 @export var player: PackedScene
 @onready var root = get_node(spawn_path)
@@ -39,6 +40,9 @@ func add_player(id: int, angle: float):
 	node.name = str(id)
 	node.position = (Vector3.FORWARD * spawn_radius).rotated(Vector3.UP, angle)
 	root.add_child(node)
+
+	if use_oxygen:
+		node.start_oxygen()
 
 func get_player_node(id: int = Networking.get_player_id()):
 	return root.get_node("%s" % id)

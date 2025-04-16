@@ -2,9 +2,10 @@ class_name TerrainChunk
 extends MeshInstance3D
 
 const EXTRACTOR = preload("res://moon/extractor.tscn")
+const TELEPORT = preload("res://prototype/teleport.tscn")
 
-@export var max_height_limit := 0.3
-@export var min_height_limit := -0.3
+@export var max_height_limit := 1
+@export var min_height_limit := -1
 
 var chunk_size := 32  # Number of vertices per side
 var resolution := 1.0  # Space between vertices
@@ -18,10 +19,16 @@ func generate_chunk():
 
 	if chunk_position == Vector2.ZERO:
 		_create_pod()
+		_create_teleport()
 
 func _create_pod():
 	var pod = EXTRACTOR.instantiate()
 	pod.position.y = get_height(0, 0)
+	add_child(pod)
+	
+func _create_teleport():
+	var pod = TELEPORT.instantiate()
+	pod.position = Vector3(0, get_height(0, 5), 5)
 	add_child(pod)
 
 func create_mesh():

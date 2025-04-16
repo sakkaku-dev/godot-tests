@@ -26,6 +26,7 @@ terrain = NodePath("../Terrain")
 _spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
 spawn_path = NodePath("../../Root")
 script = ExtResource("1_d1jpp")
+use_oxygen = true
 spawn_radius = 5.0
 player = ExtResource("2_74q82")
 metadata/_custom_type_script = "uid://dvxpoocnl7avh"
@@ -94,7 +95,7 @@ resources = Array[ExtResource("7_e8keb")]([ExtResource("8_m8kt2"), ExtResource("
 height_noise = SubResource("FastNoiseLite_8cjw6")
 chunk_size = 64
 render_distance = 2
-max_height = 15.0
+max_height = 10.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 596.316, 0)

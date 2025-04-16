@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://crb4ulldg48mb"]
+[gd_scene load_steps=3 format=3 uid="uid://crb4ulldg48mb"]
 
 [ext_resource type="Script" uid="uid://b032xnai0h0yw" path="res://proc-cave/teleport.gd" id="1_neqoq"]
 [ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="3_1w6o4"]

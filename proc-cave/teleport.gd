@@ -5,7 +5,7 @@ extends Interactable
 
 func _ready() -> void:
 	player_ready.all_players_ready.connect(func(): teleport.rpc())
-	interacted.connect(func(): player_ready.notify_player_ready())
+	interacted.connect(func(_a): player_ready.notify_player_ready())
 
 @rpc("call_local", "reliable")
 func teleport():

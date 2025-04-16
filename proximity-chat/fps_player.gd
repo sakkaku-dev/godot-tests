@@ -9,13 +9,15 @@ signal ammo_changed()
 @export var ZIP_SPEED = 0.1
 @export var JUMP_VELOCITY = 8.0
 
-@export var mouse_sensitivity := Vector2(0.001, 0.001)
+@export var mouse_sensitivity := Vector2(0.002, 0.002)
 @export var aim_sensitivity := Vector2(0.0003, 0.0003)
 @export var body: Node3D
 @export var hand: Hand
 
 @export var camera: Camera3D
 @export var camera_root: Node3D
+
+@onready var oxygen: Oxygen = $Oxygen
 
 var gravity = 8.0
 
@@ -84,3 +86,9 @@ func _physics_process(delta):
 		velocity.z = lerp(velocity.z, direction.z * _speed, delta * 3.0)
 
 	move_and_slide()
+
+func start_oxygen():
+	oxygen.enabled = true
+
+func stop_oxygen():
+	oxygen.enabled = false

@@ -90,8 +90,8 @@ func generate_resource(chunk: TerrainChunk, res: TerrainResource):
 			var local_z = z * step
 			var world_x = chunk_world.x + local_x
 			var world_z = chunk_world.y + local_z
-			var value = res.noise.get_noise_2d(world_x, world_z)
 			
+			var value = res.noise.get_noise_2d(world_x, world_z)
 			if value < res.threshold:
 				var candidate_pos = Vector2(world_x, world_z)
 				# if is_position_valid(candidate_pos):
