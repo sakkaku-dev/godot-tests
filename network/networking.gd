@@ -86,3 +86,4 @@ func reset_network():
 	logger.info("Connection reset")
 	network.close_game()
 	players = {}
+	connected = false

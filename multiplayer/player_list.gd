@@ -6,6 +6,7 @@ extends Control
 
 func _ready() -> void:
 	Networking.player_list_changed.connect(func(): update_list(Networking.players.keys()))
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func update_list(players: Array):
 	for c in container.get_children():

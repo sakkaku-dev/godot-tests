@@ -7,6 +7,7 @@ signal ammo_changed()
 signal died()
 
 @export var SPEED = 6.0
+@export var SPRINT_SPEED := 9.0
 @export var ZIP_SPEED = 0.1
 @export var JUMP_VELOCITY = 8.0
 
@@ -83,7 +84,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump"): # and is_on_floor():
 			velocity.y = JUMP_VELOCITY
 
-	var _speed = SPEED
+	var _speed = SPRINT_SPEED if Input.is_action_pressed("sprint") else SPEED
 	
 	if is_on_floor():
 		if direction:

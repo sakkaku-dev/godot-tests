@@ -8,6 +8,7 @@ signal recovered()
 
 @export var enabled := false
 @export var decay_over_time := 0.001
+@export var sprint_decay_over_time := 0.005
 @export var timer: Timer
 
 var is_depleted := false
@@ -32,4 +33,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if not enabled: return
-	value -= decay_over_time * delta
+	
+	var decay = sprint_decay_over_time if Input.is_action_pressed("sprint") else decay_over_time
+	value -= decay * delta

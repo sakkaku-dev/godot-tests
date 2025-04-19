@@ -92,9 +92,9 @@ func generate_resource(chunk: TerrainChunk, res: TerrainResource):
 			var world_z = chunk_world.y + local_z
 			
 			var value = res.noise.get_noise_2d(world_x, world_z)
-			if value < res.threshold:
+			print(value)
+			if value <= res.max_threshold and value >= res.min_threshold:
 				var candidate_pos = Vector2(world_x, world_z)
-				# if is_position_valid(candidate_pos):
 				var height = chunk.get_height(local_x, local_z)
 				var node = res.scene.instantiate()
 				node.set("chunk_key", chunk.chunk_position)
@@ -102,9 +102,3 @@ func generate_resource(chunk: TerrainChunk, res: TerrainResource):
 				chunk.add_child(node)
 				node.position = Vector3(local_x, height, local_z)
 				id += 1
-
-# func is_position_valid(pos: Vector2) -> bool:
-# 	for existing_cave in placed_caves:
-# 		if pos.distance_to(existing_cave) < min_cave_distance:
-# 			return false
-# 	return true

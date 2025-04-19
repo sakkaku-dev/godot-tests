@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://6iq6djubqg6u"]
+[gd_scene load_steps=10 format=3 uid="uid://6iq6djubqg6u"]
 
 [ext_resource type="Script" uid="uid://blt1rf3ccwjty" path="res://moon/game_init.gd" id="1_8cjw6"]
 [ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="1_d1jpp"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://citox6dvdtmn0" path="res://moon/terrain.gd" id="5_e8keb"]
 [ext_resource type="Script" uid="uid://dib50noqgdy12" path="res://moon/resources/terrain_resource.gd" id="7_e8keb"]
 [ext_resource type="Resource" uid="uid://c05jmas8uc75v" path="res://moon/resources/caves.tres" id="8_m8kt2"]
-[ext_resource type="Resource" uid="uid://c64yfl73un7yu" path="res://moon/resources/collectables.tres" id="9_0q6oh"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8cjw6"]
 noise_type = 0
@@ -96,9 +95,8 @@ color = Color(0, 0, 0, 1)
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 script = ExtResource("5_e8keb")
-resources = Array[ExtResource("7_e8keb")]([ExtResource("8_m8kt2"), ExtResource("9_0q6oh")])
+resources = Array[ExtResource("7_e8keb")]([ExtResource("8_m8kt2")])
 height_noise = SubResource("FastNoiseLite_8cjw6")
-chunk_size = 64
 render_distance = 2
 max_height = 10.0
 

@@ -5,14 +5,14 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_02520"]
 noise_type = 3
-frequency = 0.002
+frequency = 0.004
 
 [resource]
 script = ExtResource("1_5xq80")
 type = "cave"
 scene = ExtResource("1_02520")
 noise = SubResource("FastNoiseLite_02520")
-threshold = -0.4
-min_distance = 0.0
-sample_points = 10
+max_threshold = 0.0
+min_threshold = 0.0
+sample_points = 30
 metadata/_custom_type_script = "uid://dib50noqgdy12"
