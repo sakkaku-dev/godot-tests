@@ -4,16 +4,18 @@ extends CharacterBody3D
 signal player_ready()
 signal weapon_changed()
 signal ammo_changed()
+signal died()
 
 @export var SPEED = 6.0
 @export var ZIP_SPEED = 0.1
 @export var JUMP_VELOCITY = 8.0
 
-@export var mouse_sensitivity := Vector2(0.002, 0.002)
+@export var mouse_sensitivity := Vector2(0.005, 0.005)
 @export var aim_sensitivity := Vector2(0.0003, 0.0003)
 @export var body: Node3D
 @export var hand: Hand
 
+@export var dead_cam: Camera3D
 @export var camera: Camera3D
 @export var camera_root: Node3D
 
@@ -21,22 +23,31 @@ signal ammo_changed()
 
 var gravity = 8.0
 
+var has_died := false:
+	set(v):
+		has_died = v
+		set_physics_process(not has_died)
+		dead_cam.current = has_died
+		camera.current = not has_died
+		body.visible = has_died
+		if has_died:
+			died.emit()
+
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
-	if Networking.has_network():
-		var is_authority = is_multiplayer_authority()
-		camera.current = is_authority
-		set_process_unhandled_input(is_authority)
-		set_physics_process(is_authority)
-		body.visible = not is_authority
-	else:
-		camera.current = true
-		body.hide()
+	var is_authority = not Networking.has_network() or is_multiplayer_authority()
+	camera.current = is_authority
+	set_process_unhandled_input(is_authority)
+	set_physics_process(is_authority)
+	body.visible = not is_authority
 	
-	DebugWindow.add_action("speed", func(v): SPEED = float(v))
-	DebugWindow.add_action("gravity", func(v): gravity = float(v))
+	if is_authority:
+		oxygen.out_of_oxygen.connect(func(): has_died = true)
+	
+		DebugWindow.add_action("speed", func(v): SPEED = float(v))
+		DebugWindow.add_action("gravity", func(v): gravity = float(v))
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

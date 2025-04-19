@@ -4,9 +4,11 @@ var game_seed := 0
 
 @export var loading_screen: Control
 @export var terrain: Terrain
+@export var gameover_scene: String
 
 @onready var multiplayer_joiner: MultiplayerJoiner = $MultiplayerJoiner
 @onready var player_ready: PlayerReady = $PlayerReady
+@onready var gameover_timer: Timer = $GameoverTimer
 
 var logger = NetworkLogger.new("MarsGame")
 
@@ -15,7 +17,14 @@ func _ready() -> void:
 	
 	if multiplayer.is_server():
 		multiplayer_joiner.finished.connect(_init_seed)
+		multiplayer_joiner.all_died.connect(func(): gameover_timer.start())
 		player_ready.all_players_ready.connect(func(): _start_game.rpc())
+		gameover_timer.timeout.connect(func(): _game_over.rpc())
+
+@rpc("call_local", "reliable")
+func _game_over():
+	Networking.reset_network()
+	get_tree().change_scene_to_file(gameover_scene)
 
 func _init_seed():
 	randomize()

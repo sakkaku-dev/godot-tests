@@ -2,6 +2,7 @@ class_name MultiplayerJoiner
 extends MultiplayerSpawner
 
 signal finished()
+signal all_died()
 
 @export var use_oxygen := false
 @export var spawn_radius := 3.0
@@ -10,6 +11,13 @@ signal finished()
 @onready var player_ready: PlayerReady = $PlayerReady
 
 var logger = NetworkLogger.new("MultiplayerJoiner")
+
+var current_players := []
+var player_died := 0:
+	set(v):
+		player_died = v
+		if player_died >= current_players.size():
+			all_died.emit()
 
 func _ready() -> void:
 	if not Networking.has_network():
@@ -25,20 +33,25 @@ func _ready() -> void:
 		player_ready.notify_player_ready()
 
 func start_game():
-	var players = Networking.players.keys()
-	if players.is_empty():
-		players.append(0)
-	
+	var players = get_player_ids()
 	for i in players.size():
 		var angle = (TAU / players.size()) * i
 		add_player(players[i], angle)
 	
+	current_players = players
 	_game_started.rpc()
+
+func get_player_ids():
+	var players = Networking.players.keys()
+	if players.is_empty():
+		players.append(0)
+	return players
 
 func add_player(id: int, angle: float):
 	var node = player.instantiate()
 	node.name = str(id)
 	node.position = (Vector3.FORWARD * spawn_radius).rotated(Vector3.UP, angle)
+	node.died.connect(func(): player_died += 1)
 	root.add_child(node)
 
 	if use_oxygen:

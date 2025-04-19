@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://l4cn2y6g3e73"]
+
+[ext_resource type="Shader" uid="uid://didn4tfd3mngl" path="res://moon/radar.gdshader" id="1_ysn3n"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ap8a2"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8m8q"]
+shader = ExtResource("1_ysn3n")
+shader_parameter/line_color = Color(0, 0.4, 0, 1)
+shader_parameter/beam_color = Color(0.5, 1, 0.5, 1)
+shader_parameter/trail_color = Color(0, 0.5, 0, 1)
+shader_parameter/show_edges = false
+shader_parameter/range_lines = 4.0
+shader_parameter/sector_lines = 4.0
+shader_parameter/line_width = 0.01
+shader_parameter/beam_angle = 0.5
+shader_parameter/beam_width = 0.003
+shader_parameter/trail_width = 0.5
+shader_parameter/blip_color = Color(0.5, 1, 0.5, 1)
+shader_parameter/blip_size = 0.1
+shader_parameter/blip_softness = 0.144
+shader_parameter/blip_presistence = 1.521
+shader_parameter/blip_position = Vector2(0.1, 0.5)
+
+[node name="Radar" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(0.939693, -0.330366, -0.0885213, 0, 0.258819, -0.965926, 0.34202, 0.907673, 0.24321, 0, 0.249402, -0.147033)
+layers = 524289
+size = Vector3(0.5, 0.071, 0.5)
+
+[node name="Sprite3D" type="Sprite3D" parent="CSGBox3D"]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.044151, 0)
+layers = 524289
+axis = 1
+texture = SubResource("ViewportTexture_ap8a2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_p8m8q")
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 576.0
+offset_top = 324.0
+offset_right = -576.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)

@@ -21,6 +21,7 @@ process_mode = 3
 script = ExtResource("1_8cjw6")
 loading_screen = NodePath("../CanvasLayer/LoadingBG")
 terrain = NodePath("../Terrain")
+gameover_scene = "res://multiplayer/multiplayer_lobby.tscn"
 
 [node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="GameInit"]
 _spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
@@ -38,6 +39,10 @@ metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
 [node name="PlayerReady" type="Node" parent="GameInit"]
 script = ExtResource("3_nrv5f")
 metadata/_custom_type_script = "uid://ccg1qfu6ivnfc"
+
+[node name="GameoverTimer" type="Timer" parent="GameInit"]
+wait_time = 10.0
+one_shot = true
 
 [node name="Root" type="Node3D" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=37 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
@@ -7,12 +7,12 @@
 [ext_resource type="Script" uid="uid://cxcl8hhrd8h8r" path="res://prototype/flashlight.gd" id="2_jhtns"]
 [ext_resource type="Texture2D" uid="uid://dr8bn2ivgef62" path="res://proximity-chat/flair_circle_8.png" id="3_40uvb"]
 [ext_resource type="Script" uid="uid://ceq8ebgeawn0u" path="res://proximity-chat/microphone_icon.gd" id="3_etqxp"]
-[ext_resource type="Script" uid="uid://bpvmidaxg05om" path="res://prototype/zip_line_gun.gd" id="3_ffq0p"]
 [ext_resource type="Script" uid="uid://bx5ikel45ayd6" path="res://prototype/slots.gd" id="4_5nf5r"]
 [ext_resource type="Texture2D" uid="uid://8mfn6xq54pgk" path="res://proximity-chat/flair_disabled_cross.png" id="4_lg10s"]
-[ext_resource type="PackedScene" uid="uid://4fkmbdia1h6h" path="res://prototype/zip_line.tscn" id="4_wt4vc"]
 [ext_resource type="Script" uid="uid://b5x5lk8n2flba" path="res://prototype/items.gd" id="7_ubged"]
+[ext_resource type="PackedScene" uid="uid://l4cn2y6g3e73" path="res://moon/item/radar.tscn" id="9_j7qf7"]
 [ext_resource type="Script" uid="uid://dctmds6dqq0y5" path="res://proximity-chat/player_ui.gd" id="9_negau"]
+[ext_resource type="PackedScene" uid="uid://cxndmt0rsl0ca" path="res://moon/item/walkie_talkie.tscn" id="10_jkur0"]
 [ext_resource type="Script" uid="uid://dbxsi6m1osr6o" path="res://moon/shop/shop.gd" id="12_8xdy4"]
 [ext_resource type="Shader" uid="uid://ckf4mkyhh6xh6" path="res://moon/fog.gdshader" id="12_p2s12"]
 [ext_resource type="PackedScene" uid="uid://hx7df064mocl" path="res://moon/shop/shop_item.tscn" id="13_we0o2"]
@@ -20,6 +20,11 @@
 [ext_resource type="Script" uid="uid://b413w1pu1oh8l" path="res://moon/shop/shop_item_resource.gd" id="15_obu4u"]
 [ext_resource type="Resource" uid="uid://cdjt7fl0g0qs6" path="res://moon/shop/shop_radar.tres" id="16_negau"]
 [ext_resource type="Resource" uid="uid://u773lv6yt5ow" path="res://moon/shop/shop_walkie.tres" id="19_xkmlx"]
+[ext_resource type="Script" uid="uid://devf3q03cdee5" path="res://moon/oxygen_bar.gd" id="20_q8f1a"]
+[ext_resource type="Shader" uid="uid://dvec8g7nwa641" path="res://moon/hp_border.gdshader" id="20_vp3jy"]
+[ext_resource type="Script" uid="uid://bp7vp4nplvx2k" path="res://moon/damage_overlay.gd" id="21_j0583"]
+[ext_resource type="Shader" uid="uid://by8d6065qljh" path="res://moon/blur.gdshader" id="21_q8f1a"]
+[ext_resource type="Script" uid="uid://dpkjlv347mueb" path="res://moon/viewport_camera.gd" id="24_j7qf7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
@@ -47,21 +52,125 @@ properties/3/path = NodePath("CameraRoot/Flashlight:light_energy")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j0583"]
+shader = ExtResource("20_vp3jy")
+shader_parameter/threshold = 1.0
+
+[sub_resource type="Animation" id="Animation_j7qf7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/threshold")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../BlurOverlay:material:shader_parameter/blur_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_n54uh"]
+resource_name = "oxygen"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/threshold")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.7, 0.25]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../BlurOverlay:material:shader_parameter/blur_scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5.06667, 10.0667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j7qf7"]
+_data = {
+&"RESET": SubResource("Animation_j7qf7"),
+&"oxygen": SubResource("Animation_n54uh")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n54uh"]
+shader = ExtResource("21_q8f1a")
+shader_parameter/blur_radius = 8
+shader_parameter/blur_scale = 0.0
+shader_parameter/darkness = 0.8
+shader_parameter/fade_direction = 0
+shader_parameter/fade_cutoff = 1.0
+shader_parameter/fade_intensity = 2.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8xdy4"]
 shader = ExtResource("12_p2s12")
 
-[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "hand", "camera", "camera_root")]
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "hand", "dead_cam", "camera", "camera_root")]
 collision_layer = 0
 wall_min_slide_angle = 0.0872665
 script = ExtResource("1_krq8x")
 body = NodePath("CSGCylinder3D")
 hand = NodePath("CameraRoot/Hand")
+dead_cam = NodePath("CameraRoot/SpringArm3D/DeadCam")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
 
-[node name="Oxygen" type="Node" parent="." node_paths=PackedStringArray("progress_bar")]
+[node name="Oxygen" type="Node" parent="." node_paths=PackedStringArray("timer")]
 script = ExtResource("2_emtku")
-progress_bar = NodePath("../CanvasLayer/MarginContainer/ProgressBar")
+decay_over_time = 0.5
+timer = NodePath("OxygenEmptyTimer")
+
+[node name="OxygenEmptyTimer" type="Timer" parent="Oxygen"]
+wait_time = 10.0
+one_shot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_1rodb")
@@ -74,7 +183,6 @@ height = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.372057, 0)
 
 [node name="Flashlight" type="SpotLight3D" parent="CameraRoot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0451757, -0.303639)
 light_volumetric_fog_energy = 5.0
 shadow_enabled = true
 spot_range = 50.0
@@ -84,6 +192,7 @@ spot_angle_attenuation = 0.482968
 script = ExtResource("2_jhtns")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
+cull_mask = 524287
 
 [node name="PlacementRayCast" type="RayCast3D" parent="CameraRoot/Camera3D"]
 target_position = Vector3(0, 0, -10)
@@ -101,13 +210,20 @@ player = NodePath("../..")
 shape = SubResource("BoxShape3D_ve1mo")
 
 [node name="Slots" type="Node3D" parent="CameraRoot" node_paths=PackedStringArray("label")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.517748, -0.477828, -0.571376)
 script = ExtResource("4_5nf5r")
 label = NodePath("../../CanvasLayer/Slot")
 
-[node name="ZipLineGun" type="Node3D" parent="CameraRoot/Slots"]
-script = ExtResource("3_ffq0p")
-zip_line = ExtResource("4_wt4vc")
-ammo = 5
+[node name="Radar" parent="CameraRoot/Slots" instance=ExtResource("9_j7qf7")]
+visible = false
+
+[node name="WalkieTalkie" parent="CameraRoot/Slots" instance=ExtResource("10_jkur0")]
+visible = false
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRoot"]
+spring_length = 3.0
+
+[node name="DeadCam" type="Camera3D" parent="CameraRoot/SpringArm3D"]
 
 [node name="ProximityAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamGenerator_f37t5")
@@ -121,6 +237,8 @@ audio_player = NodePath("../ProximityAudioPlayer")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_t1bxn")
+
+[node name="Blur" type="MeshInstance3D" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("9_negau")
@@ -197,7 +315,7 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Shop/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="OxygenContainer" type="MarginContainer" parent="CanvasLayer"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -212,11 +330,59 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/MarginContainer"]
+[node name="OxygenBar" type="ProgressBar" parent="CanvasLayer/OxygenContainer" node_paths=PackedStringArray("oxygen")]
 custom_minimum_size = Vector2(20, 150)
 layout_mode = 2
 fill_mode = 3
 show_percentage = false
+script = ExtResource("20_q8f1a")
+oxygen = NodePath("../../../Oxygen")
+
+[node name="DamageOverlay" type="ColorRect" parent="CanvasLayer" node_paths=PackedStringArray("oxygen")]
+material = SubResource("ShaderMaterial_j0583")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.541176, 0.12549, 0.12549, 1)
+script = ExtResource("21_j0583")
+oxygen = NodePath("../../Oxygen")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/DamageOverlay"]
+libraries = {
+&"": SubResource("AnimationLibrary_j7qf7")
+}
+
+[node name="BlurOverlay" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_n54uh")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 0
+
+[node name="ViewportCamera" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("main_camera")]
+cull_mask = 524288
+script = ExtResource("24_j7qf7")
+main_camera = NodePath("../../../../CameraRoot/Camera3D")
 
 [node name="FogVolume" type="FogVolume" parent="."]
 size = Vector3(5, 5, 5)
