@@ -389,10 +389,10 @@ class CustomGrid extends GridMap:
 	func write(x: int, y: int, z: int, value: float):
 		set_cell_item(Vector3i(x, y, z), value)
 
-var grid: VoxelWorld
+var grid: GridMap
 
-func _init(chunk_size: int) -> void:
-	grid = VoxelWorld.new(chunk_size)
+#func _init(chunk_size: int) -> void:
+	#grid = VoxelWorld.new(chunk_size)
 
 #func init_grid(resolution: int):
 	#grid = VoxelGrid.new(resolution)
@@ -408,12 +408,12 @@ func set_cell_item(pos: Vector3i, v: float):
 
 func build_mesh():
 	var vertices = PackedVector3Array()
-	grid.iterate_all_voxels(func(x, y, z, v): _march_cube(Vector3(x, y, z), vertices))
+	#grid.iterate_all_voxels(func(x, y, z, v): _march_cube(Vector3(x, y, z), vertices))
 	#for x in voxel_grid.resolution - 1:
 		#for y in voxel_grid.resolution - 1:
 			#for z in voxel_grid.resolution - 1:
-	#for c in grid.get_used_cells():
-		#_march_cube(c, vertices)
+	for c in grid.get_used_cells():
+		_march_cube(c, vertices)
 	
 	_create_mesh(vertices)
 	create_trimesh_collision()

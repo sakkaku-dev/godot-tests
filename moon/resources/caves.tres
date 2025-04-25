@@ -5,7 +5,6 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_02520"]
 noise_type = 3
-frequency = 0.004
 
 [resource]
 script = ExtResource("1_5xq80")

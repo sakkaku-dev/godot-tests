@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://h2rsqahqtenq"]
+[gd_scene load_steps=5 format=3 uid="uid://h2rsqahqtenq"]
 
 [ext_resource type="Script" uid="uid://ctjob7bxvo7x8" path="res://prototype/interactable.gd" id="1_8wyjq"]
+[ext_resource type="Script" uid="uid://n2vreiwbegur" path="res://moon/resources/cave.gd" id="1_vpl4m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2bf7w"]
 size = Vector3(4.89746, 5.9457, 4.24121)
@@ -9,6 +10,7 @@ size = Vector3(4.89746, 5.9457, 4.24121)
 size = Vector3(3, 5, 2)
 
 [node name="Cave" type="Node3D"]
+script = ExtResource("1_vpl4m")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 8

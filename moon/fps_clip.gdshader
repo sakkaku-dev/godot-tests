@@ -19,9 +19,9 @@ uniform float viewmodel_fov = 52.0f;
 
 void vertex() {
 	UV= UV * uv1_scale.xy - uv1_offset.xy;
-	
+
 	//important bit starts here
-	
+
 	float onetanfov = 1.0f / tan(0.5f * (viewmodel_fov * PI / 180.0f));
 	float aspect = VIEWPORT_SIZE.x / VIEWPORT_SIZE.y;
 	// modify projection matrix
@@ -35,7 +35,7 @@ void vertex() {
 
 void fragment() {
 	DEPTH = FRAGCOORD.z * 0.7;
-	
+
 	//and ends here
 	vec2 base_uv = UV;
 	vec4 albedo_tex = texture(texture_albedo,base_uv);

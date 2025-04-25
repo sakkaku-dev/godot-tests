@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://c7exu8d63ypbl"]
+[gd_scene load_steps=12 format=3 uid="uid://c7exu8d63ypbl"]
 
 [ext_resource type="Script" uid="uid://drji3q1phkfux" path="res://physics_player/physics_player.gd" id="1_hhr6h"]
-[ext_resource type="PackedScene" uid="uid://cchxvyy7i7i02" path="res://physics_player/projectile.tscn" id="2_52fws"]
 [ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="3_1yvub"]
 [ext_resource type="Script" uid="uid://ddiby6m3r8wcx" path="res://util/chargeable.gd" id="3_lin6f"]
 [ext_resource type="Script" uid="uid://eux0ef0rg11v" path="res://input/PlayerInput.gd" id="4_rwr02"]
+[ext_resource type="PackedScene" uid="uid://c52yil31s7xyj" path="res://assets/Mini Characters/Models/GLB format/character-male-a.glb" id="6_du341"]
 
 [sub_resource type="Curve" id="Curve_nfugg"]
 _limits = [1.0, 2.0, 0.0, 1.0]
@@ -31,16 +31,20 @@ properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2gucp"]
 radius = 0.261094
-height = 0.98271
+height = 0.658807
 
-[node name="PhysicsPlayer" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.740292, 0)
-collision_layer = 4
-collision_mask = 5
+[sub_resource type="BoxShape3D" id="BoxShape3D_du341"]
+size = Vector3(0.8, 0.8, 0.6)
+
+[node name="PhysicsPlayer" type="RigidBody3D" node_paths=PackedStringArray("hand", "hold_remote")]
+collision_layer = 2
+collision_mask = 15
+lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_hhr6h")
-projectile_scene = ExtResource("2_52fws")
+hand = NodePath("Body/Hand")
+hold_remote = NodePath("Body/HoldRemote")
 max_speed = 5
 acceleration = 30
 acceleration_factor_from_dot = SubResource("Curve_nfugg")
@@ -52,6 +56,7 @@ replication_config = SubResource("SceneReplicationConfig_h85tp")
 
 [node name="Chargeable" type="Node" parent="."]
 script = ExtResource("3_lin6f")
+max_value = 500.0
 
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("4_rwr02")
@@ -59,18 +64,25 @@ script = ExtResource("4_rwr02")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="PlayerInput"]
 replication_config = SubResource("SceneReplicationConfig_r425a")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0229626, 0)
 shape = SubResource("CapsuleShape3D_2gucp")
 
-[node name="Body" type="Node3D" parent="."]
+[node name="Hand" type="Area3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0360771, 0.417342)
+collision_layer = 0
+collision_mask = 8
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Body"]
-radius = 0.2
-height = 1.0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hand"]
+shape = SubResource("BoxShape3D_du341")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Body/CSGCylinder3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.310788, 0.163772)
-size = Vector3(0.296631, 0.158203, 0.116943)
+[node name="character-male-a2" parent="Body" instance=ExtResource("6_du341")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.377451, 0)
+
+[node name="HoldRemote" type="RemoteTransform3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0346219, 0.439)
+update_scale = false
 
 [node name="GroundSpringCast" type="RayCast3D" parent="."]
 script = ExtResource("3_1yvub")
+ride_height = 0.5

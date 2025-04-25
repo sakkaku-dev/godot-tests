@@ -2,10 +2,8 @@
 # https://github.com/joebinns/stylised-character-controller/blob/main/Assets/Scripts/Physics%20Based%20Character%20Controller/PhysicsBasedCharacterController.cs
 extends RigidBody3D
 
-@export_category("Projectile")
-@export var projectile_scene: PackedScene
-@export var spawn_position: Node3D
-@export var max_throw_strength := 5.0
+@export var hand: Area3D
+@export var hold_remote: RemoteTransform3D
 
 @export_category("Rotation")
 @export var upright_joint_spring_strength := 10
@@ -18,14 +16,12 @@ extends RigidBody3D
 @export var max_accel_force := 150
 @export var max_acceleration_factor_from_dot: Curve
 @export var force_scale := Vector3(1, 0, 1)
-@export var jump_force := 20
+@export var jump_force := 20.0
 
 @onready var player_input: PlayerInput = $PlayerInput
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 @onready var body: Node3D = $Body
-@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
 @onready var chargeable: Chargeable = $Chargeable
-#@onready var paint_emitter: PaintEmitter = $Body/PaintEmitter
 
 var is_jumping := false
 var jump_ready := false
@@ -43,25 +39,48 @@ var goal_vel := Vector3.ZERO
 var input_id := ""
 var color := Color.WHITE
 
+var holding_obj: Package
+
 func _ready() -> void:
 	#paint_emitter.color = color
 	player_input.set_for_id(input_id)
 	player_input.just_pressed.connect(func(ev: InputEvent):
-		if ev.is_action_pressed("throw"):
+		if ev.is_action_pressed("interact"):
+			if holding_obj == null:
+				var bodies = hand.get_overlapping_bodies()
+				if bodies.is_empty(): return
+				_grab_object(bodies[0])
+			else:
+				_release_object()
+		elif ev.is_action_pressed("throw") and holding_obj:
 			chargeable.start()
+			print("Starting throw")
 		elif ev.is_action_pressed("throw_cancel"):
 			chargeable.stop()
+			print("Cancel throw")
 	)
 	player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("throw"):
-			#var node = projectile_scene.instantiate()
-			#paint_emitter.throw_force = chargeable.value * max_throw_strength
-			#paint_emitter.fire()
-			#node.rotation.y = spawn_position.global_rotation.y
-			#node.position = spawn_position.global_position
-			#get_tree().current_scene.add_child(node)
+		if ev.is_action_released("throw") and holding_obj:
+			print("Throw with strength %s" % chargeable.value)
+			holding_obj.drop()
+			holding_obj.apply_central_force(body.global_basis.z * chargeable.value)
+			_release_object()
 			chargeable.stop()
 	)
+
+func _grab_object(obj: RigidBody3D):
+	if not obj: return
+	
+	holding_obj = obj
+	holding_obj.pickup()
+	hold_remote.remote_path = hold_remote.get_path_to(holding_obj)
+	print("Holding object %s" % holding_obj)
+
+func _release_object():
+	print("Releasing object %s" % holding_obj)
+	hold_remote.remote_path = NodePath("")
+	holding_obj.drop()
+	holding_obj = null
 
 func _physics_process(delta: float) -> void:
 	_move_player(delta)

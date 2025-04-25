@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dmlw8l1b0a8of"]
+
+[node name="LongPackage" type="RigidBody3D"]

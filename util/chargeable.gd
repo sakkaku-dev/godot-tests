@@ -6,7 +6,7 @@ signal charging_started()
 signal charging_stopped()
 
 @export var max_value := 1.0
-@export var increase := 1.0
+@export var time_to_max := 1.0
 @export var activate_on_charged := false
 
 var current_max_value := max_value
@@ -37,6 +37,7 @@ func _process(delta):
 	if not is_charging:
 		return
 	
+	var increase = max_value / time_to_max
 	value += delta * increase
 	if value >= current_max_value and activate_on_charged:
 		is_charging = false

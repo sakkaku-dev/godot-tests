@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=3 uid="uid://3wn7rgwviamx"]
+
+[ext_resource type="MeshLibrary" uid="uid://xn66ygdkhj15" path="res://city/road_mesh.tres" id="1_2f1qc"]
+[ext_resource type="Script" uid="uid://c2sukekmhmu7i" path="res://city/rush_hour_delivery.gd" id="1_cfmpc"]
+[ext_resource type="PackedScene" uid="uid://b6ejk8r3csmdi" path="res://city/packages/basic_package.tscn" id="4_5agbo"]
+[ext_resource type="Texture2D" uid="uid://cive4jd84ie0n" path="res://assets/Prototype Textures/PNG/Dark/texture_08.png" id="4_lnb5n"]
+[ext_resource type="Script" uid="uid://dewf5mam4w8q0" path="res://city/depot.gd" id="5_2qnss"]
+[ext_resource type="PackedScene" uid="uid://c7exu8d63ypbl" path="res://physics_player/physics_player.tscn" id="5_lnb5n"]
+[ext_resource type="PackedScene" uid="uid://duvgjfhy5lflu" path="res://city/destination.tscn" id="7_lm3rq"]
+[ext_resource type="Script" uid="uid://ch6q66fdblcg6" path="res://city/timer_label.gd" id="8_lm3rq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qnss"]
+albedo_texture = ExtResource("4_lnb5n")
+
+[node name="City" type="Node3D" node_paths=PackedStringArray("day_timer", "depot")]
+script = ExtResource("1_cfmpc")
+day_timer = NodePath("Timer")
+depot = NodePath("Depot")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="GridMap" type="GridMap" parent="."]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+mesh_library = ExtResource("1_2f1qc")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65528, 2, 655378, 65529, 2, 655378, 65530, 2, 655378, 65531, 2, 655378, 65532, 2, 655362, 65533, 2, 655378, 65534, 2, 655378, 65535, 2, 655378, 0, 2, 655378, 1, 2, 655378, 2, 2, 655378, 3, 2, 655378, 4, 2, 655378, 5, 2, 655362, 6, 2, 655378, 7, 2, 655378, 5, 65534, 1048576, 6, 65534, 655378, 7, 65534, 655378, 8, 65534, 655378, 5, 1, 1441810, 5, 0, 1441810, 5, 65535, 1441810, 5, 3, 1048594, 5, 4, 1048594, 5, 5, 1048594, 5, 6, 1048594, 5, 7, 1048594, 65532, 3, 1048594, 65532, 4, 1048594, 65532, 5, 1048594, 65532, 6, 1048594, 65532, 1, 1048594, 65532, 0, 1048594, 65532, 65535, 1048594, 5, 8, 1441792, 4, 8, 655378, 3, 8, 655378, 2, 8, 655378, 1, 8, 655378, 0, 8, 655378, 65535, 8, 655378, 65534, 8, 655378, 65533, 8, 655378, 65532, 8, 1048585, 65532, 7, 1441810, 65532, 9, 1441810, 65532, 10, 1441810, 65532, 11, 1441810, 8, 2, 18, 9, 2, 18, 10, 2, 18, 11, 2, 18, 12, 2, 18, 9, 65534, 655372, 10, 65534, 655374, 11, 65534, 655374, 12, 65534, 655374, 13, 65534, 655374, 14, 65534, 655374, 65532, 65534, 1048594, 65532, 65533, 1048594, 65532, 65532, 1048594, 65532, 65531, 1048594, 65532, 65530, 1048594, 65532, 65529, 9, 65527, 2, 18, 65526, 2, 18, 65525, 2, 18, 65524, 2, 655360, 65524, 1, 1048594, 65524, 0, 1048594, 65524, 65535, 1048594, 65524, 65534, 1048594, 65524, 65533, 1048594, 65524, 65532, 1048594, 65524, 65531, 1048594, 65524, 65530, 1048594, 65531, 65529, 18, 65530, 65529, 18, 65529, 65529, 18, 65528, 65529, 18, 65527, 65529, 18, 65526, 65529, 18, 65525, 65529, 18, 65524, 65529, 1048576, 65533, 65529, 18, 65534, 65529, 18, 65535, 65529, 18, 0, 65529, 18, 1, 65529, 18, 2, 65529, 18, 3, 65529, 18, 4, 65529, 18, 5, 65529, 18, 6, 65529, 18, 7, 65529, 18, 8, 65529, 18, 9, 65529, 18, 10, 65529, 18, 11, 65529, 18, 12, 65529, 18, 13, 65529, 18, 14, 65529, 18, 15, 65529, 18, 13, 2, 18, 14, 2, 18, 15, 2, 18, 15, 65534, 655374, 16, 65534, 655373, 18, 65534, 655371, 18, 2, 1441792, 18, 1, 1441810, 18, 0, 1441810, 16, 2, 655378, 17, 2, 655378, 18, 65532, 1048594, 18, 65531, 1048594, 18, 65530, 1048594, 20, 65534, 18, 21, 65534, 18, 22, 65534, 18, 23, 65534, 18, 24, 65534, 18, 25, 65534, 18, 18, 65529, 9, 16, 65529, 18, 17, 65529, 18, 19, 65529, 18, 20, 65529, 18, 21, 65529, 18, 22, 65529, 18, 23, 65529, 18, 24, 65529, 18, 25, 65529, 18)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+size = Vector3(100, 0.1, 100)
+
+[node name="PhysicsPlayer" parent="." instance=ExtResource("5_lnb5n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04249, 0)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PhysicsPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.81293, 3.55904)
+remote_path = NodePath("../../Camera3D")
+update_rotation = false
+update_scale = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 3.85542, 3.55904)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.976383, 0.131844, 0.171154, -0.216048, 0.595843, 0.773495, 0, -0.792204, 0.610256, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Depot" type="Node3D" parent="." node_paths=PackedStringArray("destinations")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454559, 0)
+script = ExtResource("5_2qnss")
+destinations = [NodePath("../Destination"), NodePath("../Destination2")]
+package_types = Array[PackedScene]([ExtResource("4_5agbo")])
+metadata/_custom_type_script = "uid://dewf5mam4w8q0"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Depot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0804685, 0)
+material_override = SubResource("StandardMaterial3D_2qnss")
+use_collision = true
+size = Vector3(7.276, 0.05, 5.876)
+
+[node name="Destination" parent="." instance=ExtResource("7_lm3rq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -12)
+
+[node name="Destination2" parent="." instance=ExtResource("7_lm3rq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5784, 0, -6.39865)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control" node_paths=PackedStringArray("timer")]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0s"
+script = ExtResource("8_lm3rq")
+timer = NodePath("../../../Timer")

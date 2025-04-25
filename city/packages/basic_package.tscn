@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6ejk8r3csmdi"]
+
+[ext_resource type="Script" uid="uid://c525qb2ia68gj" path="res://city/package.gd" id="1_4eotq"]
+[ext_resource type="Texture2D" uid="uid://c5alud0mostmg" path="res://assets/Prototype Textures/PNG/Orange/texture_01.png" id="2_ofpl8"]
+[ext_resource type="Texture2D" uid="uid://ckjh8xopcqpv7" path="res://icon.svg" id="3_e0jnc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e0jnc"]
+albedo_texture = ExtResource("2_ofpl8")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4eotq"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="BasicPackage" type="RigidBody3D" node_paths=PackedStringArray("drop_timer", "sprite")]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_4eotq")
+drop_timer = NodePath("Timer")
+sprite = NodePath("Sprite3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_e0jnc")
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_4eotq")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.522194, 0)
+billboard = 1
+texture = ExtResource("3_e0jnc")
