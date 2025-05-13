@@ -1,9 +1,11 @@
 # https://www.youtube.com/watch?v=qdskE8PJy6Q
 # https://github.com/joebinns/stylised-character-controller/blob/main/Assets/Scripts/Physics%20Based%20Character%20Controller/PhysicsBasedCharacterController.cs
+class_name PhysicsPlayer
 extends RigidBody3D
 
 @export var hand: Area3D
 @export var hold_remote: RemoteTransform3D
+@export var place_grid: PlaceGrid
 
 @export_category("Rotation")
 @export var upright_joint_spring_strength := 10
@@ -40,18 +42,33 @@ var input_id := ""
 var color := Color.WHITE
 
 var holding_obj: Package
+var placing_obj: Item
 
 func _ready() -> void:
 	#paint_emitter.color = color
 	player_input.set_for_id(input_id)
 	player_input.just_pressed.connect(func(ev: InputEvent):
 		if ev.is_action_pressed("interact"):
+			if placing_obj != null:
+				place()
+				return
+			
 			if holding_obj == null:
+				var areas = hand.get_overlapping_areas()
+				if not areas.is_empty():
+					var interact = areas[0] as Interactable
+					if interact:
+						interact.interact(self)
+						return
+				
 				var bodies = hand.get_overlapping_bodies()
 				if bodies.is_empty(): return
 				_grab_object(bodies[0])
 			else:
 				_release_object()
+		elif ev.is_action_pressed("rotate"):
+			if placing_obj:
+				placing_obj.self_rotate()
 		elif ev.is_action_pressed("throw") and holding_obj:
 			chargeable.start()
 			print("Starting throw")
@@ -68,6 +85,17 @@ func _ready() -> void:
 			chargeable.stop()
 	)
 
+func place():
+	if placing_obj == null: return
+	placing_obj.place()
+	placing_obj = null
+
+func pickup(obj):
+	if not obj.is_inside_tree():
+		place_grid.add_child(obj)
+	placing_obj = obj
+	print("Picked up %s" % placing_obj)
+
 func _grab_object(obj: RigidBody3D):
 	if not obj: return
 	
@@ -82,9 +110,15 @@ func _release_object():
 	holding_obj.drop()
 	holding_obj = null
 
+func _process(delta: float) -> void:
+	if placing_obj:
+		var pos = global_position + body.global_basis.z * 0.8
+		var coord = place_grid.local_to_map(pos)
+		placing_obj.global_position = place_grid.map_to_local(coord)
+
 func _physics_process(delta: float) -> void:
 	_move_player(delta)
-	_apply_jump(ground_spring_cast.is_grounded())
+	#_apply_jump(ground_spring_cast.is_grounded())
 	_float_above_ground()
 	_restore_upright_rotation()
 

@@ -29,9 +29,8 @@ properties/2/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r425a"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2gucp"]
-radius = 0.261094
-height = 0.658807
+[sub_resource type="BoxShape3D" id="BoxShape3D_ehgmt"]
+size = Vector3(0.313477, 0.498047, 0.288818)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_du341"]
 size = Vector3(0.8, 0.8, 0.6)
@@ -56,7 +55,7 @@ replication_config = SubResource("SceneReplicationConfig_h85tp")
 
 [node name="Chargeable" type="Node" parent="."]
 script = ExtResource("3_lin6f")
-max_value = 500.0
+max_value = 800.0
 
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("4_rwr02")
@@ -66,7 +65,7 @@ replication_config = SubResource("SceneReplicationConfig_r425a")
 
 [node name="Body" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0229626, 0)
-shape = SubResource("CapsuleShape3D_2gucp")
+shape = SubResource("BoxShape3D_ehgmt")
 
 [node name="Hand" type="Area3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0360771, 0.417342)
@@ -85,4 +84,5 @@ update_scale = false
 
 [node name="GroundSpringCast" type="RayCast3D" parent="."]
 script = ExtResource("3_1yvub")
+spring_strength = 300.0
 ride_height = 0.5

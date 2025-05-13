@@ -12,7 +12,8 @@ size = Vector3(0.3, 0.3, 0.3)
 
 [node name="BasicPackage" type="RigidBody3D" node_paths=PackedStringArray("drop_timer", "sprite")]
 collision_layer = 8
-collision_mask = 9
+collision_mask = 11
+mass = 3.0
 script = ExtResource("1_4eotq")
 drop_timer = NodePath("Timer")
 sprite = NodePath("Sprite3D")

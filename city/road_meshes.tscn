@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://bugdoo3t3co0k"]
+[gd_scene load_steps=25 format=3 uid="uid://bugdoo3t3co0k"]
 
+[ext_resource type="PackedScene" uid="uid://dij3spdlwf4ha" path="res://assets/City Kit - Roads/Models/GLB format/road-bend-sidewalk.glb" id="1_l0g6r"]
 [ext_resource type="PackedScene" uid="uid://cux1cmv2exo38" path="res://assets/City Kit - Roads/Models/GLB format/road-bend.glb" id="1_v0i26"]
 [ext_resource type="PackedScene" uid="uid://ccq4h3kpucnwy" path="res://assets/City Kit - Roads/Models/GLB format/road-crossing.glb" id="2_fpihv"]
 [ext_resource type="PackedScene" uid="uid://psl0lum7nyqu" path="res://assets/City Kit - Roads/Models/GLB format/road-crossroad-path.glb" id="3_v4dy0"]
@@ -26,7 +27,10 @@
 
 [node name="road_meshes" type="Node3D"]
 
+[node name="road-bend-sidewalk2" parent="." instance=ExtResource("1_l0g6r")]
+
 [node name="road-bend2" parent="." instance=ExtResource("1_v0i26")]
+visible = false
 
 [node name="road-crossing2" parent="." instance=ExtResource("2_fpihv")]
 visible = false

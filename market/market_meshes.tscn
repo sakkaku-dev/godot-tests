@@ -1,0 +1,74 @@
+[gd_scene load_steps=17 format=3 uid="uid://d1g634402yn4u"]
+
+[ext_resource type="PackedScene" uid="uid://bt5tf2n8qmtci" path="res://assets/Mini Market/Models/GLB format/wall-corner.glb" id="1_0j6jj"]
+[ext_resource type="PackedScene" uid="uid://c6p75koeohykd" path="res://assets/Mini Market/Models/GLB format/wall-door-rotate.glb" id="2_x1f54"]
+[ext_resource type="PackedScene" uid="uid://bp2f68rf3je5g" path="res://assets/Mini Market/Models/GLB format/wall-window.glb" id="3_wefdj"]
+[ext_resource type="PackedScene" uid="uid://cjscw38x08l8i" path="res://assets/Mini Market/Models/GLB format/wall.glb" id="4_fms30"]
+[ext_resource type="PackedScene" uid="uid://wrhyrxebdmxf" path="res://assets/Mini Market/Models/GLB format/floor.glb" id="5_x1f54"]
+[ext_resource type="PackedScene" uid="uid://besuj63o7d8j5" path="res://assets/Mini Market/Models/GLB format/bottle-return.glb" id="6_fms30"]
+[ext_resource type="PackedScene" uid="uid://cmfs8br1taw8s" path="res://assets/Mini Market/Models/GLB format/cash-register.glb" id="7_xnc7d"]
+[ext_resource type="PackedScene" uid="uid://df7ktw8adif08" path="res://assets/Mini Market/Models/GLB format/display-bread.glb" id="8_cwi48"]
+[ext_resource type="PackedScene" uid="uid://cgtcrxantq3v8" path="res://assets/Mini Market/Models/GLB format/display-fruit.glb" id="9_e6n64"]
+[ext_resource type="PackedScene" uid="uid://boc8i3xil6000" path="res://assets/Mini Market/Models/GLB format/freezer.glb" id="10_1qwyi"]
+[ext_resource type="PackedScene" uid="uid://338k6exkrhw7" path="res://assets/Mini Market/Models/GLB format/freezers-standing.glb" id="11_gh1np"]
+[ext_resource type="PackedScene" uid="uid://chu5pi4dcgkj2" path="res://assets/Mini Market/Models/GLB format/shelf-bags.glb" id="12_6io2k"]
+[ext_resource type="PackedScene" uid="uid://csbnuw8xhmsn6" path="res://assets/Mini Market/Models/GLB format/shelf-boxes.glb" id="13_msu4p"]
+[ext_resource type="PackedScene" uid="uid://dqqly86hppgn1" path="res://assets/Mini Market/Models/GLB format/shelf-end.glb" id="14_7fare"]
+[ext_resource type="PackedScene" uid="uid://dauugqr21quqa" path="res://assets/Mini Market/Models/GLB format/fence.glb" id="15_e6n64"]
+[ext_resource type="PackedScene" uid="uid://cuvhtcl043wb0" path="res://assets/Mini Market/Models/GLB format/fence-door-rotate.glb" id="16_1qwyi"]
+
+[node name="market_meshes" type="Node3D"]
+
+[node name="wall-corner2" parent="." instance=ExtResource("1_0j6jj")]
+visible = false
+
+[node name="wall-door-rotate2" parent="." instance=ExtResource("2_x1f54")]
+visible = false
+
+[node name="wall-window2" parent="." instance=ExtResource("3_wefdj")]
+visible = false
+
+[node name="wall2" parent="." instance=ExtResource("4_fms30")]
+visible = false
+
+[node name="floor2" parent="." instance=ExtResource("5_x1f54")]
+visible = false
+
+[node name="bottle-return2" parent="." instance=ExtResource("6_fms30")]
+visible = false
+
+[node name="cash-register2" parent="." instance=ExtResource("7_xnc7d")]
+visible = false
+
+[node name="display-bread2" parent="." instance=ExtResource("8_cwi48")]
+visible = false
+
+[node name="display-fruit2" parent="." instance=ExtResource("9_e6n64")]
+visible = false
+
+[node name="freezer2" parent="." instance=ExtResource("10_1qwyi")]
+visible = false
+
+[node name="freezers-standing2" parent="." instance=ExtResource("11_gh1np")]
+visible = false
+
+[node name="shelf-bags2" parent="." instance=ExtResource("12_6io2k")]
+visible = false
+
+[node name="shelf-boxes2" parent="." instance=ExtResource("13_msu4p")]
+visible = false
+
+[node name="shelf-end2" parent="." instance=ExtResource("14_7fare")]
+visible = false
+
+[node name="fence2" parent="." instance=ExtResource("15_e6n64")]
+visible = false
+
+[node name="fence-door-rotate2" parent="." instance=ExtResource("16_1qwyi")]
+visible = false
+
+[editable path="wall-corner2"]
+[editable path="wall-door-rotate2"]
+[editable path="wall-window2"]
+[editable path="wall2"]
+[editable path="floor2"]
