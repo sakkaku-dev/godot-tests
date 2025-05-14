@@ -45,23 +45,23 @@ void fragment() {
 //	replacing all occurrences of 'current_beam_angle' with 'beam_angle'.
 //	You should then manually set the shader's beam_angle parameter so you know where the beam is
 //	and therefore when the blip is not visible and its position can be updated.
-	float current_beam_angle = mod(beam_angle * TIME, 1.0);
-
-	a = a - 1.0 * greater_than(a, current_beam_angle);
+	//float current_beam_angle = mod(beam_angle * TIME, 1.0);
+//
+	//a = a - 1.0 * greater_than(a, current_beam_angle);
 
 //	If you do not want to render the trail remove the following line of code.
-	COLOR.rgb = mix(COLOR.rgb, trail_color.rgb, trail_color.a * max(0.0, (1.0 - (current_beam_angle - a) / trail_width)));
+	//COLOR.rgb = mix(COLOR.rgb, trail_color.rgb, trail_color.a * max(0.0, (1.0 - (current_beam_angle - a) / trail_width)));
 
 //	If you do not want to render the beam remove the following line of code.
-	COLOR.rgb = mix(COLOR.rgb, beam_color.rgb, beam_color.a * greater_than(a, current_beam_angle - beam_width));
+	//COLOR.rgb = mix(COLOR.rgb, beam_color.rgb, beam_color.a * greater_than(a, current_beam_angle - beam_width));
 
 //	If you do not want to render the blip remove the following code block.
 //	The blip's x and y coordinates should be within the range -1.0 to 1.0.
 //	The blip will not be displayed if it is exactly in the centre at 0.0, 0.0.
-	float bl = length(blip_position - uv);
-	float blip_angle = (atan(blip_position.y, blip_position.x) + 3.141592656) / 6.283185312;
-	blip_angle = blip_angle - 1.0 * greater_than(blip_angle, current_beam_angle);
-	COLOR.rgb = mix(COLOR.rgb, blip_color.rgb, blip_color.a * max(0.0, pow((blip_size - bl) / blip_size, blip_softness) - min(1.0, (current_beam_angle - blip_angle) * blip_presistence)));
+	//float bl = length(blip_position - uv);
+	//float blip_angle = (atan(blip_position.y, blip_position.x) + 3.141592656) / 6.283185312;
+	//blip_angle = blip_angle - 1.0 * greater_than(blip_angle, current_beam_angle);
+	//COLOR.rgb = mix(COLOR.rgb, blip_color.rgb, blip_color.a * max(0.0, pow((blip_size - bl) / blip_size, blip_softness) - min(1.0, (current_beam_angle - blip_angle) * blip_presistence)));
 
 //	If you do not want the edges to be transparent remove the following line of code.
 //	If you always want the edges to be transparent replace the following line of code with:

@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://0ptud0ccr8v"]
+
+[ext_resource type="Theme" uid="uid://cteolo04eub3l" path="res://simple-space/simple_space.tres" id="1_cavv0"]
+[ext_resource type="Texture2D" uid="uid://c18wa11jx76g5" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/16.png" id="1_x7lt5"]
+[ext_resource type="Texture2D" uid="uid://bk4kkygu7xlng" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/17.png" id="2_0any8"]
+[ext_resource type="Script" uid="uid://fw8j4ltyjlek" path="res://simple-space/paper_button.gd" id="2_e5ytg"]
+[ext_resource type="Texture2D" uid="uid://du8bnmoo0am6b" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/18.png" id="3_cavv0"]
+
+[node name="Button" type="TextureButton"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -514.0
+offset_bottom = -307.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cavv0")
+script = ExtResource("2_e5ytg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_x7lt5")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_0any8")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_cavv0")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Test"
+horizontal_alignment = 1
+vertical_alignment = 1
