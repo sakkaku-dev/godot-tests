@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://b5qss52qwb1le"]
+
+[ext_resource type="Texture2D" uid="uid://buy6ai7hi0gdk" path="res://assets/Free Paper UI System/1 Sprites/Content/8 Equipment/16.png" id="1_lqjmc"]
+[ext_resource type="Script" uid="uid://t71tpa68gmxt" path="res://simple-space/items/item_resource.gd" id="1_wfrqc"]
+
+[resource]
+script = ExtResource("1_wfrqc")
+image = ExtResource("1_lqjmc")
+name = "Gloves"
+description = "Decreases hand injuries, especially in dense forests"
+price = 30
+metadata/_custom_type_script = "uid://t71tpa68gmxt"

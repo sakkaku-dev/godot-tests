@@ -1,5 +1,8 @@
 @tool
+class_name ExpeditionMap
 extends Control
+
+signal marked()
 
 @export var run := false:
 	set(v):
@@ -10,6 +13,8 @@ extends Control
 @export var depth = 4
 @export var max_height = 2
 @export var extra_edges = 3
+
+@export var point_scene: PackedScene
 
 enum Location {
 	NONE,
@@ -47,38 +52,79 @@ var terrain_chances = {
 	Terrain.RIVER: 0.1,
 }
 
+var dirty := false
 var nodes = []
 var edges = []
+
+var path := []
 
 func _ready() -> void:
 	generate_map()
 
 func generate_map():
+	dirty = true
+	path = []
+
 	generate_nodes()
 	connect_nodes()
 	add_extra_edges()
 	queue_redraw()
 
 func _draw() -> void:
+	var y_offset = size.y/10
 	var x_diff = size.x / depth
-	var y_center = size.y / 2
+	var y_center = size.y / 2 + y_offset
 
 	for edge in edges:
 		var a = edge.a
 		var b = edge.b
 		var p1 = Vector2((a.x + 0.5) * x_diff, y_center + node_height_dist * a.y)
 		var p2 = Vector2((b.x + 0.5) * x_diff, y_center + node_height_dist * b.y)
-		draw_line(p1, p2, TERRAIN_COLOR[edge.terrain], 2)
+		#draw_line(p1, p2, TERRAIN_COLOR[edge.terrain], 2)
+		var color = Color.RED if a in path and b in path else Color.DIM_GRAY
+		draw_line(p1, p2, color, 2)
+
+	if not dirty: return
+	dirty = false
+	
+	for c in get_children():
+		c.queue_free()
 
 	for x in range(depth):
 		var points = nodes.filter(func(p): return p.x == x)
 
 		for i in range(points.size()):
 			var n = points[i]
-			var p = Vector2((n.x + 0.5) * x_diff, y_center + node_height_dist * n.y)
-			var tex = LOCATION_TEXTURE[Location.NONE] as Texture2D
-			draw_texture(tex, p - tex.get_size() / 2.0)
-	
+			var node = point_scene.instantiate() as Control
+			var connections = edges.filter(func(e): return e.b == n)
+			
+			node.position = Vector2((n.x - depth/2.0 + 0.5) * x_diff, node_height_dist * n.y + y_offset) - node.size / 2
+			node.gui_input.connect(func(ev: InputEvent):
+				if ev.is_action_pressed("main_action"):
+					var last_path = path[path.size() - 1] if not path.is_empty() else null
+					var sources = connections.filter(func(e): return e.a == last_path)
+					if last_path == n:
+						if path.is_empty():
+							for c in get_children():
+								c.undim()
+						
+						path.erase(n)
+						node.unmark()
+						marked.emit()
+					elif not sources.is_empty() or (last_path == null and n.x == 0):
+						if path.is_empty():
+							for c in get_children():
+								c.dim()
+						
+						path.append(n)
+						node.mark()
+						marked.emit()
+					queue_redraw()
+			)
+			add_child(node)
+
+func has_finished_marking():
+	return not path.filter(func(x): return x.x == depth - 1).is_empty()
 
 func generate_nodes():
 	nodes = []

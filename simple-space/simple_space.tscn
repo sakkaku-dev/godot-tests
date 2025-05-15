@@ -1,7 +1,9 @@
-[gd_scene load_steps=90 format=3 uid="uid://dxlxvuojw7qyp"]
+[gd_scene load_steps=95 format=3 uid="uid://dxlxvuojw7qyp"]
 
 [ext_resource type="Script" uid="uid://burqfb5aktfxg" path="res://simple-space/simple_space.gd" id="1_yjs1i"]
-[ext_resource type="Script" uid="uid://bihuvqihwn4rm" path="res://simple-space/map.gd" id="6_74ai7"]
+[ext_resource type="Script" uid="uid://bihuvqihwn4rm" path="res://simple-space/expedition_map.gd" id="6_74ai7"]
+[ext_resource type="PackedScene" uid="uid://cmegg4m58wlnn" path="res://simple-space/map_point.tscn" id="6_c7r8b"]
+[ext_resource type="Texture2D" uid="uid://b7o3jv0ipogn2" path="res://assets/Free Paper UI System/1 Sprites/Content/5 Holders/19.png" id="7_inc6t"]
 [ext_resource type="Script" uid="uid://c5673vdf653lo" path="res://simple-space/player_items.gd" id="8_c7r8b"]
 [ext_resource type="Texture2D" uid="uid://dluwsa301tccl" path="res://assets/Free Paper UI System/1 Sprites/Content/3 Progress Bars/9.png" id="9_3h7mc"]
 [ext_resource type="Texture2D" uid="uid://b50068lgmb63s" path="res://assets/Free Paper UI System/1 Sprites/Book Desk/5.png" id="10_pv0ah"]
@@ -16,10 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://geo76s3lbf0v" path="res://assets/Free Paper UI System/1 Sprites/Content/5 Holders/4.png" id="14_vxner"]
 [ext_resource type="Texture2D" uid="uid://dyje7e4rcj8pq" path="res://assets/Free Paper UI System/1 Sprites/Content/2 Icons/16.png" id="15_3h7mc"]
 [ext_resource type="Texture2D" uid="uid://cc60fnwmnbtts" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/1.png" id="15_5fef7"]
-[ext_resource type="Texture2D" uid="uid://caqefvfjq25j4" path="res://assets/Free Paper UI System/1 Sprites/Content/5 Holders/5.png" id="15_qstpy"]
 [ext_resource type="Texture2D" uid="uid://b20w65lqsv6sb" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/2.png" id="16_orjgs"]
+[ext_resource type="Texture2D" uid="uid://lu5b1fqrh1e5" path="res://assets/Free Paper UI System/1 Sprites/Content/6 High lighter/7.png" id="17_3dtgp"]
+[ext_resource type="Texture2D" uid="uid://dwvvcinxpmoxh" path="res://assets/Free Paper UI System/1 Sprites/Content/1 Items/7.png" id="17_c7r8b"]
 [ext_resource type="Texture2D" uid="uid://cr7w2tonf4xi6" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/3.png" id="17_newrc"]
-[ext_resource type="Texture2D" uid="uid://bmlo1c62b1de2" path="res://assets/Free Paper UI System/1 Sprites/Content/1 Items/1.png" id="17_vxner"]
 [ext_resource type="Texture2D" uid="uid://bfyc8dkw5tnkq" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/4.png" id="18_dml8r"]
 [ext_resource type="Texture2D" uid="uid://c800jwb5wny1b" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/5.png" id="19_nviv0"]
 [ext_resource type="Texture2D" uid="uid://dvoo6je0mosu7" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/1 Dawn/6.png" id="20_fffo4"]
@@ -77,14 +79,17 @@
 [ext_resource type="Texture2D" uid="uid://c5o2j3ej3o3yr" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/7 Raining/8.png" id="72_c7r8b"]
 [ext_resource type="Texture2D" uid="uid://jld38f6declr" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/7 Raining/9.png" id="73_3dtgp"]
 [ext_resource type="Texture2D" uid="uid://gavrwhq8jaxk" path="res://assets/Free Paper UI System/1 Sprites/Day & Night Cycle/Items Holder/2/7 Raining/10.png" id="74_wy21t"]
-[ext_resource type="Script" uid="uid://dtyty2f1m8goa" path="res://simple-space/items_shop.gd" id="80_n106t"]
+[ext_resource type="Script" uid="uid://dtyty2f1m8goa" path="res://simple-space/expedition_shop.gd" id="80_n106t"]
 [ext_resource type="PackedScene" uid="uid://cmfu4mrj5vp6e" path="res://simple-space/item_slot.tscn" id="81_3dtgp"]
-[ext_resource type="Texture2D" uid="uid://ddq4dod5jk3ox" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/11.png" id="81_edv3q"]
-[ext_resource type="Texture2D" uid="uid://cguh00k3nw8fv" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/14.png" id="82_rnhim"]
 [ext_resource type="Script" uid="uid://t71tpa68gmxt" path="res://simple-space/items/item_resource.gd" id="82_wy21t"]
 [ext_resource type="Resource" uid="uid://862ixapm0ysa" path="res://simple-space/items/armor.tres" id="83_7ccvs"]
 [ext_resource type="Resource" uid="uid://c1mxulkiflieq" path="res://simple-space/items/food.tres" id="84_47tmk"]
+[ext_resource type="PackedScene" uid="uid://bfrusmf0pe7d7" path="res://simple-space/in_paper_button.tscn" id="84_inc6t"]
 [ext_resource type="Resource" uid="uid://mnieamv645am" path="res://simple-space/items/wood.tres" id="85_wy21t"]
+[ext_resource type="Resource" uid="uid://cdqbtwj4j7uwp" path="res://simple-space/items/boots.tres" id="87_47tmk"]
+[ext_resource type="Resource" uid="uid://b5qss52qwb1le" path="res://simple-space/items/gloves.tres" id="88_5iye7"]
+[ext_resource type="Resource" uid="uid://e4ahcnqa38gl" path="res://simple-space/items/herbs.tres" id="89_hevbk"]
+[ext_resource type="Resource" uid="uid://dm16kemh7glbn" path="res://simple-space/items/sweets.tres" id="90_5iye7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_uag45"]
 animations = [{
@@ -369,7 +374,7 @@ tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("CanvasLayer/Control/Shop:rotation")
-tracks/1/interp = 3
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
@@ -393,7 +398,7 @@ tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/path = NodePath("CanvasLayer/Control/Map:rotation")
-tracks/3/interp = 3
+tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
@@ -422,11 +427,16 @@ _data = {
 &"shop": SubResource("Animation_c7r8b")
 }
 
-[node name="SimpleSpace" type="Node2D" node_paths=PackedStringArray("items", "shop", "shop_button")]
+[node name="SimpleSpace" type="Node2D" node_paths=PackedStringArray("items", "shop", "map", "day_label", "intro_label", "start_button", "shop_button", "weather_button")]
 script = ExtResource("1_yjs1i")
 items = NodePath("CanvasLayer/Control/Map/Items")
 shop = NodePath("CanvasLayer/Control/Shop")
+map = NodePath("CanvasLayer/Control/Map/Control")
+day_label = NodePath("CanvasLayer/Control/Map/Items/HBoxContainer/Weather/Day/Label")
+intro_label = NodePath("CanvasLayer/Control/Map/Control2/VBoxContainer3/Intro")
+start_button = NodePath("CanvasLayer/Control/Map/Control2/VBoxContainer3/Start")
 shop_button = NodePath("CanvasLayer/Control/Map/Control2/VBoxContainer/Shop")
+weather_button = NodePath("CanvasLayer/Control/Map/Control2/VBoxContainer/Weather")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -485,8 +495,7 @@ offset_bottom = -43.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_74ai7")
-depth = 5
-max_height = 3
+point_scene = ExtResource("6_c7r8b")
 
 [node name="Control2" type="Control" parent="CanvasLayer/Control/Map"]
 layout_mode = 1
@@ -501,9 +510,9 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Map/Control2"]
 layout_mode = 0
 offset_left = 167.0
-offset_top = -138.0
+offset_top = -132.0
 offset_right = 250.0
-offset_bottom = -67.0
+offset_bottom = -60.0
 theme_override_constants/separation = 0
 
 [node name="Shop" parent="CanvasLayer/Control/Map/Control2/VBoxContainer" instance=ExtResource("14_c7r8b")]
@@ -520,7 +529,54 @@ size_flags_vertical = 3
 [node name="Label" parent="CanvasLayer/Control/Map/Control2/VBoxContainer/Weather" index="1"]
 text = "Weather"
 
-[node name="Items" type="TextureRect" parent="CanvasLayer/Control/Map" node_paths=PackedStringArray("day_weather")]
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/Control/Map/Control2"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.5
+offset_top = -131.0
+offset_right = 71.5
+offset_bottom = -55.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = -14
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Expedition"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("7_inc6t")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Intro" type="Label" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "Plan your roadtrip by clicking
+the first point on the left"
+horizontal_alignment = 1
+
+[node name="Start" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3" instance=ExtResource("84_inc6t")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" parent="CanvasLayer/Control/Map/Control2/VBoxContainer3/Start" index="0"]
+text = "Start Trip"
+
+[node name="Items" type="TextureRect" parent="CanvasLayer/Control/Map" node_paths=PackedStringArray("day_weather", "money_label", "items_container")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -536,6 +592,8 @@ expand_mode = 5
 stretch_mode = 5
 script = ExtResource("8_c7r8b")
 day_weather = NodePath("HBoxContainer/Weather/Day/Control/AnimatedSprite2D")
+money_label = NodePath("HBoxContainer/Player/HBoxContainer/VBoxContainer2/Money/Label")
+items_container = NodePath("HBoxContainer/Items/HBoxContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items"]
 layout_mode = 1
@@ -558,7 +616,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 3
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer"]
 custom_minimum_size = Vector2(36, 0)
@@ -584,9 +642,11 @@ stretch_mode = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -612,16 +672,42 @@ texture_under = ExtResource("9_3h7mc")
 texture_over = ExtResource("9_3h7mc")
 texture_progress = ExtResource("11_vxner")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2"]
+[node name="Health" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Health"]
+layout_mode = 2
+texture = ExtResource("17_3dtgp")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Health"]
+layout_mode = 2
+text = "5"
+
+[node name="Hunger" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Hunger"]
+layout_mode = 2
+texture = ExtResource("17_c7r8b")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Hunger"]
+layout_mode = 2
+text = "20"
+
+[node name="Money" type="HBoxContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Money"]
 layout_mode = 2
 texture = ExtResource("12_uag45")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Player/HBoxContainer/VBoxContainer2/Money"]
 layout_mode = 2
 text = "100$"
 
@@ -638,141 +724,27 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="ItemSlot" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer" instance=ExtResource("81_3dtgp")]
 layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
+read_only = true
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect/CenterContainer"]
+[node name="ItemSlot2" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer" instance=ExtResource("81_3dtgp")]
 layout_mode = 2
-texture = ExtResource("17_vxner")
+read_only = true
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="ItemSlot3" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer" instance=ExtResource("81_3dtgp")]
 layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
+read_only = true
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect2/CenterContainer"]
+[node name="ItemSlot4" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer" instance=ExtResource("81_3dtgp")]
 layout_mode = 2
-texture = ExtResource("17_vxner")
+read_only = true
 
-[node name="TextureRect3" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="ItemSlot5" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer" instance=ExtResource("81_3dtgp")]
 layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect3/CenterContainer"]
-layout_mode = 2
-texture = ExtResource("17_vxner")
-
-[node name="TextureRect4" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect4/CenterContainer"]
-layout_mode = 2
-texture = ExtResource("17_vxner")
-
-[node name="TextureRect5" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect5"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect5/CenterContainer"]
-layout_mode = 2
-texture = ExtResource("17_vxner")
-
-[node name="TextureRect6" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect6"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect6/CenterContainer"]
-layout_mode = 2
-texture = ExtResource("17_vxner")
-
-[node name="TextureRect7" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-texture = ExtResource("15_qstpy")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect7"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Map/Items/HBoxContainer/Items/HBoxContainer/TextureRect7/CenterContainer"]
-layout_mode = 2
-texture = ExtResource("17_vxner")
+read_only = true
 
 [node name="Weather" type="MarginContainer" parent="CanvasLayer/Control/Map/Items/HBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_top = 3
 
@@ -816,11 +788,11 @@ stretch_mode = 5
 script = ExtResource("80_n106t")
 items_container = NodePath("Control/VBoxContainer/GridContainer")
 item_slot = ExtResource("81_3dtgp")
-items = Array[ExtResource("82_wy21t")]([ExtResource("83_7ccvs"), ExtResource("84_47tmk"), ExtResource("85_wy21t")])
+items = Array[ExtResource("82_wy21t")]([ExtResource("83_7ccvs"), ExtResource("84_47tmk"), ExtResource("85_wy21t"), ExtResource("87_47tmk"), ExtResource("88_5iye7"), ExtResource("89_hevbk"), ExtResource("90_5iye7")])
 item_desc_label = NodePath("Control/VBoxContainer/HBoxContainer/Desc")
 money_label = NodePath("Control/VBoxContainer/HBoxContainer2/Money")
 total_label = NodePath("Control/VBoxContainer/HBoxContainer2/Total")
-back_btn = NodePath("Control/Button")
+back_btn = NodePath("Control/Back")
 buy_btn = NodePath("Control/VBoxContainer/HBoxContainer2/HBoxContainer/Buy")
 
 [node name="Control" type="Control" parent="CanvasLayer/Control/Shop"]
@@ -841,7 +813,7 @@ theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/Shop/Control/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 32
 text = "Shop"
 horizontal_alignment = 1
 
@@ -907,24 +879,8 @@ layout_mode = 2
 size_flags_horizontal = 6
 theme_override_constants/separation = 10
 
-[node name="Buy" type="TextureButton" parent="CanvasLayer/Control/Shop/Control/VBoxContainer/HBoxContainer2/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
+[node name="Buy" parent="CanvasLayer/Control/Shop/Control/VBoxContainer/HBoxContainer2/HBoxContainer" instance=ExtResource("84_inc6t")]
 layout_mode = 2
-size_flags_vertical = 4
-texture_normal = ExtResource("81_edv3q")
-texture_pressed = ExtResource("82_rnhim")
-stretch_mode = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Shop/Control/VBoxContainer/HBoxContainer2/HBoxContainer/Buy"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "BUY"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Total" type="Label" parent="CanvasLayer/Control/Shop/Control/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -932,7 +888,7 @@ text = "Total
 0$"
 horizontal_alignment = 1
 
-[node name="Button" parent="CanvasLayer/Control/Shop/Control" instance=ExtResource("14_c7r8b")]
+[node name="Back" parent="CanvasLayer/Control/Shop/Control" instance=ExtResource("14_c7r8b")]
 layout_mode = 1
 offset_left = 406.0
 offset_top = 58.0
@@ -940,7 +896,7 @@ offset_right = -140.0
 offset_bottom = -266.0
 size_flags_vertical = 3
 
-[node name="Label" parent="CanvasLayer/Control/Shop/Control/Button" index="1"]
+[node name="Label" parent="CanvasLayer/Control/Shop/Control/Back" index="1"]
 text = "Back"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -950,4 +906,5 @@ libraries = {
 
 [editable path="CanvasLayer/Control/Map/Control2/VBoxContainer/Shop"]
 [editable path="CanvasLayer/Control/Map/Control2/VBoxContainer/Weather"]
-[editable path="CanvasLayer/Control/Shop/Control/Button"]
+[editable path="CanvasLayer/Control/Map/Control2/VBoxContainer3/Start"]
+[editable path="CanvasLayer/Control/Shop/Control/Back"]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfrusmf0pe7d7"]
+
+[ext_resource type="Theme" uid="uid://cteolo04eub3l" path="res://simple-space/simple_space.tres" id="1_4b2k1"]
+[ext_resource type="Texture2D" uid="uid://ddq4dod5jk3ox" path="res://assets/Free Paper UI System/1 Sprites/Content/4 Buttons/11.png" id="1_7ca5e"]
+[ext_resource type="Texture2D" uid="uid://cgcvptvr38rm8" path="res://assets/Free Paper UI System/1 Sprites/Content/5 Holders/20.png" id="3_di56j"]
+[ext_resource type="Script" uid="uid://bas1ylre4hivt" path="res://simple-space/in_paper_button.gd" id="3_eivbq"]
+
+[node name="InPaperButton" type="TextureButton"]
+custom_minimum_size = Vector2(50, 0)
+size_flags_vertical = 4
+theme = ExtResource("1_4b2k1")
+texture_normal = ExtResource("1_7ca5e")
+stretch_mode = 1
+script = ExtResource("3_eivbq")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "BUY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Highlight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = 10.0
+offset_right = 15.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_di56j")
