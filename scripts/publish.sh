@@ -11,7 +11,7 @@ if [[ -z "$VERSION" ]]; then
     exit 1
 fi
 
-CHANNELS=("linux" "win", "web")
+CHANNELS=("linux" "win" "web" "macOS")
 
 build_channels() {
     for CHANNEL in "${CHANNELS[@]}"; do
@@ -47,7 +47,7 @@ itch_release() {
     done
 }
 
-VERSION_REGEX='^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$'
+VERSION_REGEX='^v[0-9]+\.[0-9]+'
 if [[ $VERSION =~ $VERSION_REGEX ]]; then
     build_channels
     itch_release
