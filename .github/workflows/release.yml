@@ -1,62 +1,67 @@
-# Release workflow for game james
-name: Game Jam Releases
+name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      release-github:
-        description: 'Release for github'
-        type: boolean
-        default: false
-      release-itch:
-        description: 'Release for itch.io'
-        type: boolean
-        default: false
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
-  build-info:
+  release:
     runs-on: ubuntu-latest
-    outputs:
-      channels: ${{ steps.build-data.outputs.channels }}
-      release-itch: ${{ steps.build-data.outputs.release-itch }}
-      release-github: ${{ steps.build-data.outputs.release-github }}
+    container:
+      image: barichello/godot-ci:4.4
+    strategy:
+      matrix:
+        channel: [web, win, linux]
+    env:
+      GAME: the-roadtrip
+      CHANNEL: ${{matrix.channel}}
+      GODOT_VERSION: 4.4
     steps:
-      - id: build-data
-        run: |
-          CHANNELS='"windows", "linux", "web"'
+      - uses: actions/checkout@v4
 
-          if [ $RELEASE_ITCH = false ] && [ $RELEASE_GITHUB = false ]; then
-            CHANNELS=''
-          fi
-
-          echo "channels=[$CHANNELS]" >> $GITHUB_OUTPUT
+      - name: Publish Itch
+        if: env.BUTLER_API_KEY && env.USER && env.GAME && !contains(github.ref, '-rc') && env.CHANNEL == 'web'
+        shell: bash
         env:
-          REF: ${{ github.ref_name }}
-          RELEASE_ITCH: ${{ inputs.release-itch }}
-          RELEASE_GITHUB: ${{ inputs.release-github }}
-  
-  build-godot:
-    uses: kuma-gee/actions/.github/workflows/godot-build.yml@main
-    needs: build-info
-    if: ${{ needs.build-info.outputs.channels != '[]' }}
-    with:
-      channels: ${{ needs.build-info.outputs.channels }}
-      godot-version: 4.4
-      use-password: false
-    secrets: inherit
+          BUTLER_API_KEY: ${{secrets.BUTLER_API_KEY}}
+          USER: ${{secrets.ITCHIO_USER}}
+        run: butler push build/$CHANNEL $USER/$GAME:$CHANNEL --userversion $GITHUB_REF_NAME
 
-  release-itch:
-    uses: kuma-gee/actions/.github/workflows/itch-release.yml@main
-    needs: build-godot
-    if: ${{ inputs.release-itch }}
-    with:
-      channels: ${{ needs.build-info.outputs.channels }}
-      game: ${{ needs.build-godot.outputs.game }}
-      itch-user: kuma-gee
-    secrets:
-      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-  
-  release-github:
-    uses: kuma-gee/actions/.github/workflows/github-release.yml@main
-    needs: build-godot
-    if: ${{ inputs.release-github }}
+      - name: Package builds
+        if: env.CHANNEL != 'mac'
+        run: |
+          cd build
+          mv $CHANNEL $GAME && zip -r $GAME-$CHANNEL.zip $GAME
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.channel }}
+          path: build/**/*.zip
+
+  github-release:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - run: echo "prev_tag=$(git tag | sort --version-sort | tail -n2 | head -1)" >> $GITHUB_ENV
+      - run: npm ci && npm run changelog -- -t ${{env.prev_tag}}..${{env.latest_tag}}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: release-*
+          merge-multiple: true
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: CHANGELOG.md
+          prerelease: false
+          files: |
+            **/*.zip
+            **/*.aab
