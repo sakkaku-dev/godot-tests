@@ -162,6 +162,9 @@ func get_current_point():
 
 func generate_nodes():
 	nodes = []
+	node_money = {}
+	node_terrains = {}
+	
 	for i in range(depth):
 		# var height = randi_range(max(1, prev_height - 1), min(prev_height + 1, max_height))
 		var height = min(i, max_height - 1)
@@ -176,8 +179,17 @@ func generate_nodes():
 			var is_first = i == 0
 			node_terrains[p] = random_terrain() if not is_first else null
 
-			if randf() < money_chance and not is_first:
-				node_money[p] = int(randi_range(min_money, max_money) * inflation) * 10
+			#if randf() < money_chance and not is_first:
+				#node_money[p] = 
+	
+	var money_nodes = []
+	var count = int(ceil(nodes.size() * money_chance))
+	for i in count:
+		var available = nodes.filter(func(x): return not x in node_money and x.x != 0)
+		if available.is_empty(): break
+		
+		var p = available.pick_random()
+		node_money[p] = int(randi_range(min_money, max_money) * inflation) * 10
 
 func connect_nodes():
 	edges = []

@@ -116,12 +116,11 @@ func _ready() -> void:
 		shop.open_weather(day_time, func(x): return get_weather(x))
 	)
 	start_button.pressed.connect(func():
-		if map.has_reached_end():
-			if items.has_died():
-				get_tree().reload_current_scene()
-			else:
-				map.stop_game()
-				prepare_run()
+		if items.has_died():
+			get_tree().reload_current_scene()
+		elif map.has_reached_end():
+			map.stop_game()
+			prepare_run()
 		else:
 			start_run()
 	)
@@ -169,6 +168,7 @@ func prepare_run():
 	_update_map_controls()
 	button_container.show()
 	items.finished_trip()
+	shop.add_items()
 	animation_player.play("start_sound")
 
 func start_run():

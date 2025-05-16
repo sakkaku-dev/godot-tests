@@ -654,7 +654,7 @@ node_height_dist = 30.0
 point_scene = ExtResource("6_ia8x5")
 money_chance = 0.4
 min_money = 5
-max_money = 10
+max_money = 9
 
 [node name="Control2" type="Control" parent="CanvasLayer/Control/Map"]
 layout_mode = 1
@@ -1168,7 +1168,7 @@ stream = ExtResource("98_ttnl1")
 volume_db = -10.0
 
 [node name="ProcessTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 2.0
 one_shot = true
 
 [editable path="CanvasLayer/Control/Map/Control2/Buttons/Shop"]

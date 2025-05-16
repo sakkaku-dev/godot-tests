@@ -79,7 +79,6 @@ func _current_unique_items_count():
 
 func open_shop(inf: float):
 	inflation = inf
-	add_items()
 	update_slots()
 	_show_view(shop_view)
 

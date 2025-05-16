@@ -82,23 +82,26 @@ func take_step(weather: Expedition.Weather, terrain: ExpeditionMap.Terrain):
 	var injury = injury_chance * (1 - injury_decrease)
 
 	var attack_block_chance = count_item(ItemResource.Type.ARMOR) / 2.0
-	var animal_attack = animal_attack_chance * (1 - attack_block_chance)
 
 	var cold_decrease = count_item(ItemResource.Type.CLOTHES) / 2.0
 	var cold = cold_chance * (1 - cold_decrease)
 
 	if terrain == ExpeditionMap.Terrain.JUNGLE:
-		if randf() < animal_attack:
-			health -= 1
-			event.emit("You were attacked by a wild animal")
+		if randf() < animal_attack_chance:
+			if randf() < attack_block_chance:
+				event.emit("The armor protected you from a wild animal")
+			else:
+				health -= 1
+				event.emit("You were attacked by a wild animal")
 		if randf() < injury:
 			health -= 1
 			event.emit("You were injuried by thorns")
 	elif terrain == ExpeditionMap.Terrain.MOUNTAIN:
-		var multi = 0.5 if weather in WET_WEATHER else 1.0
-		if randf() * multi < cold:
-			health -= 1
-			event.emit("You are freezing and got frostbite")
+		if weather != Expedition.Weather.SCORCHING:
+			var multi = 0.5 if weather in WET_WEATHER else 1.0
+			if randf() * multi < cold:
+				health -= 1
+				event.emit("You are freezing and got frostbite")
 		if randf() < injury:
 			health -= 1
 			event.emit("You were injuried by rocks")
