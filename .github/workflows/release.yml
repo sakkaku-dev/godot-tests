@@ -1,0 +1,62 @@
+# Release workflow for game james
+name: Game Jam Releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-github:
+        description: 'Release for github'
+        type: boolean
+        default: false
+      release-itch:
+        description: 'Release for itch.io'
+        type: boolean
+        default: false
+
+jobs:
+  build-info:
+    runs-on: ubuntu-latest
+    outputs:
+      channels: ${{ steps.build-data.outputs.channels }}
+      release-itch: ${{ steps.build-data.outputs.release-itch }}
+      release-github: ${{ steps.build-data.outputs.release-github }}
+    steps:
+      - id: build-data
+        run: |
+          CHANNELS='"windows", "linux", "web"'
+
+          if [ $RELEASE_ITCH = false ] && [ $RELEASE_GITHUB = false ]; then
+            CHANNELS=''
+          fi
+
+          echo "channels=[$CHANNELS]" >> $GITHUB_OUTPUT
+        env:
+          REF: ${{ github.ref_name }}
+          RELEASE_ITCH: ${{ inputs.release-itch }}
+          RELEASE_GITHUB: ${{ inputs.release-github }}
+  
+  build-godot:
+    uses: kuma-gee/actions/.github/workflows/godot-build.yml@main
+    needs: build-info
+    if: ${{ needs.build-info.outputs.channels != '[]' }}
+    with:
+      channels: ${{ needs.build-info.outputs.channels }}
+      godot-version: 4.4
+      use-password: false
+    secrets: inherit
+
+  release-itch:
+    uses: kuma-gee/actions/.github/workflows/itch-release.yml@main
+    needs: build-godot
+    if: ${{ inputs.release-itch }}
+    with:
+      channels: ${{ needs.build-info.outputs.channels }}
+      game: ${{ needs.build-godot.outputs.game }}
+      itch-user: kuma-gee
+    secrets:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  
+  release-github:
+    uses: kuma-gee/actions/.github/workflows/github-release.yml@main
+    needs: build-godot
+    if: ${{ inputs.release-github }}
