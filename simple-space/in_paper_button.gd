@@ -1,6 +1,12 @@
 extends TextureButton
 
 @onready var highlight: TextureRect = $Highlight
+@onready var label: Label = $Label
+
+var text = "":
+	set(v):
+		text = v
+		label.text = v
 
 func _ready() -> void:
 	highlight.hide()

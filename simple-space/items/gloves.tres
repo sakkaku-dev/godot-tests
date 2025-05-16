@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_wfrqc")
 image = ExtResource("1_lqjmc")
-name = "Gloves"
-description = "Decreases hand injuries, especially in dense forests"
-price = 30
+type = 6
+description = "Decreases injuries on hard terrains"
+price = 70
 metadata/_custom_type_script = "uid://t71tpa68gmxt"

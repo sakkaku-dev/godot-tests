@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_3ygsy")
 image = ExtResource("1_586yy")
-name = "Sweets"
-description = "Decreases hunger slightly, but can be keep across trips"
-price = 10
+type = 2
+description = "Small food supply, but can be keep across trips"
+price = 20
 metadata/_custom_type_script = "uid://t71tpa68gmxt"

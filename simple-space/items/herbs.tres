@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_ydqjd")
 image = ExtResource("1_bw52e")
-name = "Herbs"
-description = "Treats light wounds"
-price = 20
+type = 7
+description = "Treat your wounds"
+price = 40
 metadata/_custom_type_script = "uid://t71tpa68gmxt"

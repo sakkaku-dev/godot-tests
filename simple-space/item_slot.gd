@@ -3,6 +3,7 @@ extends Control
 
 signal count_changed()
 
+@export var max_item_count = 99
 @export var highlight: Control
 @export var price_label: Label
 @export var count_label: Label
@@ -11,6 +12,7 @@ signal count_changed()
 
 @export var read_only := false
 
+var inflation := 1.0
 var disabled := false:
 	set(v):
 		disabled = v
@@ -26,20 +28,20 @@ var resource: ItemResource:
 
 var add_count := 0:
 	set(v):
-		add_count = clamp(v, 0, 99 - count)
+		add_count = clamp(v, 0, max_item_count - count)
 		add_count_label.text = "+%s" % add_count
 		add_count_label.visible = add_count > 0
 		count_changed.emit()
 
 var count := 0:
 	set(v):
-		count = clamp(v, 0, 99)
+		count = clamp(v, 0, max_item_count)
 		count_label.text = "%s" % count
 		count_label.visible = resource != null
 
 var price := 0:
 	set(v):
-		price = v
+		price = int(v * inflation)
 		price_label.text = "%s$" % price
 		price_label.visible = price > 0
 
@@ -48,18 +50,18 @@ func _ready() -> void:
 	reset()
 
 	if not read_only:
-		modulate = Color.LIGHT_GRAY
+		# modulate = Color.LIGHT_GRAY
 	
 		mouse_entered.connect(func(): grab_focus())
 		focus_entered.connect(func():
 			highlight.show()
-			if not disabled:
-				modulate = Color.WHITE
+			# if not disabled:
+			# 	modulate = Color.WHITE
 		)
 		focus_exited.connect(func():
 			highlight.hide()
-			if not disabled:
-				modulate = Color.LIGHT_GRAY
+			# if not disabled:
+			# 	modulate = Color.LIGHT_GRAY
 		)
 
 func _gui_input(event: InputEvent) -> void:
