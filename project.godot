@@ -48,6 +48,11 @@ folder_colors={
 [global_group]
 
 spawner=""
+entities=""
+
+[gui]
+
+common/snap_controls_to_pixels=false
 
 [input]
 
