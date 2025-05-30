@@ -50,7 +50,7 @@ func update_movement_rules():
 			sprite = $Brute
 		"Sneak":
 			# Fast and agile - can move up to 4 spaces in any direction
-			current_move_pattern = combine_patterns([get_orthogonal_pattern(3), get_diagonal_pattern(2)])
+			current_move_pattern = combine_patterns([get_orthogonal_pattern(2), get_diagonal_pattern(1)])
 			# Quick but weak attacks in adjacent tiles
 			current_attack_pattern = combine_patterns([get_orthogonal_pattern(1), get_diagonal_pattern(1)])
 			sprite = $Sneak

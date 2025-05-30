@@ -15,9 +15,11 @@ var blocked_cells := {}
 var selected_entity: GridEntity = null
 
 func setup_grid():
+	for e in entities.values():
+		e.queue_free()  # Clear any existing entities
 	entities = {}
 	blocked_cells = {}
-	selected_entity = null
+	reset_selected()
 
 	for x in grid_size.x:
 		for y in grid_size.y:
@@ -26,6 +28,11 @@ func setup_grid():
 	
 	# Mark some cells as blocked (optional)
 	# blocked_cells[Vector2i(3, 3)] = true
+
+func reset_selected(new_selected = null):
+	if selected_entity:
+		selected_entity.deselect()
+	selected_entity = new_selected
 
 func world_to_grid(world_pos: Vector2) -> Vector2i:
 	return local_to_map(world_pos)
@@ -133,8 +140,7 @@ func _unhandled_input(event):
 				var move_offset = grid_pos - current_pos
 				if move_offset in selected_entity.current_move_pattern and is_cell_free(grid_pos):
 					move_entity_to(selected_entity, grid_pos)
-					selected_entity.deselect()
-					selected_entity = null
+					reset_selected()
 					return
 			
 			# Handle attack if in attack state
@@ -142,8 +148,7 @@ func _unhandled_input(event):
 				var attack_offset = grid_pos - current_pos
 				if attack_offset in selected_entity.current_attack_pattern:
 					if execute_attack(selected_entity, grid_pos):
-						selected_entity.deselect()
-						selected_entity = null
+						reset_selected()
 						return
 			
 			# Handle parasite transfer if in parasite state
@@ -167,12 +172,10 @@ func _unhandled_input(event):
 					selected_entity.show_action_previews()
 				# If clicking on non-host entity or same entity, just deselect
 				else:
-					selected_entity.deselect()
-					selected_entity = null
+					reset_selected()
 			# If clicking elsewhere, just deselect
 			else:
-				selected_entity.deselect()
-				selected_entity = null
+				reset_selected()
 		
 		# If no entity is selected, try to select one
 		elif entities.has(grid_pos):

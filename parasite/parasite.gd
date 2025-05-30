@@ -2,16 +2,18 @@ extends Node
 class_name GameManager
 
 @export var world: World
+@export var gameover_screen: Control
+
 @export var entity_scenes: Dictionary = {
 	"Brute": preload("res://parasite/grid_entity.tscn"),
 	"Sneak": preload("res://parasite/grid_entity.tscn"),
 	"Weaver": preload("res://parasite/grid_entity.tscn")
 }
 
-@export var gameover_screen: Control
-
 enum TurnState { PLAYER_TURN, AI_TURN }
 var current_turn: TurnState = TurnState.PLAYER_TURN
+var current_round: int = 0
+var host_units: Array[String] = []  # Keeps track of unit types that are hosts
 
 # Counter relationships
 const COUNTERS = {
@@ -36,9 +38,100 @@ func _ready():
 
 func start_game():
 	gameover_screen.hide()
+	current_round = 0
+	host_units = ["Sneak"]  # Start with Sneak as the host
+	start_round()
+
+func start_round():
 	world.setup_grid()
-	spawn_initial_entities()
+	spawn_round_entities()
 	start_player_turn()
+	print("Round ", current_round + 1, " started!")
+
+func get_enemy_units_for_round() -> Array[String]:
+	var enemies: Array[String] = []
+	if current_round == 0:
+		enemies.append("Weaver")
+	elif current_round == 1:
+		enemies.append("Brute")
+	else:
+		# First, add counters for each host unit
+		for host_type in host_units:
+			enemies.append(COUNTERED_BY[host_type])
+		
+		# Then add some additional enemies based on round number and host count
+		var base_extra_enemies = 1  # Start with 1 extra enemy
+		var host_power_factor = 1 + (host_units.size() * 0.5)  # More hosts = more enemies
+		var round_factor = 0.5  # How much the round number affects enemy count
+		
+		var additional_enemies = roundi(base_extra_enemies * host_power_factor + (current_round - 2) * round_factor)
+		
+		# Add balanced mix of additional enemies
+		for i in range(additional_enemies):
+			var enemy_options = []
+			
+			# Check what types would be most threatening to current hosts
+			for host_type in host_units:
+				enemy_options.append(COUNTERED_BY[host_type])
+				# Also add units that the host counters (for variety)
+				enemy_options.append(COUNTERS[host_type])
+			
+			# Pick from the weighted options
+			enemies.append(enemy_options[randi() % enemy_options.size()])
+	
+	print("Round ", current_round + 1, " enemies: ", enemies)
+	return enemies
+
+func spawn_round_entities():
+	var bottom_row = world.grid_size.y - 2
+	var spacing = world.grid_size.x / (host_units.size() + 1)
+	
+	print("Round ", current_round + 1, " starting with hosts: ", host_units)
+	
+	# Spawn host units at the bottom
+	for i in range(host_units.size()):
+		var spawn_pos = Vector2i(
+			roundi((i + 1) * spacing),
+			bottom_row
+		)
+		var entity = spawn_entity(host_units[i], spawn_pos)
+		if entity:
+			entity.is_host = true
+	
+	# Spawn enemy units with better spacing
+	var enemy_units = get_enemy_units_for_round()
+	var enemy_spacing = world.grid_size.x / (enemy_units.size() + 1)
+	
+	for i in range(enemy_units.size()):
+		var base_pos = Vector2i(
+			roundi((i + 1) * enemy_spacing),  # Spread enemies horizontally
+			randi() % (world.grid_size.y - 4)  # Random height in top portion
+		)
+		
+		var spawn_pos = find_safe_spawn_position(base_pos)
+		spawn_entity(enemy_units[i], spawn_pos)
+
+func find_safe_spawn_position(base_pos: Vector2i) -> Vector2i:
+	var attempts = 0
+	var current_pos = base_pos
+	var max_attempts = 10
+	
+	while is_too_close_to_hosts(current_pos) and attempts < max_attempts:
+		current_pos = Vector2i(
+			base_pos.x + (randi() % 3 - 1),  # Small horizontal variation
+			randi() % (world.grid_size.y - 4)  # New random height
+		)
+		attempts += 1
+	
+	return current_pos
+
+func is_too_close_to_hosts(pos: Vector2i) -> bool:
+	var min_distance = 3  # Minimum distance from hosts
+	for entity in world.get_host_entities():
+		var host_pos = world.world_to_grid(entity.position)
+		if abs(pos.x - host_pos.x) + abs(pos.y - host_pos.y) < min_distance:
+			return true
+	return false
 
 func start_player_turn():
 	current_turn = TurnState.PLAYER_TURN
@@ -147,7 +240,18 @@ func _on_world_entity_attacked(entity: GridEntity):
 	if world.get_host_entities().is_empty():
 		gameover_screen.show()
 	elif world.get_ai_entities().is_empty():
-		start_game()
+		# Round completed
+		advance_round()
+
+func advance_round():
+	current_round += 1
+	# Update host_units array with current hosts
+	host_units.clear()
+	for entity in world.get_host_entities():
+		host_units.append(entity.unit_type)
+	
+	print("Round ", current_round, " completed! Hosts remaining: ", host_units)
+	start_round()
 
 func _on_all_hosts_acted():
 	if current_turn == TurnState.PLAYER_TURN:
@@ -156,17 +260,22 @@ func _on_all_hosts_acted():
 func spawn_initial_entities():
 	# Spawn positions (adjust these as needed)
 	var spawn_positions = {
-		"Brute": Vector2i(2, 2),
-		"Sneak": Vector2i(world.grid_size.x - 3, 2),
-		"Weaver": Vector2i(world.grid_size.x / 2, world.grid_size.y - 3)
+		"Brute": Vector2i(2, world.grid_size.y - 2),  # Host player always at the bottom
+		"Sneak": Vector2i(randi() % world.grid_size.x, randi() % (world.grid_size.y - 4)),
+		"Weaver": Vector2i(randi() % world.grid_size.x, randi() % (world.grid_size.y - 4))
 	}
 	
+	# Ensure AI entities are at least 2 tiles away from the host
 	for unit_type in entity_scenes:
 		if !spawn_positions.has(unit_type):
 			push_warning("No spawn position defined for: ", unit_type)
 			continue
 		
 		var spawn_pos = spawn_positions[unit_type]
+		if unit_type != "Brute":
+			while abs(spawn_pos.y - spawn_positions["Brute"].y) < 2:
+				spawn_pos = Vector2i(randi() % world.grid_size.x, randi() % (world.grid_size.y - 4))
+		
 		var entity = spawn_entity(unit_type, spawn_pos)
 
 		# Make the Brute the initial host (or whichever you prefer)
