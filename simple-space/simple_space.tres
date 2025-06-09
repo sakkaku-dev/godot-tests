@@ -1,8 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cteolo04eub3l"]
-
-[ext_resource type="FontFile" uid="uid://bnn0s81vkq3eh" path="res://assets/editundo.ttf" id="1_8pahs"]
-
-[resource]
-default_font = ExtResource("1_8pahs")
-default_font_size = 12
-Label/colors/font_color = Color(0.0588235, 0.537255, 0.352941, 1)

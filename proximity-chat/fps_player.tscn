@@ -375,7 +375,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(640, 360)
 render_target_update_mode = 0
 
 [node name="ViewportCamera" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("main_camera")]
