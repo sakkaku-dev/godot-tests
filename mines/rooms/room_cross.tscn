@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://bj71piltg45kt"]
-
-[node name="RoomCross" type="Node3D"]
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-use_collision = true
-size = Vector3(1, 0.1, 1)

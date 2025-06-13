@@ -37,14 +37,6 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")
 
-[file_customization]
-
-folder_colors={
-"res://physics_player/": "red",
-"res://proc-cave/": "red",
-"res://proximity-chat/": "red"
-}
-
 [global_group]
 
 spawner=""

@@ -43,8 +43,8 @@ func _get_simplified_device(raw_name: String) -> String:
 
 func get_vector(left: String, right: String, up: String, down: String):
 	return Vector2(
-		get_action_strength(left) - get_action_strength(right),
-		get_action_strength(up) - get_action_strength(down),
+		get_action_strength(right) - get_action_strength(left),
+		get_action_strength(down) - get_action_strength(up),
 	)
 
 func is_player_event(event: InputEvent) -> bool:

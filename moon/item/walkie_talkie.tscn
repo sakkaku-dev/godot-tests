@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://cxndmt0rsl0ca"]
-
-[node name="WalkieTalkie" type="Node3D"]
-
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(0.933687, 0.0586767, -0.353251, 0, 0.986484, 0.16386, 0.358091, -0.152994, 0.921067, 0, 0.180637, 0)
-layers = 524289
-size = Vector3(0.15, 0.3, 0.05)
