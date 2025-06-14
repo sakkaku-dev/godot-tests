@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlhmnfsgxeus6"]
+
+[ext_resource type="Texture2D" uid="uid://b4qq6yenrs3ci" path="res://assets/UI Pixel Adventure/Tiles/Small tiles/Thick outline/tile_0011.png" id="1_ehrok"]
+[ext_resource type="Script" uid="uid://bw6eliri1fe31" path="res://farming/item_slot.gd" id="1_kol4a"]
+[ext_resource type="Texture2D" uid="uid://cqg3p4wmn3aft" path="res://assets/Sprout/Objects/Egg_item.png" id="2_kol4a"]
+[ext_resource type="Texture2D" uid="uid://cudppeymsrhw3" path="res://assets/UI Pixel Adventure/Tiles/Small tiles/Thick outline/tile_0069.png" id="3_mimov"]
+
+[node name="ItemSlots" type="TextureButton" node_paths=PackedStringArray("sprite")]
+custom_minimum_size = Vector2(32, 32)
+texture_normal = ExtResource("1_ehrok")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_kol4a")
+sprite = NodePath("CenterContainer/Control/Sprite2D")
+
+[node name="Highlight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_mimov")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/Control"]
+texture = ExtResource("2_kol4a")

@@ -5,13 +5,15 @@ signal disabled(disable)
 signal just_pressed(ev: InputEvent)
 signal just_released(ev: InputEvent)
 
-var input_types = InputMap.get_actions()
-
+var input_types = []
 var inputs = []
 var action_strength = {}
 var _disabled = false : set = _set_disabled
 var disabled_exception = []
 
+func _ready() -> void:
+	await get_tree().create_timer(1.0).timeout
+	input_types = InputMap.get_actions()
 
 func _set_disabled(d):
 	_disabled = d
