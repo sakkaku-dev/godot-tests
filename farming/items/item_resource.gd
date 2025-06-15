@@ -6,6 +6,8 @@ enum Type {
 	AXE,
 	SEED,
 	WATER,
+	
+	WEED,
 }
 
 @export var type := Type.HOE

@@ -11,4 +11,7 @@ region = Rect2(0, 0, 16, 16)
 script = ExtResource("1_3opsj")
 type = 2
 texture = SubResource("AtlasTexture_k4xi1")
+tool = false
+max_stack = 99
+count = 1
 metadata/_custom_type_script = "uid://cxmvm82v8i7as"

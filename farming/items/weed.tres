@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=4 format=3 uid="uid://b6k7emgocntk2"]
+
+[ext_resource type="Script" uid="uid://cxmvm82v8i7as" path="res://farming/items/item_resource.gd" id="1_56wwn"]
+[ext_resource type="Texture2D" uid="uid://4hp8wuo1jswp" path="res://assets/Sprout/Objects/Basic_Plants.png" id="2_hjjfl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4xi1"]
+atlas = ExtResource("2_hjjfl")
+region = Rect2(80, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_56wwn")
+type = 4
+texture = SubResource("AtlasTexture_k4xi1")
+tool = false
+max_stack = 99
+count = 1
+metadata/_custom_type_script = "uid://cxmvm82v8i7as"

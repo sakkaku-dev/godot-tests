@@ -7,8 +7,10 @@ enum Seed {
 	WEED,
 }
 
+@export var seed_items: Dictionary[Seed, ItemResource] = {}
+
 @export var seed_source := 2
-@export var seed_final_stage = 4
+@export var seed_final_stage = 3
 @export var drop_scene: PackedScene
 
 @onready var water: TileMapLayer = $Water
@@ -22,7 +24,7 @@ var plants = {}
 
 func _ready() -> void:
 	seed_changed.connect(func(coord: Vector2i, data: Dictionary):
-		if data == null:
+		if data.is_empty():
 			farm.set_cell(coord, -1)
 		else:
 			farm.set_cell(coord, seed_source, Vector2i(data.stage + 1, data.type))
@@ -33,11 +35,13 @@ func do_process():
 	for p in plants:
 		var plant = plants[p]
 		
-		if plant.stage > seed_final_stage:
-			plant.ready = true
+		if plant.stage >= seed_final_stage:
 			continue
 		
 		plant.stage += 1
+		if plant.stage >= seed_final_stage:
+			plant.ready = true
+		
 		seed_changed.emit(p, plant)
 
 func get_current_mouse_position():
@@ -78,10 +82,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("action"):
 		var coord = get_mouse_coord()
 		if coord in plants and plants[coord].ready:
+			var plant = plants[coord]
+			var type = plant.type
 			plants.erase(coord)
-			seed_changed.emit(coord, null)
+			seed_changed.emit(coord, {})
 			
 			var drop = drop_scene.instantiate()
-			drop.item = null # TODO
+			drop.item = seed_items[type].duplicate()
 			drop.position = water.map_to_local(coord)
 			get_tree().current_scene.add_child(drop)

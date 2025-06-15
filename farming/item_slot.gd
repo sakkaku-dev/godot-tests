@@ -28,6 +28,12 @@ var active := false:
 func _ready() -> void:
 	self.item = item
 	self.active = false
+	
+	mouse_entered.connect(func(): highlight.show())
+	mouse_exited.connect(func():
+		if not active:
+			highlight.hide()
+	)
 
 func is_free():
 	return item == null

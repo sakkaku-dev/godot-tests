@@ -27,7 +27,8 @@ func _ready() -> void:
 	
 	pickup_area.area_entered.connect(func(area):
 		if area is DropItem:
-			inventory.add_item(area.item)
+			if inventory.add_item(area.item):
+				area.queue_free()
 	)
 
 func _physics_process(delta: float) -> void:
@@ -37,7 +38,9 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_placing:
-		if event.is_action_pressed("action"):
+		if event.is_action_pressed("ui_cancel"):
+			is_placing = null
+		elif event.is_action_pressed("action"):
 			placeholder.do_action()
 		elif event.is_action_pressed("secondary"):
 			placeholder.do_secondary()
