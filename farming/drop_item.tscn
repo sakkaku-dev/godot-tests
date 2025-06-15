@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnh8ucvd5ob88"]
+
+[ext_resource type="Script" uid="uid://r7cieymot2nx" path="res://farming/drop_item.gd" id="1_4jesi"]
+[ext_resource type="Texture2D" uid="uid://cqg3p4wmn3aft" path="res://assets/Sprout/Objects/Egg_item.png" id="2_qyo3c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rd23b"]
+
+[node name="DropItem" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_4jesi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qyo3c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rd23b")

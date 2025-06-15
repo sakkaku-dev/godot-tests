@@ -1,11 +1,13 @@
 class_name Farmer
 extends CharacterBody2D
 
-@export var speed: float = 80.0  # Speed of the player
+@export var speed: float = 100.0
 @export var placeholder: Placeholder
 @export var items_slots: Control
 
 @onready var player_input: PlayerInput = $PlayerInput
+@onready var pickup_area: Area2D = $PickupArea
+@onready var inventory: Inventory = $Inventory
 
 var is_placing: ItemResource = null:
 	set(v):
@@ -18,10 +20,15 @@ var is_placing: ItemResource = null:
 		
 		for c in items_slots.get_children():
 			c.active = c.item == is_placing and is_placing != null
-		
+
 func _ready() -> void:
 	for c in items_slots.get_children():
 		c.pressed.connect(func(): is_placing = c.item)
+	
+	pickup_area.area_entered.connect(func(area):
+		if area is DropItem:
+			inventory.add_item(area.item)
+	)
 
 func _physics_process(delta: float) -> void:
 	var direction = player_input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()

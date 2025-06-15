@@ -24,7 +24,7 @@ Env="*res://Env.gd"
 Networking="*res://network/networking.gd"
 SteamManager="*res://network/steam_manager.gd"
 DebugWindow="*res://addons/debug_window/debug_window.tscn"
-FarmManager="*res://farming/farm_manager.gd"
+FarmManager="*res://farming/farm_manager.tscn"
 
 [display]
 
@@ -41,6 +41,7 @@ enabled=PackedStringArray()
 spawner=""
 entities=""
 tiles=""
+processor=""
 
 [gui]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bwynl6klp5hly"]
 
 [ext_resource type="Texture2D" uid="uid://gg4q4gxrvw8t" path="res://assets/Sprout/Objects/Chest.png" id="1_4h7kr"]
-[ext_resource type="Script" uid="uid://fu3s1hy2a8bd" path="res://farming/tiles/chest.gd" id="1_8ahrw"]
+[ext_resource type="Script" uid="uid://fu3s1hy2a8bd" path="res://farming/objects/chest.gd" id="1_8ahrw"]
 [ext_resource type="Script" uid="uid://bo68fvof6f6pp" path="res://farming/tiles/interactable.gd" id="2_ffn1s"]
 
 [sub_resource type="Animation" id="Animation_ffn1s"]

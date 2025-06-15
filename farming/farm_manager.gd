@@ -1,16 +1,9 @@
 extends Node
 
-signal seed_changed(coord: Vector2i, seed: Seed, stage: int)
+func sleep():
+	process_data()
 
-enum Seed {
-	WEED,
-}
-
-var plants = {}
-
-func place_seed(coord: Vector2i, seed: Seed):
-	if coord in plants: return
-	
-	plants[coord] = seed
-	print("Planted seed at ", coord, ": ", seed)
-	seed_changed.emit(coord, seed, 0)
+func process_data():
+	for node in get_tree().get_nodes_in_group("processor"):
+		if node.has_method("do_process"):
+			node.do_process()
