@@ -25,3 +25,6 @@ func merge(other: ItemResource) -> void:
 
 func is_stackable():
 	return not tool
+
+func should_remove():
+	return is_stackable() and count <= 0

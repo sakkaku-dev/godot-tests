@@ -13,6 +13,13 @@ func _ready() -> void:
 func get_item(slot: int):
 	return items[slot]
 
+func get_slot_for_item(item: ItemResource):
+	for i in range(items.size()):
+		if items[i] == item:
+			return i
+	
+	return -1
+
 func add_item(item: ItemResource) -> bool:
 	# First try to stack with existing items
 	if item.is_stackable():
@@ -31,24 +38,17 @@ func add_item(item: ItemResource) -> bool:
 	
 	return false
 
-func remove_item(slot: int, amount: int = 1) -> ItemResource:
+func remove_item(slot: int, amount: int = 1):
 	if slot < 0 or slot >= items.size() or not items[slot]:
 		return null
 	
 	var item = items[slot]
 	if item.is_stackable():
-		if amount >= item.count:
-			items[slot] = null
-		else:
-			item.count -= amount
-			var new_item = item.duplicate()
-			new_item.count = amount
-			item = new_item
+		item.count -= amount
 	else:
 		items[slot] = null
 	
 	inventory_updated.emit([slot])
-	return item
 
 func move_item(from_slot: int, to_slot: int, is_toolbar: bool = false) -> void:
 	#var from_array = items

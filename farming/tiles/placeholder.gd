@@ -23,9 +23,11 @@ func get_node_for_type():
 func do_action():
 	var node = get_node_for_type()
 	if node and node.has_method("do_action"):
-		node.do_action(tiles)
+		return node.do_action(tiles)
+	return false
 
 func do_secondary():
 	var node = get_node_for_type()
 	if node and node.has_method("do_secondary"):
-		node.do_secondary(tiles)
+		return node.do_secondary(tiles)
+	return false

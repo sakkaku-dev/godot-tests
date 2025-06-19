@@ -55,3 +55,10 @@ theme = SubResource("Theme_mimov")
 text = "99"
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="ToolbarIndicator" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(1, 0, 0, 1)
