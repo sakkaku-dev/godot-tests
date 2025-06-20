@@ -1,0 +1,100 @@
+[gd_scene load_steps=19 format=3 uid="uid://c4ro8kvjqyhml"]
+
+[ext_resource type="PackedScene" uid="uid://btfgvge083vun" path="res://assets/models/environment/PavementCorner-col.glb" id="1_hwttm"]
+[ext_resource type="PackedScene" uid="uid://c7drg22id1lf1" path="res://assets/models/environment/PavementNone-col.glb" id="2_2bcak"]
+[ext_resource type="Shape3D" uid="uid://b876epglqak8p" path="res://maps/grid_step_corner_shape.tres" id="3_4iwfg"]
+[ext_resource type="PackedScene" uid="uid://xp7qp2v7cin2" path="res://assets/models/environment/PavementSide-col.glb" id="3_8o5qy"]
+[ext_resource type="PackedScene" uid="uid://bifn31hlls80h" path="res://assets/models/environment/Road-col.glb" id="4_p256p"]
+[ext_resource type="Shape3D" uid="uid://d3ardq3yeju3t" path="res://maps/grid_col_shape.tres" id="4_rfb0d"]
+[ext_resource type="Shape3D" uid="uid://b47il0d7gf0pb" path="res://maps/grid_step_shape.tres" id="6_jkivt"]
+[ext_resource type="PackedScene" uid="uid://d08ans8acdbyf" path="res://assets/models/environment/BuildingPart2-col.glb" id="8_vy0gh"]
+[ext_resource type="PackedScene" uid="uid://gvw0lufp2ws5" path="res://assets/models/environment/BuildingPart3-col.glb" id="9_qghc5"]
+[ext_resource type="Material" uid="uid://rxvviwbfhe5" path="res://assets/textures/Stenciled Brick Floor/1k/Stenciled Brick Floor.tres" id="9_vhst7"]
+[ext_resource type="Material" uid="uid://8ct6sv5muhm" path="res://assets/textures/Square Tiles/1k/Square Tiles.tres" id="10_fayje"]
+[ext_resource type="PackedScene" uid="uid://bw3tcmnbvm7kb" path="res://assets/models/environment/BuildingPart-col.glb" id="10_h81bb"]
+[ext_resource type="PackedScene" uid="uid://t1hjick6ouqc" path="res://assets/models/environment/BuildingPartHalf-col.glb" id="11_2ruge"]
+[ext_resource type="Material" uid="uid://dgdw35s7mh5g8" path="res://assets/textures/Square Floor/1k/Square Floor.tres" id="12_g0yee"]
+[ext_resource type="PackedScene" uid="uid://cgq1sussdihcg" path="res://assets/models/environment/Road-wide-col.glb" id="15_fla4o"]
+[ext_resource type="PackedScene" uid="uid://hof8xbqae7mn" path="res://assets/models/environment/RoadEmpty-col.glb" id="16_2nmna"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o1i0a"]
+size = Vector3(3.50049, 0.1, 3.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_114rn"]
+size = Vector3(3.51282, 0.1, 4)
+
+[node name="CityMeshes" type="Node3D"]
+
+[node name="Road-col2" parent="." instance=ExtResource("4_p256p")]
+visible = false
+
+[node name="PavementCorner-col2" parent="." instance=ExtResource("1_hwttm")]
+visible = false
+
+[node name="CollisionShape3D" parent="PavementCorner-col2/PavementCorner/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.249756, -0.05, 0.249512)
+shape = SubResource("BoxShape3D_o1i0a")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="PavementCorner-col2/PavementCorner/StaticBody3D" index="1"]
+transform = Transform3D(-3.78552e-08, -2.18557e-08, 1, -0.5, 0.866025, 0, -0.866025, -0.5, -4.37114e-08, 0.256175, -0.146344, -1.64121)
+shape = ExtResource("3_4iwfg")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="PavementCorner-col2/PavementCorner/StaticBody3D" index="2"]
+transform = Transform3D(-0.866025, -0.5, -8.74228e-08, -0.5, 0.866025, 0, 7.57103e-08, 4.37114e-08, -1, -1.64813, -0.146344, 0.253066)
+shape = ExtResource("3_4iwfg")
+
+[node name="PavementNone-col2" parent="." instance=ExtResource("2_2bcak")]
+visible = false
+
+[node name="CollisionShape3D" parent="PavementNone-col2/PavementNone/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = ExtResource("4_rfb0d")
+
+[node name="PavementSide-col2" parent="." instance=ExtResource("3_8o5qy")]
+visible = false
+
+[node name="CollisionShape3D" parent="PavementSide-col2/PavementSide/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.243591, -0.05, 0)
+shape = SubResource("BoxShape3D_114rn")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="PavementSide-col2/PavementSide/StaticBody3D" index="1"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 1.65389, -0.146344, 0)
+shape = ExtResource("6_jkivt")
+
+[node name="BuildingPart2-col2" parent="." instance=ExtResource("8_vy0gh")]
+visible = false
+
+[node name="BuildingPart2" parent="BuildingPart2-col2" index="0"]
+material_override = ExtResource("9_vhst7")
+surface_material_override/0 = ExtResource("9_vhst7")
+
+[node name="BuildingPart3-col2" parent="." instance=ExtResource("9_qghc5")]
+visible = false
+
+[node name="BuildingPart3" parent="BuildingPart3-col2" index="0"]
+material_override = ExtResource("10_fayje")
+surface_material_override/0 = ExtResource("10_fayje")
+
+[node name="BuildingPart-col2" parent="." instance=ExtResource("10_h81bb")]
+visible = false
+
+[node name="BuildingPartHalf-col2" parent="." instance=ExtResource("11_2ruge")]
+visible = false
+
+[node name="BuildingPartHalf" parent="BuildingPartHalf-col2" index="0"]
+material_override = ExtResource("12_g0yee")
+surface_material_override/0 = ExtResource("12_g0yee")
+
+[node name="Road-wide-col2" parent="." instance=ExtResource("15_fla4o")]
+
+[node name="RoadEmpty-col2" parent="." instance=ExtResource("16_2nmna")]
+
+[editable path="Road-col2"]
+[editable path="PavementCorner-col2"]
+[editable path="PavementNone-col2"]
+[editable path="PavementSide-col2"]
+[editable path="BuildingPart2-col2"]
+[editable path="BuildingPart3-col2"]
+[editable path="BuildingPart-col2"]
+[editable path="BuildingPartHalf-col2"]
+[editable path="Road-wide-col2"]

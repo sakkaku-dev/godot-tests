@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dra2c4rqpk183"]
+
+[ext_resource type="Shader" path="res://maps/grass/grass.gdshader" id="1_vjx4u"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nnj7d"]
+frequency = 0.02
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lyrjq"]
+seamless = true
+noise = SubResource("FastNoiseLite_nnj7d")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_vjx4u")
+shader_parameter/color = Color(0.44, 0.8, 0.464, 1)
+shader_parameter/color2 = Color(0.206772, 0.427738, 0.154259, 1)
+shader_parameter/noise_scale = 20.0
+shader_parameter/noise = SubResource("NoiseTexture2D_lyrjq")
+shader_parameter/character_position = Vector3(0.35, 0, 0)
+shader_parameter/character_radius = 0.5
+shader_parameter/character_push_strength = 0.2

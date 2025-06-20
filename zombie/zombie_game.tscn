@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://chb27u860dyuh"]
+
+[ext_resource type="PackedScene" uid="uid://pb64ubw2ktxd" path="res://assets/Blocky Characters/blocky/Models/FBX format/character-l.fbx" id="1_yf87m"]
+[ext_resource type="PackedScene" uid="uid://csuukdga3xy0a" path="res://assets/Blocky Characters/blocky/Models/FBX format/character-o.fbx" id="2_2wlby"]
+[ext_resource type="PackedScene" uid="uid://dk5elitommsqv" path="res://assets/KawaiiCity/Scene/KawaiiCity.scn" id="4_2wlby"]
+[ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="4_fotxt"]
+[ext_resource type="Script" uid="uid://dvxpoocnl7avh" path="res://multiplayer/multiplayer_joiner.gd" id="4_huo83"]
+[ext_resource type="Script" uid="uid://ccg1qfu6ivnfc" path="res://multiplayer/player_ready.gd" id="6_ufarx"]
+
+[node name="ZombieGame" type="Node3D"]
+
+[node name="character-l" parent="." instance=ExtResource("1_yf87m")]
+visible = false
+
+[node name="character-o" parent="." instance=ExtResource("2_2wlby")]
+visible = false
+
+[node name="RootNode3D" parent="." instance=ExtResource("4_2wlby")]
+
+[node name="Root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60383, 0)
+
+[node name="MultiplayerJoiner" type="MultiplayerSpawner" parent="." groups=["spawner"]]
+_spawnable_scenes = PackedStringArray("uid://bjemhxyjs5ne6")
+spawn_path = NodePath("../Root")
+script = ExtResource("4_huo83")
+player = ExtResource("4_fotxt")
+metadata/_custom_type_script = "uid://dvxpoocnl7avh"
+
+[node name="PlayerReady" type="Node" parent="MultiplayerJoiner"]
+script = ExtResource("6_ufarx")
+
+[editable path="character-l"]

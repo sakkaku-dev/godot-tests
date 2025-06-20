@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildLevelResource" load_steps=4 format=3 uid="uid://bntfeio2irwut"]
+
+[ext_resource type="PackedScene" uid="uid://cf15i18pysqbk" path="res://assets/KawaiiCity/Prefabs/Roofs/SM_RoofA1.prefab.scn" id="1_6fyon"]
+[ext_resource type="PackedScene" uid="uid://b8jbphoosjeqd" path="res://assets/KawaiiCity/Prefabs/Roofs/SM_RoofA2.prefab.scn" id="2_0jho7"]
+[ext_resource type="Script" path="res://maps/generate/build_level_resource.gd" id="3_0bg0g"]
+
+[resource]
+script = ExtResource("3_0bg0g")
+front_side = ExtResource("1_6fyon")
+back_side = ExtResource("1_6fyon")
+left_side = ExtResource("1_6fyon")
+right_side = ExtResource("1_6fyon")
+mid_side = ExtResource("1_6fyon")
+corner_side = ExtResource("2_0jho7")

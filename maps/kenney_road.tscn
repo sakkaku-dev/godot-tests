@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://u34y1770m6xb"]
+
+[ext_resource type="PackedScene" uid="uid://5r6t66hnot70" path="res://assets/kenney/custom/road_pavement-col.glb" id="2_3pfcl"]
+[ext_resource type="PackedScene" uid="uid://bsueyyyxtvvqj" path="res://assets/kenney/custom/road_crossroad-col.glb" id="2_qcfho"]
+[ext_resource type="PackedScene" uid="uid://cvweyhh4iteyc" path="res://assets/kenney/custom/road_straight-col.glb" id="4_r7k85"]
+[ext_resource type="PackedScene" uid="uid://cwet0ro5kf0yf" path="res://assets/kenney/custom/road_full-col.glb" id="4_sgcdv"]
+
+[node name="kenney_road" type="Node3D"]
+
+[node name="road_crossroad-col2" parent="." instance=ExtResource("2_qcfho")]
+visible = false
+
+[node name="road_pavement-col2" parent="." instance=ExtResource("2_3pfcl")]
+visible = false
+
+[node name="road_straight-col2" parent="." instance=ExtResource("4_r7k85")]
+visible = false
+
+[node name="road_full-col2" parent="." instance=ExtResource("4_sgcdv")]

@@ -5,7 +5,7 @@ signal player_ready()
 signal weapon_changed()
 signal ammo_changed()
 
-@export var SPEED = 6.0
+@export var SPEED = 4.0
 @export var ZIP_SPEED = 0.1
 @export var JUMP_VELOCITY = 8.0
 

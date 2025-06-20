@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuildLevelResource" load_steps=3 format=3 uid="uid://dka6l6l121xfi"]
+
+[ext_resource type="Script" path="res://maps/generate/build_level_resource.gd" id="1_1ikmc"]
+[ext_resource type="PackedScene" uid="uid://cqrfg04v3gky8" path="res://assets/models/building/TopFloor.glb" id="1_3p88t"]
+
+[resource]
+script = ExtResource("1_1ikmc")
+tile_size = Vector3(4, 4, 4)
+side_scene = ExtResource("1_3p88t")
+corner_scene = ExtResource("1_3p88t")
+mid_scene = ExtResource("1_3p88t")
+use_corner_flip = false
+decoration_placement = 0
+decoration_alignment = 0

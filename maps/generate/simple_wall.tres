@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BuildLevelResource" load_steps=5 format=3 uid="uid://bss8jy7dcwqaj"]
+
+[ext_resource type="Script" path="res://maps/generate/build_level_resource.gd" id="1_7ed2i"]
+[ext_resource type="PackedScene" uid="uid://cvdnhpao527t1" path="res://assets/models/building/MidWallFrontCorner.glb" id="1_s67lm"]
+[ext_resource type="PackedScene" uid="uid://cxd3g72c3576b" path="res://assets/models/building/MidWallFront.glb" id="2_abnb2"]
+[ext_resource type="PackedScene" uid="uid://cipc5yoxgr70b" path="res://assets/models/building/MidWallSide.glb" id="4_opibd"]
+
+[resource]
+script = ExtResource("1_7ed2i")
+tile_size = Vector3(4, 4, 4)
+front_scene = ExtResource("2_abnb2")
+back_scene = ExtResource("2_abnb2")
+side_scene = ExtResource("4_opibd")
+corner_scene = ExtResource("1_s67lm")
+use_corner_flip = true
+decoration_placement = 0
+decoration_alignment = 0

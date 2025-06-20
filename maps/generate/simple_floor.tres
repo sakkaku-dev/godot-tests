@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BuildLevelResource" load_steps=4 format=3 uid="uid://3ykxfhimyn2a"]
+
+[ext_resource type="PackedScene" uid="uid://bnry8g22tkq0i" path="res://assets/models/building/BotWall.glb" id="1_ic4nk"]
+[ext_resource type="PackedScene" uid="uid://b56tkfb07cw0e" path="res://assets/models/building/BotWallCorner.glb" id="1_n68ss"]
+[ext_resource type="Script" path="res://maps/generate/build_level_resource.gd" id="1_v8vqv"]
+
+[resource]
+script = ExtResource("1_v8vqv")
+side_scene = ExtResource("1_ic4nk")
+corner_scene = ExtResource("1_n68ss")
+tile_size = Vector3(4, 4, 4)
+decoration_placement = 0
+decoration_alignment = 0

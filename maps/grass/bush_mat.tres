@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bfvxkg7gcdgmu"]
+
+[ext_resource type="Shader" path="res://maps/grass/grass_bush.gdshader" id="1_vdt2i"]
+[ext_resource type="Texture2D" uid="uid://ndv1gltp3nlc" path="res://maps/grass/grass_bush.png" id="2_t218y"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_vdt2i")
+shader_parameter/TopColor = Color(0.33, 0.75, 0.225, 1)
+shader_parameter/BottomColor = Color(0.0817375, 0.230592, 0.17112, 1)
+shader_parameter/FresnelColor = Color(1, 0.75, 0, 1)
+shader_parameter/WindScale = 1.0
+shader_parameter/WindSpeed = 1.0
+shader_parameter/WindStrength = 1.0
+shader_parameter/WindDensity = 1.0
+shader_parameter/ClampTop = 1.0
+shader_parameter/ClampBtm = 0.0
+shader_parameter/MeshScale = 0.508
+shader_parameter/ColorRamp = 1.0
+shader_parameter/FaceRoationVariation = 1.0
+shader_parameter/FresnelStrength = 2.0
+shader_parameter/FresnelBlend = 0.0550001
+shader_parameter/DeactivateGlobalVariation = false
+shader_parameter/WiggleFrequency = 3.0
+shader_parameter/WiggleStrength = 0.1
+shader_parameter/WiggleSpeed = 1.0
+shader_parameter/WiggleScale = 3.0
+shader_parameter/DistanceScale = 0.5
+shader_parameter/DistanceStart = 0.0
+shader_parameter/DistanceScaleRange = 70.0
+shader_parameter/Alpha = ExtResource("2_t218y")

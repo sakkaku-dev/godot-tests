@@ -1,0 +1,64 @@
+[gd_scene load_steps=21 format=3 uid="uid://beht8ltju2606"]
+
+[ext_resource type="PackedScene" uid="uid://b1h2ak4y8d2fd" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-center.glb" id="1_5oesm"]
+[ext_resource type="PackedScene" uid="uid://gj15va3walh" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-corner-inner.glb" id="2_prqnq"]
+[ext_resource type="PackedScene" uid="uid://b3ww87r8f6chq" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-corner-outer.glb" id="3_k7m1l"]
+[ext_resource type="PackedScene" uid="uid://1hes1lbs1yyf" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-corner.glb" id="4_n28ru"]
+[ext_resource type="PackedScene" uid="uid://xja33nrmtw0q" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-damaged.glb" id="5_tc5ip"]
+[ext_resource type="PackedScene" uid="uid://ddk3mic5jedva" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-pavement.glb" id="6_nxm2j"]
+[ext_resource type="PackedScene" uid="uid://m54fcfujsjor" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-side.glb" id="7_vdwsn"]
+[ext_resource type="PackedScene" uid="uid://jphwhxvgiemx" path="res://assets/Retro Urban Kit/Models/GLB format/road-asphalt-straight.glb" id="8_yxr08"]
+[ext_resource type="PackedScene" uid="uid://cmicu3o3xewxj" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-center.glb" id="9_8bafj"]
+[ext_resource type="PackedScene" uid="uid://bpeog5yomeio6" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-corner-inner.glb" id="10_bpnmq"]
+[ext_resource type="PackedScene" uid="uid://dg3l1lhgw4j3r" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-corner-outer.glb" id="11_2b60y"]
+[ext_resource type="PackedScene" uid="uid://cmcl45a0yo174" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-corner.glb" id="12_gk4tg"]
+[ext_resource type="PackedScene" uid="uid://ba22t4mg8d04o" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-damaged.glb" id="13_m81md"]
+[ext_resource type="PackedScene" uid="uid://dn3weih3whik0" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-pavement.glb" id="14_ew26o"]
+[ext_resource type="PackedScene" uid="uid://hvyx5q1ht3l8" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-side.glb" id="15_6kpyh"]
+[ext_resource type="PackedScene" uid="uid://ienebpud12sp" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-straight.glb" id="16_xtqkj"]
+[ext_resource type="PackedScene" uid="uid://dwurq11xi8rtd" path="res://assets/Retro Urban Kit/Models/GLB format/road-dirt-tile.glb" id="17_1hthx"]
+[ext_resource type="PackedScene" uid="uid://dnqbi8ccfaoob" path="res://assets/Retro Urban Kit/Models/GLB format/roof-metal-poles.glb" id="18_2p8no"]
+[ext_resource type="PackedScene" uid="uid://rl16re4csw2k" path="res://assets/Retro Urban Kit/Models/GLB format/roof-metal-type-a.glb" id="19_evvkt"]
+[ext_resource type="PackedScene" uid="uid://5gx1whndxxwm" path="res://assets/Retro Urban Kit/Models/GLB format/roof-metal-type-b.glb" id="20_5ifyl"]
+
+[node name="RoadMeshes" type="Node3D"]
+
+[node name="road-asphalt-center2" parent="." instance=ExtResource("1_5oesm")]
+
+[node name="road-asphalt-corner-inner2" parent="." instance=ExtResource("2_prqnq")]
+
+[node name="road-asphalt-corner-outer2" parent="." instance=ExtResource("3_k7m1l")]
+
+[node name="road-asphalt-corner2" parent="." instance=ExtResource("4_n28ru")]
+
+[node name="road-asphalt-damaged2" parent="." instance=ExtResource("5_tc5ip")]
+
+[node name="road-asphalt-pavement2" parent="." instance=ExtResource("6_nxm2j")]
+
+[node name="road-asphalt-side2" parent="." instance=ExtResource("7_vdwsn")]
+
+[node name="road-asphalt-straight2" parent="." instance=ExtResource("8_yxr08")]
+
+[node name="road-dirt-center2" parent="." instance=ExtResource("9_8bafj")]
+
+[node name="road-dirt-corner-inner2" parent="." instance=ExtResource("10_bpnmq")]
+
+[node name="road-dirt-corner-outer2" parent="." instance=ExtResource("11_2b60y")]
+
+[node name="road-dirt-corner2" parent="." instance=ExtResource("12_gk4tg")]
+
+[node name="road-dirt-damaged2" parent="." instance=ExtResource("13_m81md")]
+
+[node name="road-dirt-pavement2" parent="." instance=ExtResource("14_ew26o")]
+
+[node name="road-dirt-side2" parent="." instance=ExtResource("15_6kpyh")]
+
+[node name="road-dirt-straight2" parent="." instance=ExtResource("16_xtqkj")]
+
+[node name="road-dirt-tile2" parent="." instance=ExtResource("17_1hthx")]
+
+[node name="roof-metal-poles2" parent="." instance=ExtResource("18_2p8no")]
+
+[node name="roof-metal-type-a2" parent="." instance=ExtResource("19_evvkt")]
+
+[node name="roof-metal-type-b2" parent="." instance=ExtResource("20_5ifyl")]
