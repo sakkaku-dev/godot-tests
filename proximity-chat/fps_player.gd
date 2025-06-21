@@ -17,12 +17,18 @@ signal ammo_changed()
 @export var camera: Camera3D
 @export var camera_root: Node3D
 
-var gravity = 20
+@onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
+@onready var jump_timer: Timer = $JumpTimer
+
+var gravity = 50
+var has_jumped = false
 
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
+	jump_timer.timeout.connect(func(): has_jumped = false)
+	
 	if Networking.has_network():
 		var is_authority = is_multiplayer_authority()
 		camera.current = is_authority
@@ -61,15 +67,20 @@ func _physics_process(delta):
 			hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
 			return
 	else:
-		if not is_on_floor():
+		if not is_grounded():
 			velocity.y -= gravity * delta
+		elif not has_jumped:
+			var f = ground_spring_cast.apply_spring_force(velocity)
+			velocity.y += f.y
 
-		if Input.is_action_just_pressed("jump") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
+			if Input.is_action_just_pressed("jump"):
+				velocity.y = JUMP_VELOCITY
+				has_jumped = true
+				jump_timer.start()
 
 	var _speed = SPEED
 	
-	if is_on_floor():
+	if is_grounded():
 		if direction:
 			velocity.x = direction.x * _speed
 			velocity.z = direction.z * _speed
@@ -79,5 +90,8 @@ func _physics_process(delta):
 	else:
 		velocity.x = lerp(velocity.x, direction.x * _speed, delta * 3.0)
 		velocity.z = lerp(velocity.z, direction.z * _speed, delta * 3.0)
-
+	
 	move_and_slide()
+
+func is_grounded():
+	return ground_spring_cast.is_grounded() #or is_on_floor()
