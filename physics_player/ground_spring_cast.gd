@@ -1,8 +1,8 @@
 class_name GroundSpringCast
 extends RayCast3D
 
-@export var spring_strength := 10.0
-@export var ride_height := 1.0
+@export var spring_strength := 20.0
+@export var ride_height := 0.5
 @export var damping := 1.0
 
 func _ready() -> void:

@@ -101,8 +101,6 @@ ammo = 5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.168815, 0)
 target_position = Vector3(0, -0.5, 0)
 script = ExtResource("7_p2s12")
-spring_strength = 20.0
-ride_height = 0.5
 
 [node name="MicrophoneAudio" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("audio_player")]
 stream = SubResource("AudioStreamMicrophone_bp3w1")

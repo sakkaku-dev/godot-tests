@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://b62pr08m78rx8"]
+
+[ext_resource type="Script" uid="uid://bf2tix5kf088a" path="res://zombie/zombies/zombie.gd" id="1_22xui"]
+[ext_resource type="PackedScene" uid="uid://pb64ubw2ktxd" path="res://assets/Blocky Characters/blocky/Models/FBX format/character-l.fbx" id="2_806lj"]
+[ext_resource type="Script" uid="uid://51x768smx2tb" path="res://util/RandomTimer.gd" id="3_5bnr2"]
+[ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="4_2okyo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a81vu"]
+radius = 0.261684
+height = 1.13955
+
+[node name="Zombie" type="CharacterBody3D" node_paths=PackedStringArray("region", "body")]
+script = ExtResource("1_22xui")
+region = NodePath("")
+body = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74026, 0)
+shape = SubResource("CapsuleShape3D_a81vu")
+
+[node name="character-l" parent="CollisionShape3D" instance=ExtResource("2_806lj")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.74026, 0)
+
+[node name="WanderTimer" type="Timer" parent="."]
+one_shot = true
+script = ExtResource("3_5bnr2")
+min_time = 5.0
+max_time = 10.0
+metadata/_custom_type_script = "uid://51x768smx2tb"
+
+[node name="IdleTimer" type="Timer" parent="."]
+one_shot = true
+script = ExtResource("3_5bnr2")
+min_time = 3.0
+max_time = 6.0
+metadata/_custom_type_script = "uid://51x768smx2tb"
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+debug_enabled = true
+
+[node name="GroundSpringCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437739, 0)
+script = ExtResource("4_2okyo")
+metadata/_custom_type_script = "uid://dno2tbjdt3x22"
+
+[editable path="CollisionShape3D/character-l"]
