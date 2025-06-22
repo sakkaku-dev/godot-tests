@@ -5,6 +5,7 @@ signal player_ready()
 signal weapon_changed()
 signal ammo_changed()
 
+@export var SPRINT_MULTIPLIER = 2.0
 @export var SPEED = 4.0
 @export var ZIP_SPEED = 0.1
 @export var JUMP_VELOCITY = 8.0
@@ -19,6 +20,7 @@ signal ammo_changed()
 
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 @onready var jump_timer: Timer = $JumpTimer
+@onready var player_input: PlayerInput = $PlayerInput
 
 var gravity = 50
 var has_jumped = false
@@ -38,6 +40,17 @@ func _ready():
 	else:
 		camera.current = true
 		body.hide()
+		
+	player_input.just_pressed.connect(func(ev: InputEvent):
+		if ev.is_action_pressed("jump"):
+			if hand.zip_follow:
+				hand.remove_zip()
+				velocity.y = JUMP_VELOCITY
+			elif is_grounded() and not has_jumped:
+				velocity.y = JUMP_VELOCITY
+				has_jumped = true
+				jump_timer.start()
+	)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -51,21 +64,17 @@ func _unhandled_input(event):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_VISIBLE
 
 func _physics_process(delta):
-	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var input_dir = player_input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if hand.zip_follow:
-		if Input.is_action_just_pressed("jump"):
-			hand.remove_zip()
-			velocity.y = JUMP_VELOCITY
-		else:
-			var zip_dir = hand.get_zip_direction()
-			var zip_move_dir = sign(zip_dir.dot(direction))
-			
-			#if hand.zip_follow.progress_ratio >= 0.00 and hand.zip_follow.progress_ratio <= 1.0:
-			hand.zip_follow.progress += zip_dir.dot(direction) * ZIP_SPEED
-			hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
-			return
+		var zip_dir = hand.get_zip_direction()
+		var zip_move_dir = sign(zip_dir.dot(direction))
+		
+		#if hand.zip_follow.progress_ratio >= 0.00 and hand.zip_follow.progress_ratio <= 1.0:
+		hand.zip_follow.progress += zip_dir.dot(direction) * ZIP_SPEED
+		hand.zip_follow.progress_ratio = clamp(hand.zip_follow.progress_ratio, 0.05, 0.95)
+		return
 	else:
 		if not is_grounded():
 			velocity.y -= gravity * delta
@@ -73,12 +82,7 @@ func _physics_process(delta):
 			var f = ground_spring_cast.apply_spring_force(velocity)
 			velocity.y += f.y
 
-			if Input.is_action_just_pressed("jump"):
-				velocity.y = JUMP_VELOCITY
-				has_jumped = true
-				jump_timer.start()
-
-	var _speed = SPEED
+	var _speed = SPEED * (SPRINT_MULTIPLIER if player_input.is_pressed("sprint") else 1.0)
 	
 	if is_grounded():
 		if direction:

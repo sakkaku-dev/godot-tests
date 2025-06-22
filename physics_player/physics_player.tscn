@@ -79,19 +79,17 @@ script = ExtResource("3_5ujn3")
 [node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 0.890261, 0.455452, 0, -0.455452, 0.890261, 0, 1.32237, 2.20792)
 
-[node name="Hand" type="Area3D" parent="CameraRoot" node_paths=PackedStringArray("player")]
+[node name="Hand" type="Area3D" parent="CameraRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.283627, -0.529021)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("4_yjiir")
-player = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CameraRoot/Hand"]
 shape = SubResource("BoxShape3D_a1cq3")
 
-[node name="Slots" type="Node3D" parent="CameraRoot" node_paths=PackedStringArray("label")]
+[node name="Slots" type="Node3D" parent="CameraRoot"]
 script = ExtResource("5_xajr1")
-label = NodePath("")
 
 [node name="ZipLineGun" type="Node3D" parent="CameraRoot/Slots"]
 script = ExtResource("6_r6bvf")
