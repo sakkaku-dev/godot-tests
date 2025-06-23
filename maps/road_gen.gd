@@ -46,7 +46,7 @@ func generate():
 	var sections = _generate_roads(grid_rect, true, 1.0)
 	_match_pavement_corners()
 	_create_static_body()
-	#_fill_with_buildings(sections)
+	_fill_with_buildings(sections)
 
 func _create_static_body():
 	var static_body = StaticBody3D.new()
@@ -227,23 +227,23 @@ func _fill_with_buildings(sections: Array):
 	var noise = FastNoiseLite.new()
 	var buildings = []
 	
-	#for sec in sections:
-		#var region = sec as Rect2i
-		#var build_area = region.grow(-1)
-		#var pos = build_area.position
-		#
-		#if not build_area.has_area() or build_area.size.x == 1 or build_area.size.y == 1: continue
-		#
-		##var merge_next := false
-		##var building_type := -1
-		##var height = 0
-		##var depth = 0
-		##var merge_chance := 0.5
-		#
-		#var building = building_scene.instantiate() as BuildingGen
-		#
-		#building.tiles = Vector3(build_area.size.x, randi_range(min_building, max_building), build_area.size.y) * grid_size / building.get_tile_size()
-		#add_child(building)
-		#building.position = Vector3(pos.x, 0, pos.y) * grid_size
-		##building.owner = owner
-		#building.generate()
+	for sec in sections:
+		var region = sec as Rect2i
+		var build_area = region.grow(-1)
+		var pos = build_area.position
+		
+		if not build_area.has_area() or build_area.size.x == 1 or build_area.size.y == 1: continue
+		
+		#var merge_next := false
+		#var building_type := -1
+		#var height = 0
+		#var depth = 0
+		#var merge_chance := 0.5
+		
+		var building = building_scene.instantiate() as BuildingGen
+		
+		building.tiles = Vector3(build_area.size.x, randi_range(min_building, max_building), build_area.size.y) * grid_size / building.get_tile_size()
+		add_child(building)
+		building.position = Vector3(pos.x, 0, pos.y) * grid_size
+		#building.owner = owner
+		building.generate()

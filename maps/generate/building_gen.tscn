@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://b1mesdvgjclhb"]
 
-[ext_resource type="Script" path="res://maps/generate/building_gen.gd" id="1_v0pie"]
-[ext_resource type="Script" path="res://maps/generate/build_level_resource.gd" id="2_gyk67"]
+[ext_resource type="Script" uid="uid://do5pnwc7g8btx" path="res://maps/generate/building_gen.gd" id="1_v0pie"]
+[ext_resource type="Script" uid="uid://d2rnipuguu1hx" path="res://maps/generate/build_level_resource.gd" id="2_gyk67"]
 [ext_resource type="PackedScene" uid="uid://ctx2mou0plbnx" path="res://assets/KawaiiCity/Prefabs/Building_Pieces/SM_Block3.prefab.scn" id="2_l5v6t"]
+[ext_resource type="Material" uid="uid://disydp5r0ra80" path="res://assets/KawaiiCity/Materials/WallTile 5.material" id="3_8m2qk"]
 [ext_resource type="PackedScene" uid="uid://betdss42agfjx" path="res://assets/KawaiiCity/Prefabs/Building_Pieces/SM_Wall1.prefab.scn" id="3_vdcpr"]
-[ext_resource type="Material" uid="uid://cfvqcy5256f45" path="res://assets/KawaiiCity/Materials/WallTile 1.material" id="4_1n3dt"]
 [ext_resource type="Resource" uid="uid://bntfeio2irwut" path="res://maps/generate/base_roof.tres" id="4_vpm6j"]
 [ext_resource type="PackedScene" uid="uid://5q4oekh0f0ka" path="res://assets/KawaiiCity/Prefabs/Building_Pieces/SM_BlockA2.prefab.scn" id="5_kgj1b"]
 [ext_resource type="PackedScene" uid="uid://boxo4ypiqrxcb" path="res://assets/KawaiiCity/Prefabs/Building_Pieces/SM_BlockA4.prefab.scn" id="7_8w87a"]
@@ -31,8 +31,13 @@ corner_side = ExtResource("7_8w87a")
 [node name="BuildingGen" type="Node3D"]
 script = ExtResource("1_v0pie")
 door_scene = ExtResource("2_l5v6t")
-material = ExtResource("4_1n3dt")
+door_position = 1
+material = ExtResource("3_8m2qk")
 roof_level = ExtResource("4_vpm6j")
 mid_level = SubResource("Resource_luqow")
 floor_level = SubResource("Resource_v58f5")
 tiles = Vector3(3, 8, 10)
+corner_bot_left = true
+corner_bot_right = true
+corner_top_left = true
+corner_top_right = true
