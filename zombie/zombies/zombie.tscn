@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b62pr08m78rx8"]
+[gd_scene load_steps=8 format=3 uid="uid://b62pr08m78rx8"]
 
 [ext_resource type="Script" uid="uid://bf2tix5kf088a" path="res://zombie/zombies/zombie.gd" id="1_22xui"]
 [ext_resource type="PackedScene" uid="uid://pb64ubw2ktxd" path="res://assets/Blocky Characters/blocky/Models/FBX format/character-l.fbx" id="2_806lj"]
@@ -9,14 +9,31 @@
 radius = 0.261684
 height = 1.13955
 
-[node name="Zombie" type="CharacterBody3D" node_paths=PackedStringArray("region", "body")]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_22xui"]
+height = 8.0
+radius = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_22xui"]
+radius = 10.0
+
+[node name="Zombie" type="CharacterBody3D" node_paths=PackedStringArray("body", "vision")]
+collision_layer = 4
 script = ExtResource("1_22xui")
-region = NodePath("")
+speed = 2.0
 body = NodePath("CollisionShape3D")
+vision = NodePath("CollisionShape3D/EnemyVision")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74026, 0)
 shape = SubResource("CapsuleShape3D_a81vu")
+
+[node name="EnemyVision" type="Area3D" parent="CollisionShape3D"]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, -0.035864, 4.32492)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CollisionShape3D/EnemyVision"]
+shape = SubResource("CylinderShape3D_22xui")
 
 [node name="character-l" parent="CollisionShape3D" instance=ExtResource("2_806lj")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.74026, 0)
@@ -42,5 +59,14 @@ debug_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437739, 0)
 script = ExtResource("4_2okyo")
 metadata/_custom_type_script = "uid://dno2tbjdt3x22"
+
+[node name="HearingRange" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HearingRange"]
+shape = SubResource("SphereShape3D_22xui")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
 
 [editable path="CollisionShape3D/character-l"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=21 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="7_p2s12"]
 [ext_resource type="Script" uid="uid://b5x5lk8n2flba" path="res://prototype/items.gd" id="7_ubged"]
 [ext_resource type="Script" uid="uid://eux0ef0rg11v" path="res://input/PlayerInput.gd" id="13_8xdy4"]
+[ext_resource type="Script" uid="uid://cepi8w1l76mj" path="res://zombie/detectable_sound.gd" id="14_we0o2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
 radius = 0.206044
@@ -40,8 +41,11 @@ properties/3/path = NodePath("CameraRoot/Flashlight:light_energy")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_8xdy4"]
+radius = 0.2
+
 [node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("body", "hand", "camera", "camera_root")]
-collision_layer = 0
+collision_layer = 2
 wall_min_slide_angle = 0.0872665
 script = ExtResource("1_krq8x")
 JUMP_VELOCITY = 12.0
@@ -161,3 +165,12 @@ one_shot = true
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("13_8xdy4")
 metadata/_custom_type_script = "uid://eux0ef0rg11v"
+
+[node name="FootSteps" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0723753, 0)
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("14_we0o2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FootSteps"]
+shape = SubResource("SphereShape3D_8xdy4")

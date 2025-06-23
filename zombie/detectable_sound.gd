@@ -1,0 +1,2 @@
+class_name DetectableSound
+extends Area3D

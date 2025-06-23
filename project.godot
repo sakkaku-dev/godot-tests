@@ -120,6 +120,7 @@ sprint={
 3d_physics/layer_2="player"
 3d_physics/layer_3="enemy"
 3d_physics/layer_4="items"
+3d_physics/layer_10="hearing"
 
 [physics]
 
