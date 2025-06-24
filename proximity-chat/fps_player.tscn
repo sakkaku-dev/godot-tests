@@ -168,8 +168,8 @@ metadata/_custom_type_script = "uid://eux0ef0rg11v"
 
 [node name="FootSteps" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0723753, 0)
-collision_layer = 512
-collision_mask = 0
+collision_layer = 0
+collision_mask = 512
 script = ExtResource("14_we0o2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FootSteps"]

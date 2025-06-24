@@ -21,6 +21,7 @@ signal ammo_changed()
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 @onready var jump_timer: Timer = $JumpTimer
 @onready var player_input: PlayerInput = $PlayerInput
+@onready var footsteps: DetectableSound = $FootSteps
 
 var gravity = 50
 var has_jumped = false
@@ -83,6 +84,8 @@ func _physics_process(delta):
 			velocity.y += f.y
 
 	var _speed = SPEED * (SPRINT_MULTIPLIER if player_input.is_pressed("sprint") else 1.0)
+	if player_input.is_pressed("sprint"):
+		footsteps.play_sound()
 	
 	if is_grounded():
 		if direction:

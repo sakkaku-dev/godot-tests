@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var idle_timer: RandomTimer = $IdleTimer
 @onready var navigation_agent_3d: NavigationAgent3D = $NavigationAgent3D
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
+@onready var hearing_sound: HearingSound = $HearingSound
 
 var target: Vector3
 var gravity = 50
@@ -17,20 +18,21 @@ var player_target: Node3D
 var last_player_position
 
 func _ready() -> void:
-	wander_timer.timeout.connect(func():
-		idle_timer.random_start()
-		print("Start idling")
+	hearing_sound.sound_heard.connect(func(at: Vector3):
+		if not player_target:
+			print("Heard sound at %s" % at)
+			_start_to_target(at)
+		else:
+			print("Ignoring sound at %s, already chasing player %s" % [at, player_target])
 	)
-	idle_timer.timeout.connect(func():
-		_start_wander()
-	)
+	wander_timer.timeout.connect(func(): navigation_agent_3d.target_position = global_position)
+	idle_timer.timeout.connect(func(): _start_wander())
 	idle_timer.start()
 	
 	vision.body_entered.connect(func(b):
 		if not player_target:
 			player_target = b
-			wander_timer.stop()
-			idle_timer.stop()
+			_start_to_target(b.global_position)
 			print("Chase player %s" % b)
 	)
 	vision.body_exited.connect(func(b):
@@ -39,6 +41,11 @@ func _ready() -> void:
 			navigation_agent_3d.target_position = last_player_position
 			print("Lost player at %s" % last_player_position)
 	)
+
+func _start_to_target(target: Vector3):
+	navigation_agent_3d.target_position = target
+	wander_timer.stop()
+	idle_timer.stop()
 
 func _start_wander():
 	navigation_agent_3d.target_position = NavigationServer3D.map_get_random_point(region.get_navigation_map(), 1, false)
@@ -58,8 +65,10 @@ func _physics_process(delta: float) -> void:
 	if _do_navigation():
 		if last_player_position != null:
 			last_player_position = null
-			idle_timer.start()
+			idle_timer.random_start()
 			print("No player at last position %s" % last_player_position)
+		elif wander_timer.is_stopped() and idle_timer.is_stopped():
+			idle_timer.random_start()
 	
 	_apply_gravity(delta)
 	move_and_slide()
