@@ -2,11 +2,6 @@
 # https://github.com/joebinns/stylised-character-controller/blob/main/Assets/Scripts/Physics%20Based%20Character%20Controller/PhysicsBasedCharacterController.cs
 extends RigidBody3D
 
-@export_category("Projectile")
-@export var projectile_scene: PackedScene
-@export var spawn_position: Node3D
-@export var max_throw_strength := 5.0
-
 @export_category("Rotation")
 @export var upright_joint_spring_strength := 10
 @export var upright_joint_spring_damper := 1.5
@@ -24,8 +19,7 @@ extends RigidBody3D
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 @onready var body: Node3D = $Body
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
-@onready var chargeable: Chargeable = $Chargeable
-#@onready var paint_emitter: PaintEmitter = $Body/PaintEmitter
+@onready var animation_tree: PlayerAnimation = $PlayerAnimation
 
 var is_jumping := false
 var jump_ready := false
@@ -43,24 +37,19 @@ var goal_vel := Vector3.ZERO
 var input_id := ""
 var color := Color.WHITE
 
+var is_blocking := false
+
 func _ready() -> void:
-	#paint_emitter.color = color
 	player_input.set_for_id(input_id)
 	player_input.just_pressed.connect(func(ev: InputEvent):
-		if ev.is_action_pressed("throw"):
-			chargeable.start()
-		elif ev.is_action_pressed("throw_cancel"):
-			chargeable.stop()
+		if ev.is_action_pressed("primary"):
+			animation_tree.attack()
+		elif ev.is_action_pressed("secondary"):
+			is_blocking = true
 	)
 	player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("throw"):
-			#var node = projectile_scene.instantiate()
-			#paint_emitter.throw_force = chargeable.value * max_throw_strength
-			#paint_emitter.fire()
-			#node.rotation.y = spawn_position.global_rotation.y
-			#node.position = spawn_position.global_position
-			#get_tree().current_scene.add_child(node)
-			chargeable.stop()
+		if ev.is_action_released("secondary"):
+			is_blocking = false
 	)
 
 func _physics_process(delta: float) -> void:
@@ -102,17 +91,14 @@ func get_move_dir():
 func _move_player(delta: float):
 	var move_dir = get_move_dir()
 	
-	var aim = player_input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
-	if aim:
-		body.basis = Basis.looking_at(Vector3(aim.x, 0, aim.y))
+	if is_blocking:
+		var aim = player_input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+		if aim:
+			body.basis = Basis.looking_at(Vector3(aim.x, 0, aim.y))
+		else:
+			body.basis = Basis.looking_at(_get_mouse_direction())
 	else:
-		if chargeable.is_charging:
-			var offset = -PI * 0.5
-			var screen_pos = get_viewport().get_camera_3d().unproject_position(body.global_transform.origin)
-			var mouse_pos = get_viewport().get_mouse_position()
-			var angle = screen_pos.angle_to_point(mouse_pos)
-			body.rotation.y = -(angle + offset)
-		elif move_dir:
+		if move_dir:
 			body.basis = Basis.looking_at(-move_dir)
 	
 	var unit_vel = goal_vel.normalized()
@@ -128,6 +114,14 @@ func _move_player(delta: float):
 	
 	var force = needed_accel * mass
 	apply_central_force(force)
+	animation_tree.update(body.basis.z, linear_velocity)
+
+func _get_mouse_direction():
+	var offset = -PI
+	var screen_pos = get_viewport().get_camera_3d().unproject_position(body.global_transform.origin)
+	var mouse_pos = get_viewport().get_mouse_position()
+	var angle = screen_pos.angle_to_point(mouse_pos) + offset
+	return Vector3.RIGHT.rotated(Vector3.UP, -angle)
 
 func _curve_minus_range(curve: Curve, value: float):
 	var scaled_value = (value + 1.0) / 2.0
