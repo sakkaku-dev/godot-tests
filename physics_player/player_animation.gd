@@ -1,8 +1,15 @@
 class_name PlayerAnimation
 extends AnimationTree
 
+@export var hit_box: HitBox
+@export var attack_timer: Timer
+
 const ATTACK = "parameters/Attack/request"
 const RUN = "parameters/Run/blend_position"
+
+func _ready() -> void:
+	if attack_timer:
+		attack_timer.timeout.connect(func(): hit_box.do_hit())
 
 func update(forward: Vector3, vel: Vector3):
 	var angle = forward.angle_to(vel)
@@ -11,3 +18,8 @@ func update(forward: Vector3, vel: Vector3):
 
 func attack():
 	set(ATTACK, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	attack_timer.start()
+
+func is_attacking():
+	var anim = get_node(anim_player) as AnimationPlayer
+	return "_Attack_" in anim.current_animation

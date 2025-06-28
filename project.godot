@@ -32,7 +32,6 @@ enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")
 
 folder_colors={
 "res://physics_player/": "red",
-"res://proc-cave/": "red",
 "res://proximity-chat/": "red"
 }
 
@@ -97,6 +96,7 @@ secondary={
 
 [layer_names]
 
+3d_physics/layer_1="static"
 3d_physics/layer_3="enemy"
 3d_physics/layer_4="player"
 
