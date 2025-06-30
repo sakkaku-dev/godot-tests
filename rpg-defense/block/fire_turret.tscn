@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://ds7m73hy177oc"]
+
+[ext_resource type="Script" uid="uid://c33ta2i0e36rq" path="res://rpg-defense/block/area_effect.gd" id="1_q1hpt"]
+[ext_resource type="PackedScene" uid="uid://f0sxcvfcmwvs" path="res://assets/Tower Defense Kit/Models/GLB format/enemy-ufo-a.glb" id="2_lqi25"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1ppli"]
+height = 0.685547
+radius = 3.0
+
+[node name="FireTurret" type="Node3D"]
+
+[node name="FireArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.431783, 0)
+collision_layer = 0
+collision_mask = 12
+script = ExtResource("1_q1hpt")
+field = "fire_effect"
+amount = 1.0
+
+[node name="FireRateTimer" type="Timer" parent="FireArea"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FireArea"]
+shape = SubResource("CylinderShape3D_1ppli")
+
+[node name="FireTurret" parent="." instance=ExtResource("2_lqi25")]

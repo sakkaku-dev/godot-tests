@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockResource" load_steps=3 format=3 uid="uid://cyebbl1wcl4b2"]
+
+[ext_resource type="Script" uid="uid://brrxajdbuwyd6" path="res://rpg-defense/block/block_resource.gd" id="1_65cft"]
+[ext_resource type="PackedScene" uid="uid://bmmsx1yvvm2wm" path="res://assets/Tower Defense Kit/Models/GLB format/wood-structure-high.glb" id="1_egdk6"]
+
+[resource]
+script = ExtResource("1_65cft")
+type = 0
+desc = "Blocks the path"
+scene = ExtResource("1_egdk6")
+health = 100
+cost = 0
+metadata/_custom_type_script = "uid://brrxajdbuwyd6"

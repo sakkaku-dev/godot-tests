@@ -3,7 +3,7 @@ extends Area3D
 
 signal died()
 
-@export var max_health := 10
+@export var max_health := 10.0
 @onready var health = max_health:
 	set(v):
 		health = clamp(v, 0, max_health)

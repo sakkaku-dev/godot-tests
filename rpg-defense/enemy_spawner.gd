@@ -8,6 +8,8 @@ signal enemy_killed()
 @export var enemy_scene: PackedScene
 @export var spawn_timer: Timer
 @export var wave_timer: Timer
+@export var nav_region: NavigationRegion3D
+@export var map: GameMap
 
 @export_category("UI")
 @export var wave_label: Label
@@ -47,6 +49,7 @@ func _spawn_enemy():
 		enemy_killed.emit()
 		alive_enemy_count -= 1
 	)
+	enemy.coord = map.start_coords.pick_random()
 	get_tree().current_scene.add_child(enemy)
 
 func is_active():
@@ -58,9 +61,12 @@ func start_wave():
 	spawn_timer.start(max(base_spawn_time / difficulty, min_base_spawn_time))
 	wave_timer.start()
 	wave_label.show()
+	map.can_place_blocks = false
+	nav_region.bake_navigation_mesh()
 	
 func finish_wave():
 	spawn_timer.stop()
+	map.can_place_blocks = true
 	_check_wave_ended()
 
 func _check_wave_ended():

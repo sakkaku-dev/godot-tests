@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4jdq27bbsdap"]
+
+[ext_resource type="Script" uid="uid://b5ckb7vkkdeiq" path="res://rpg-defense/enemy/slow_timer.gd" id="1_ps2yq"]
+[ext_resource type="Script" uid="uid://bfwd1guepxvqq" path="res://rpg-defense/enemy/fire_timer.gd" id="2_t2x74"]
+
+[node name="Effects" type="Node"]
+
+[node name="SlowTimer" type="Timer" parent="."]
+one_shot = true
+script = ExtResource("1_ps2yq")
+
+[node name="FireTimer" type="Node" parent="."]
+script = ExtResource("2_t2x74")

@@ -3,9 +3,9 @@
 class_name PhysicsCharacter
 extends RigidBody3D
 
-@export_category("Rotation")
-@export var upright_joint_spring_strength := 10
-@export var upright_joint_spring_damper := 1.5
+@export_category("Effects")
+@export var slow_effect: Node
+@export var fire_effect: Node
 
 @export_category("Movement")
 @export var max_speed := 8
@@ -14,29 +14,16 @@ extends RigidBody3D
 @export var max_accel_force := 150
 @export var max_acceleration_factor_from_dot: Curve
 @export var force_scale := Vector3(1, 0, 1)
-@export var jump_force := 20
 
 @onready var body: Node3D = $Body
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 
-var is_jumping := false
-var jump_ready := false
-var should_maintain_height := false
-
 var gravitational_force := Vector3.DOWN * 10
-var fall_gravity_factor := 10.0
-var rise_gravity_factor := 5.0
-var low_jump_factor := 2.5
-
-var time_since_jump_pressed := 0.0
-var time_since_ungrounded := 0.0
 var goal_vel := Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	_move_player(delta)
-	_apply_jump(ground_spring_cast.is_grounded())
 	_float_above_ground()
-	_restore_upright_rotation()
 
 func get_move_dir():
 	return Vector3.ZERO
@@ -74,40 +61,6 @@ func _curve_minus_range(curve: Curve, value: float):
 	var scaled_value = (value + 1.0) / 2.0
 	return curve.sample(scaled_value)
 
-func _apply_jump(grounded: bool):
-	if not grounded:
-		is_jumping = false
-	
-	if linear_velocity.y < 0:
-		should_maintain_height = true
-		jump_ready = true
-
-		if not grounded:
-			apply_central_force(gravitational_force * (fall_gravity_factor - 1.0))
-	elif linear_velocity.y > 0:
-		if not grounded:
-			if is_jumping:
-				apply_central_force(gravitational_force * (fall_gravity_factor - 1.0))
-			elif not is_jump():
-				apply_central_force(gravitational_force * (low_jump_factor - 1.0))
-
-	if jump_ready and is_jump() and grounded:
-		jump_ready = false
-		should_maintain_height = false
-		is_jumping = true
-		apply_central_impulse(Vector3.UP * jump_force)
-
 func _float_above_ground():
 	var ground_vel = ground_spring_cast.apply_spring_force(linear_velocity)
 	apply_central_force(ground_vel)
-
-func _restore_upright_rotation():
-	var upright_rotation = Basis().rotated(Vector3.UP, 0)
-	var current_rotation = transform.basis
-	var target_rotation = upright_rotation
-	var rotation_difference = (target_rotation * current_rotation.inverse()).get_rotation_quaternion()
-
-	var axis = rotation_difference.get_axis()
-	var angle = rotation_difference.get_angle()
-
-	apply_torque(axis * angle * upright_joint_spring_strength - (angular_velocity * upright_joint_spring_damper))
