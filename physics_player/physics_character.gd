@@ -18,6 +18,7 @@ extends RigidBody3D
 @onready var body: Node3D = $Body
 @onready var ground_spring_cast: GroundSpringCast = $GroundSpringCast
 
+var speed_multiplier := 1.0
 var gravitational_force := Vector3.DOWN * 10
 var goal_vel := Vector3.ZERO
 
@@ -54,7 +55,7 @@ func _move_player(delta: float):
 	var max_accel = max_accel_force * _curve_minus_range(max_acceleration_factor_from_dot, vel_dot)
 	needed_accel = needed_accel.limit_length(max_accel)
 	
-	var force = needed_accel * mass
+	var force = needed_accel * mass * speed_multiplier
 	apply_central_force(force)
 
 func _curve_minus_range(curve: Curve, value: float):

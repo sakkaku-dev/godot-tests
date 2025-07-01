@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockResource" load_steps=3 format=3 uid="uid://cnwvahpqg32y7"]
+
+[ext_resource type="Script" uid="uid://brrxajdbuwyd6" path="res://rpg-defense/block/block_resource.gd" id="1_2guiw"]
+[ext_resource type="PackedScene" uid="uid://ds7m73hy177oc" path="res://rpg-defense/block/fire_turret.tscn" id="1_o3m7v"]
+
+[resource]
+script = ExtResource("1_2guiw")
+type = 1
+desc = "Damage nearby enemies"
+scene = ExtResource("1_o3m7v")
+health = 80
+cost = 60
+metadata/_custom_type_script = "uid://brrxajdbuwyd6"

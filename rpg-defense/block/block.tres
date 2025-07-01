@@ -8,6 +8,6 @@ script = ExtResource("1_65cft")
 type = 0
 desc = "Blocks the path"
 scene = ExtResource("1_egdk6")
-health = 100
+health = 50
 cost = 0
 metadata/_custom_type_script = "uid://brrxajdbuwyd6"

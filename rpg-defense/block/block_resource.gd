@@ -4,7 +4,7 @@ extends Resource
 enum Type {
 	BLOCK,
 	FIRE,
-	FROST,
+	ICE,
 	CRYSTAL,
 }
 

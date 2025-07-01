@@ -7,7 +7,7 @@ const LINEAR_NEIGHBORS = [Vector3i.LEFT, Vector3i.RIGHT, Vector3i.FORWARD, Vecto
 const DIAGONAL_NEIGHBORS = [Vector3i(1, 0, 1), Vector3i(-1, 0, -1), Vector3i(-1, 0, 1), Vector3i(1, 0, -1)]
 
 @export var start_coords: Array[Vector3i] = []
-@export var block_scene: BlockResource
+@export var block_scene: PackedScene
 
 var can_place_blocks := true:
 	set(v):

@@ -5,6 +5,7 @@ extends AnimationTree
 @export var attack_timer: Timer
 
 const ATTACK = "parameters/Attack/request"
+const SECOND_ATTACK = "parameters/SecondAttack/request"
 const RUN = "parameters/Run/blend_position"
 
 func _ready() -> void:
@@ -20,6 +21,6 @@ func attack():
 	set(ATTACK, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	attack_timer.start()
 
-func is_attacking():
-	var anim = get_node(anim_player) as AnimationPlayer
-	return "_Attack_" in anim.current_animation
+func secondary_attack():
+	set(SECOND_ATTACK, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	attack_timer.start()

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockResource" load_steps=3 format=3 uid="uid://2ql0d7ajxnrb"]
+
+[ext_resource type="PackedScene" uid="uid://dew5r2ndu2vmd" path="res://rpg-defense/block/ice_turret.tscn" id="1_83ryf"]
+[ext_resource type="Script" uid="uid://brrxajdbuwyd6" path="res://rpg-defense/block/block_resource.gd" id="2_8jftr"]
+
+[resource]
+script = ExtResource("2_8jftr")
+type = 2
+desc = "Slow down nearby enemies"
+scene = ExtResource("1_83ryf")
+health = 80
+cost = 0
+metadata/_custom_type_script = "uid://brrxajdbuwyd6"

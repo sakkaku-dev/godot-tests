@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BlockResource" load_steps=3 format=3 uid="uid://dmxuoh56i1jst"]
+
+[ext_resource type="PackedScene" uid="uid://b3jcwo3uqn067" path="res://rpg-defense/block/crystal_turret.tscn" id="1_h3u1g"]
+[ext_resource type="Script" uid="uid://brrxajdbuwyd6" path="res://rpg-defense/block/block_resource.gd" id="1_t3jro"]
+
+[resource]
+script = ExtResource("1_t3jro")
+type = 3
+desc = ""
+scene = ExtResource("1_h3u1g")
+health = 50
+cost = 50
+metadata/_custom_type_script = "uid://brrxajdbuwyd6"

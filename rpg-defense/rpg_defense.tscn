@@ -2,10 +2,10 @@
 
 [ext_resource type="MeshLibrary" uid="uid://cqsmjmhkkhqlg" path="res://rpg-defense/castle_meshes.tres" id="1_3kkaf"]
 [ext_resource type="Script" uid="uid://bnnq1g0fjww2" path="res://rpg-defense/rpg_defense.gd" id="1_h1cla"]
-[ext_resource type="PackedScene" uid="uid://c7exu8d63ypbl" path="res://physics_player/physics_player.tscn" id="2_51d64"]
 [ext_resource type="Script" uid="uid://b1yfmno6amo2y" path="res://rpg-defense/game_map.gd" id="3_8m5r2"]
 [ext_resource type="Script" uid="uid://4kexoccdsg14" path="res://rpg-defense/main_base.gd" id="3_ags87"]
 [ext_resource type="Script" uid="uid://rfw8fo46tgjb" path="res://rpg-defense/enemy_spawner.gd" id="4_0ctky"]
+[ext_resource type="PackedScene" uid="uid://cd15c3eomqqhk" path="res://rpg-defense/block/block.tscn" id="4_s7l10"]
 [ext_resource type="PackedScene" uid="uid://d1fn5bvjeup6g" path="res://rpg-defense/enemy/skeleton.tscn" id="5_ags87"]
 [ext_resource type="Script" uid="uid://uxiacgoo6hd2" path="res://rpg-defense/game_over.gd" id="7_ijggx"]
 [ext_resource type="Script" uid="uid://c426dimufdola" path="res://rpg-defense/paused.gd" id="8_57hi1"]
@@ -28,7 +28,7 @@ game_over_ui = NodePath("CanvasLayer/Control/GameOver")
 paused_ui = NodePath("CanvasLayer/Control/Paused")
 money_label = NodePath("CanvasLayer/Control/Control/MarginContainer2/Money")
 map = NodePath("NavigationRegion3D/GridMap")
-player = NodePath("PhysicsPlayer")
+player = NodePath("")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.626373, 0.779524, 0, -0.501714, 0.403144, 0.765348, 0.596607, -0.479393, 0.643616, 0, 7.30438, 0)
@@ -47,6 +47,7 @@ data = {
 }
 script = ExtResource("3_8m5r2")
 start_coords = Array[Vector3i]([Vector3i(0, 0, 9), Vector3i(-1, 0, 9)])
+block_scene = ExtResource("4_s7l10")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="GridMap2" type="GridMap" parent="NavigationRegion3D"]
@@ -59,9 +60,6 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.430842, 0.902427, 0, -0.902427, 0.430842, 0, 15.1017, 10.5832)
-
-[node name="PhysicsPlayer" parent="." instance=ExtResource("2_51d64")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52697, 0)
 
 [node name="MainBase" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78577, -9.72241)
