@@ -6,7 +6,7 @@ signal died()
 @export var base_damage := 1
 @export var move_distance_threshold := 0.25
 
-@onready var animation_tree: PlayerAnimation = $PlayerAnimation
+@onready var animation_tree: SkeletonAnimation = $PlayerAnimation
 @onready var hit_box: Area3D = $Body/HitBox
 @onready var hurtbox: HurtBox = $Hurtbox
 @onready var soft_push: SoftPush = $SoftPush
@@ -43,6 +43,9 @@ func _ready() -> void:
 	hurtbox.died.connect(func():
 		died.emit()
 		queue_free()
+	)
+	hurtbox.knockbacked.connect(func(force: Vector3):
+		apply_central_impulse(force)
 	)
 
 func get_next_moveable_cell():

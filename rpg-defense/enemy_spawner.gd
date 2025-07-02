@@ -4,6 +4,7 @@ extends Node3D
 signal wave_ended()
 signal enemy_killed()
 
+@export var root_spawn: Node3D
 @export var destination: Node3D
 @export var enemy_scene: PackedScene
 @export var spawn_timer: Timer
@@ -50,10 +51,10 @@ func _spawn_enemy():
 		alive_enemy_count -= 1
 	)
 	enemy.coord = map.start_coords.pick_random()
-	get_tree().current_scene.add_child(enemy)
+	root_spawn.add_child(enemy)
 
 func is_active():
-	return not wave_timer.is_stopped()
+	return wave_label.visible
 
 func start_wave():
 	wave += 1

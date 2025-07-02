@@ -2,6 +2,7 @@ class_name HurtBox
 extends Area3D
 
 signal died()
+signal knockbacked(dir: Vector3)
 
 @export var max_health := 10.0
 @onready var health = max_health:
@@ -15,3 +16,6 @@ func hurt(dmg: int):
 
 func heal(amount: int):
 	health += amount
+
+func knockback(dir: Vector3):
+	knockbacked.emit(dir)

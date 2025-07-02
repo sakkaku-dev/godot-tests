@@ -1,6 +1,6 @@
 extends Node
 
-const MAX_PEERS = 4
+const MAX_PEERS = 8
 const DEFAULT_PORT = 14420
 
 signal player_list_changed()
@@ -20,7 +20,6 @@ func _ready():
 	network = SteamNetwork.new(SteamManager.steam, DEFAULT_PORT, MAX_PEERS) if Env.is_steam() else ENetNetwork.new(DEFAULT_PORT, MAX_PEERS)
 	add_child(network)
 
-	multiplayer.peer_connected.connect(func(id): print("Peer connected: %s" % id))
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 

@@ -57,6 +57,9 @@ func _move_player(delta: float):
 	
 	var force = needed_accel * mass * speed_multiplier
 	apply_central_force(force)
+	
+	if slow_effect:
+		print(force)
 
 func _curve_minus_range(curve: Curve, value: float):
 	var scaled_value = (value + 1.0) / 2.0

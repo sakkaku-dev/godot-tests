@@ -8,6 +8,7 @@ const DIAGONAL_NEIGHBORS = [Vector3i(1, 0, 1), Vector3i(-1, 0, -1), Vector3i(-1,
 
 @export var start_coords: Array[Vector3i] = []
 @export var block_scene: PackedScene
+@export var root_spawn: Node3D
 
 var can_place_blocks := true:
 	set(v):
@@ -39,9 +40,10 @@ func place_block(block: BlockResource, cell: Vector3i) -> void:
 		return
 
 	var block_instance = block_scene.instantiate()
+	block_instance.name = "Block_%s-%s" % [cell.x, cell.z]
 	block_instance.res = block
 	block_instance.position = map_to_local(cell)
-	add_child(block_instance)
+	root_spawn.add_child(block_instance)
 	objects[cell] = block_instance
 
 func is_outside(cell: Vector3i) -> bool:

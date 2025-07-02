@@ -1,14 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://diyp2j5cywwal"]
+[gd_scene load_steps=16 format=3 uid="uid://diyp2j5cywwal"]
 
 [ext_resource type="MeshLibrary" uid="uid://cqsmjmhkkhqlg" path="res://rpg-defense/castle_meshes.tres" id="1_3kkaf"]
 [ext_resource type="Script" uid="uid://bnnq1g0fjww2" path="res://rpg-defense/rpg_defense.gd" id="1_h1cla"]
+[ext_resource type="PackedScene" uid="uid://c7exu8d63ypbl" path="res://physics_player/physics_player.tscn" id="2_68hyj"]
 [ext_resource type="Script" uid="uid://b1yfmno6amo2y" path="res://rpg-defense/game_map.gd" id="3_8m5r2"]
+[ext_resource type="Script" uid="uid://dfpna3shbj2pq" path="res://multiplayer/player_joiner.gd" id="3_68hyj"]
 [ext_resource type="Script" uid="uid://4kexoccdsg14" path="res://rpg-defense/main_base.gd" id="3_ags87"]
 [ext_resource type="Script" uid="uid://rfw8fo46tgjb" path="res://rpg-defense/enemy_spawner.gd" id="4_0ctky"]
 [ext_resource type="PackedScene" uid="uid://cd15c3eomqqhk" path="res://rpg-defense/block/block.tscn" id="4_s7l10"]
 [ext_resource type="PackedScene" uid="uid://d1fn5bvjeup6g" path="res://rpg-defense/enemy/skeleton.tscn" id="5_ags87"]
 [ext_resource type="Script" uid="uid://uxiacgoo6hd2" path="res://rpg-defense/game_over.gd" id="7_ijggx"]
-[ext_resource type="Script" uid="uid://c426dimufdola" path="res://rpg-defense/paused.gd" id="8_57hi1"]
+[ext_resource type="Script" uid="uid://c2whtqq0sp6q6" path="res://rpg-defense/ui/online_label.gd" id="10_s7l10"]
 
 [sub_resource type="Sky" id="Sky_51d64"]
 
@@ -22,13 +24,18 @@ agent_radius = 0.1
 [sub_resource type="BoxShape3D" id="BoxShape3D_j7qfk"]
 size = Vector3(4.52124, 3.76392, 3.93188)
 
-[node name="RPGDefense" type="Node3D" node_paths=PackedStringArray("game_over_ui", "paused_ui", "money_label", "map", "player")]
+[node name="RPGDefense" type="Node3D" node_paths=PackedStringArray("game_over_ui", "money_label", "map", "root_spawn", "player_joiner")]
 script = ExtResource("1_h1cla")
 game_over_ui = NodePath("CanvasLayer/Control/GameOver")
-paused_ui = NodePath("CanvasLayer/Control/Paused")
-money_label = NodePath("CanvasLayer/Control/Control/MarginContainer2/Money")
+money_label = NodePath("CanvasLayer/Control/Control/Money/Money")
 map = NodePath("NavigationRegion3D/GridMap")
-player = NodePath("")
+player_scene = ExtResource("2_68hyj")
+root_spawn = NodePath("RootSpawn")
+player_joiner = NodePath("PlayerJoiner")
+
+[node name="PlayerJoiner" type="Node" parent="."]
+script = ExtResource("3_68hyj")
+metadata/_custom_type_script = "uid://dfpna3shbj2pq"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.626373, 0.779524, 0, -0.501714, 0.403144, 0.765348, 0.596607, -0.479393, 0.643616, 0, 7.30438, 0)
@@ -81,17 +88,18 @@ billboard = 2
 text = "Test"
 font_size = 128
 
-[node name="EnemySpawner" type="Marker3D" parent="." node_paths=PackedStringArray("destination", "spawn_timer", "wave_timer", "nav_region", "map", "wave_label", "wave_time_label")]
+[node name="EnemySpawner" type="Marker3D" parent="." node_paths=PackedStringArray("root_spawn", "destination", "spawn_timer", "wave_timer", "nav_region", "map", "wave_label", "wave_time_label")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 11.813)
 script = ExtResource("4_0ctky")
+root_spawn = NodePath("../RootSpawn")
 destination = NodePath("../MainBase/Hurtbox")
 enemy_scene = ExtResource("5_ags87")
 spawn_timer = NodePath("SpawnTimer")
 wave_timer = NodePath("WaveTimer")
 nav_region = NodePath("../NavigationRegion3D")
 map = NodePath("../NavigationRegion3D/GridMap")
-wave_label = NodePath("../CanvasLayer/Control/Control/MarginContainer/VBoxContainer/Wave")
-wave_time_label = NodePath("../CanvasLayer/Control/Control/MarginContainer/VBoxContainer/WaveTime")
+wave_label = NodePath("../CanvasLayer/Control/Control/Wave/VBoxContainer/Wave")
+wave_time_label = NodePath("../CanvasLayer/Control/Control/Wave/VBoxContainer/WaveTime")
 
 [node name="WaveTimer" type="Timer" parent="EnemySpawner"]
 wait_time = 3.0
@@ -99,6 +107,12 @@ one_shot = true
 
 [node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
 wait_time = 2.0
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://d1fn5bvjeup6g")
+spawn_path = NodePath("../RootSpawn")
+
+[node name="RootSpawn" type="Node3D" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -143,43 +157,6 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Restart"
 
-[node name="Paused" type="ColorRect" parent="CanvasLayer/Control" node_paths=PackedStringArray("restart_btn", "continue_btn")]
-process_mode = 2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.509804)
-script = ExtResource("8_57hi1")
-restart_btn = NodePath("CenterContainer/VBoxContainer/Restart")
-continue_btn = NodePath("CenterContainer/VBoxContainer/Continue")
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Paused"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Paused/CenterContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/Paused/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Paused"
-horizontal_alignment = 1
-
-[node name="Continue" type="Button" parent="CanvasLayer/Control/Paused/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Continue"
-
-[node name="Restart" type="Button" parent="CanvasLayer/Control/Paused/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Restart"
-
 [node name="Control" type="Control" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -189,7 +166,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Control"]
+[node name="Wave" type="MarginContainer" parent="CanvasLayer/Control/Control"]
 layout_mode = 1
 offset_right = 56.0
 offset_bottom = 33.0
@@ -198,20 +175,20 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control/Wave"]
 layout_mode = 2
 
-[node name="Wave" type="Label" parent="CanvasLayer/Control/Control/MarginContainer/VBoxContainer"]
+[node name="Wave" type="Label" parent="CanvasLayer/Control/Control/Wave/VBoxContainer"]
 layout_mode = 2
 text = "Wave 1"
 horizontal_alignment = 1
 
-[node name="WaveTime" type="Label" parent="CanvasLayer/Control/Control/MarginContainer/VBoxContainer"]
+[node name="WaveTime" type="Label" parent="CanvasLayer/Control/Control/Wave/VBoxContainer"]
 layout_mode = 2
 text = "10s"
 horizontal_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/Control"]
+[node name="Money" type="MarginContainer" parent="CanvasLayer/Control/Control"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -224,7 +201,25 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Money" type="Label" parent="CanvasLayer/Control/Control/MarginContainer2"]
+[node name="Money" type="Label" parent="CanvasLayer/Control/Control/Money"]
 layout_mode = 2
 text = "100$"
 horizontal_alignment = 1
+
+[node name="Online" type="MarginContainer" parent="CanvasLayer/Control/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Control/Online"]
+layout_mode = 2
+text = "11"
+script = ExtResource("10_s7l10")

@@ -1,6 +1,16 @@
 class_name PhysicsPlayer
 extends PhysicsCharacter
 
+const GROUP = "PLAYER"
+
+enum Type {
+	KNIGHT,
+	WARRIOR,
+	MAGE,
+	ROGUE,
+}
+
+signal player_ready()
 signal placed_block(res: BlockResource, coord: Vector3i)
 
 const BLOCK = preload("res://rpg-defense/block/block.tres")
@@ -8,45 +18,83 @@ const FIRE_TURRET = preload("res://rpg-defense/block/fire_turret.tres")
 const ICE_TURRET = preload("res://rpg-defense/block/ice_turret.tres")
 
 @export var menu: RadialMenu
+@export var player_input: PlayerInput
 
-@onready var player_input: PlayerInput = $PlayerInput
-@onready var animation_tree: PlayerAnimation = $PlayerAnimation
+@export_category("Classes")
+@export var type := Type.KNIGHT:
+	set(v):
+		type = v
+
+		for node in [knight, warrior, mage, rogue]:
+			node.process_mode = PROCESS_MODE_DISABLED
+
+		match type:
+			Type.KNIGHT: active_class = knight
+			Type.WARRIOR: active_class = warrior
+			Type.MAGE: active_class = mage
+			Type.ROGUE: active_class = rogue
+		
+		active_class.process_mode = PROCESS_MODE_INHERIT
+		print("%s selected %s" % [name, Type.keys()[type]])
+
+@export var knight: Knight
+@export var warrior: Knight
+@export var mage: Knight
+@export var rogue: Knight
+
 @onready var hit_box: Area3D = $Body/HitBox
 @onready var placement_cube: Node3D = $PlacementCube
 
 @onready var map: GridMap = get_tree().get_first_node_in_group("map")
 
-var input_id := ""
-var color := Color.WHITE
 var is_aiming := false
+var active_class = null
+
+var is_character_select := true:
+	set(v):
+		is_character_select = v
+		if is_character_select:
+			menu.set_items(Type.values().map(func(x): return {"id": x}))
+		else:
+			menu.set_items(BlockResource.Type.values().map(func(x): return {"id": x}))
 
 var placing_block = null:
 	set(v):
 		placing_block = v
 		placement_cube.visible = placing_block != null
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(name.split("_")[0]))
+
 func _ready() -> void:
-	menu.set_items(BlockResource.Type.values().map(func(x): return {"id": x}))
-	menu.item_selected.connect(func(id, _p): placing_block = get_block_resource(id))
+	add_to_group(GROUP)
+	placing_block = null
+	self.type = type
+	
+	var is_authority = is_multiplayer_authority()
+	set_process_unhandled_input(is_authority)
+	set_physics_process(is_authority)
+	if not is_authority: return
+	
 	map.disabled_placement.connect(func():
 		if placing_block:
 			placing_block = null
 			placement_cube.visible = false
 	)
+	menu.item_selected.connect(func(id, _p):
+		if is_character_select:
+			type = id
+		else:
+			placing_block = get_block_resource(id)
+	)
 	
-	placing_block = null
-	player_input.set_for_id(input_id)
+	var parts = name.split("_")
+	player_input.set_for_id(parts[1])
 	player_input.just_pressed.connect(func(ev: InputEvent):
-		if ev.is_action_pressed("primary"):
-			if placing_block:
-				placed_block.emit(placing_block, map.local_to_map(placement_cube.global_position))
-			else:
-				on_attack()
-		elif ev.is_action_pressed("secondary"):
-			if placing_block:
-				placing_block = null
-			else:
-				on_secondary()
+		if ev.is_action_pressed("primary") and placing_block:
+			placed_block.emit(placing_block, map.local_to_map(placement_cube.global_position))
+		elif ev.is_action_pressed("secondary") and placing_block:
+			placing_block = null
 		elif ev.is_action_pressed("shop") and map.can_place_blocks:
 			if menu.visible:
 				menu.close_menu()
@@ -54,6 +102,8 @@ func _ready() -> void:
 				var cam = get_viewport().get_camera_3d()
 				menu.open_menu(cam.unproject_position(global_position))
 				placing_block = null
+		elif ev.is_action_pressed("ui_accept"):
+			player_ready.emit()
 	)
 
 func get_block_resource(id: BlockResource.Type):
@@ -62,21 +112,11 @@ func get_block_resource(id: BlockResource.Type):
 		BlockResource.Type.FIRE: return FIRE_TURRET
 		BlockResource.Type.ICE: return ICE_TURRET
 
-func on_attack():
-	pass
-
-func on_secondary():
-	pass
-
 func _process(_delta: float) -> void:
 	if placing_block:
 		var current_coord = map.local_to_map(global_position)
 		var forward = Vector3i(body.basis.z.normalized().snappedf(1.0))
 		placement_cube.global_position = map.map_to_local(current_coord + forward)
-
-func _physics_process(delta: float) -> void:
-	super._physics_process(delta)
-	animation_tree.update(body.basis.z, linear_velocity)
 
 func get_move_dir():
 	if menu.visible: return Vector3.ZERO
