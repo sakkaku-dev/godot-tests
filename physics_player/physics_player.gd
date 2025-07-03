@@ -5,7 +5,7 @@ const GROUP = "PLAYER"
 
 enum Type {
 	KNIGHT,
-	WARRIOR,
+	BARBARIAN,
 	MAGE,
 	ROGUE,
 }
@@ -17,28 +17,36 @@ const BLOCK = preload("res://rpg-defense/block/block.tres")
 const FIRE_TURRET = preload("res://rpg-defense/block/fire_turret.tres")
 const ICE_TURRET = preload("res://rpg-defense/block/ice_turret.tres")
 
+var CHARACTER_MENU = Type.values().map(func(x): return {"id": x, "title": Type.keys()[x].to_lower().capitalize()})
+var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "title": BlockResource.Type.keys()[x].to_lower().capitalize()})
+
 @export var menu: RadialMenu
 @export var player_input: PlayerInput
+@export var characters: Node3D
 
 @export_category("Classes")
 @export var type := Type.KNIGHT:
 	set(v):
 		type = v
 
-		for node in [knight, warrior, mage, rogue]:
+		for node in [knight, barbarian, mage, rogue]:
 			node.process_mode = PROCESS_MODE_DISABLED
+		
+		for c in characters.get_children():
+			c.hide()
 
 		match type:
 			Type.KNIGHT: active_class = knight
-			Type.WARRIOR: active_class = warrior
+			Type.BARBARIAN: active_class = barbarian
 			Type.MAGE: active_class = mage
 			Type.ROGUE: active_class = rogue
 		
 		active_class.process_mode = PROCESS_MODE_INHERIT
-		print("%s selected %s" % [name, Type.keys()[type]])
+		var active_char = characters.get_node(NodePath(active_class.name))
+		active_char.show()
 
 @export var knight: Knight
-@export var warrior: Knight
+@export var barbarian: Barbarian
 @export var mage: Knight
 @export var rogue: Knight
 
@@ -54,9 +62,9 @@ var is_character_select := true:
 	set(v):
 		is_character_select = v
 		if is_character_select:
-			menu.set_items(Type.values().map(func(x): return {"id": x}))
+			menu.set_items(CHARACTER_MENU)
 		else:
-			menu.set_items(BlockResource.Type.values().map(func(x): return {"id": x}))
+			menu.set_items(BLOCK_MENU)
 
 var placing_block = null:
 	set(v):
@@ -69,6 +77,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	add_to_group(GROUP)
 	placing_block = null
+	self.is_character_select = is_character_select
 	self.type = type
 	
 	var is_authority = is_multiplayer_authority()
