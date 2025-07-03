@@ -69,6 +69,7 @@ enum Position { off, inside, outside }
 
 # This stores the default colors and constants which will be overriden by a theme
 @export var default_theme : Theme = DEFAULT_THEME
+@export var selected_text_offset := Vector2(0, 10)
 
 var item_angle = PI/6: set = _set_item_angle
 
@@ -317,6 +318,21 @@ func _draw_center():
 	draw_arc(center_offset, center_radius, 0, 2*PI, center_radius, fg, 2, true)
 	draw_texture(tex, center_offset-CLOSE_TEXTURE.get_size()/2, _get_color("IconModulation"))
 
+	if selected >= 0:
+		var item = menu_items[selected]
+		if not 'title' in item: return
+		
+		var font = get_theme_default_font()
+		var font_size = get_theme_default_font_size()
+		var text_size = font.get_string_size(item.title, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+		var offset = selected_text_offset + Vector2(-text_size.x/2.0, 0)
+		
+		draw_string_outline(font, center_offset + offset, 
+			item.title,
+			HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, 8, Color.BLACK)
+		draw_string(font, center_offset + offset, 
+			item.title,
+			HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
 
 func setup_gamepad(deviceid : int, xaxis : int, yaxis: int, deadzone : float = JOY_DEADZONE):
 	gamepad_device = deviceid
