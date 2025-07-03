@@ -50,9 +50,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 @export var mage: Knight
 @export var rogue: Knight
 
-@onready var hit_box: Area3D = $Body/HitBox
 @onready var placement_cube: Node3D = $PlacementCube
-
 @onready var map: GridMap = get_tree().get_first_node_in_group("map")
 
 var is_aiming := false

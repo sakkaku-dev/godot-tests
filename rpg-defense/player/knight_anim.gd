@@ -1,4 +1,4 @@
-class_name BarbarianAnimation
+class_name KnightAnimation
 extends AnimationTree
 
 @export var hit_box: HitBox

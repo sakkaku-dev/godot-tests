@@ -1,7 +1,7 @@
 class_name Barbarian
 extends Node
 
-@export var anim: KnightAnimation
+@export var anim: BarbarianAnimation
 @onready var player: PhysicsPlayer = owner
 
 func _ready() -> void:
@@ -9,11 +9,11 @@ func _ready() -> void:
 		if ev.is_action_pressed("primary"):
 			anim.attack()
 		elif ev.is_action_pressed("secondary"):
-			pass
+			anim.set_is_spinning(true)
 	)
 	player.player_input.just_released.connect(func(ev: InputEvent):
 		if ev.is_action_released("secondary"):
-			pass
+			anim.set_is_spinning(false)
 	)
 
 func _physics_process(delta: float) -> void:
