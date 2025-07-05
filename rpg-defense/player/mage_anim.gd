@@ -23,9 +23,10 @@ func update(forward: Vector3, vel: Vector3):
 func attack():
 	if cast_finished:
 		cast_attack.spawn()
+		cast_finished = false
 		return
 
-	if not firerate_timer.is_stopped(): return
+	if not firerate_timer.is_stopped() or not casting_timer.is_stopped(): return
 	
 	set(ATTACK, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	mage_attack.spawn()
