@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://diyp2j5cywwal"]
+[gd_scene load_steps=16 format=3 uid="uid://diyp2j5cywwal"]
 
 [ext_resource type="MeshLibrary" uid="uid://cqsmjmhkkhqlg" path="res://rpg-defense/castle_meshes.tres" id="1_3kkaf"]
 [ext_resource type="Script" uid="uid://bnnq1g0fjww2" path="res://rpg-defense/rpg_defense.gd" id="1_h1cla"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://cd15c3eomqqhk" path="res://rpg-defense/block/block.tscn" id="4_s7l10"]
 [ext_resource type="PackedScene" uid="uid://d1fn5bvjeup6g" path="res://rpg-defense/enemy/skeleton.tscn" id="5_ags87"]
 [ext_resource type="Script" uid="uid://uxiacgoo6hd2" path="res://rpg-defense/game_over.gd" id="7_ijggx"]
-[ext_resource type="PackedScene" uid="uid://b3wtlfsrod0n" path="res://rpg-defense/player/arrow.tscn" id="8_bty5w"]
 [ext_resource type="Script" uid="uid://c2whtqq0sp6q6" path="res://rpg-defense/ui/online_label.gd" id="10_s7l10"]
 
 [sub_resource type="Sky" id="Sky_51d64"]
@@ -88,10 +87,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27917, 0)
 billboard = 2
 text = "Test"
 font_size = 128
-
-[node name="Arrow" parent="." instance=ExtResource("8_bty5w")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 3.445, 0)
-speed = 5.0
 
 [node name="EnemySpawner" type="Marker3D" parent="." node_paths=PackedStringArray("root_spawn", "destination", "spawn_timer", "wave_timer", "nav_region", "map", "wave_label", "wave_time_label")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, 11.813)

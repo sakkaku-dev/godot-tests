@@ -11,7 +11,7 @@ const RUN = "parameters/Run/blend_position"
 @export var attack_timer: Timer
 @export var attack_timer_2: Timer
 @export var ranged_firerate: Timer
-@export var arrow: ArrowSpawn
+@export var arrow: Projectile
 
 @export_category("Weapons")
 @export var knife_1: Node3D

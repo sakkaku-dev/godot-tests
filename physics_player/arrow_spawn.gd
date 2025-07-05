@@ -1,4 +1,4 @@
-class_name ArrowSpawn
+class_name Projectile
 extends Marker3D
 
 @export var arrow_scene: PackedScene

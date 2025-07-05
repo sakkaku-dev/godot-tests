@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" uid="uid://doort545tcub4" path="res://physics_player/hit_box.gd" id="1_gp5in"]
 [ext_resource type="PackedScene" uid="uid://1nhed7mo10x" path="res://assets/KayKit_Adventurers_1.0_FREE/Assets/gltf/arrow.gltf" id="1_hvqcx"]
-[ext_resource type="Script" uid="uid://nhlkglbmvsau" path="res://rpg-defense/player/arrow.gd" id="1_wv8du"]
+[ext_resource type="Script" uid="uid://nhlkglbmvsau" path="res://rpg-defense/player/projectile.gd" id="1_wv8du"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hvqcx"]
 radius = 0.146343
 height = 0.829668
 
-[node name="Arrow" type="Node3D"]
+[node name="Arrow" type="Node3D" node_paths=PackedStringArray("hit_box")]
 script = ExtResource("1_wv8du")
+hit_box = NodePath("HitBox")
 
 [node name="arrow2" parent="." instance=ExtResource("1_hvqcx")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

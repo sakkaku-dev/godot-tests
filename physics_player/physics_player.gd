@@ -47,7 +47,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 
 @export var knight: Knight
 @export var barbarian: Barbarian
-@export var mage: Knight
+@export var mage: Mage
 @export var rogue: Rogue
 
 @onready var placement_cube: Node3D = $PlacementCube

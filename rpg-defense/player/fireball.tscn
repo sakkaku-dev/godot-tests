@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://da1k0e8pe3j08"]
+
+[ext_resource type="Script" uid="uid://nhlkglbmvsau" path="res://rpg-defense/player/projectile.gd" id="1_ueo5d"]
+[ext_resource type="Script" uid="uid://doort545tcub4" path="res://physics_player/hit_box.gd" id="1_v75e6"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ueo5d"]
+radius = 0.15
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ueo5d"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g8lt0"]
+radius = 3.0
+
+[node name="Fireball" type="Node3D" node_paths=PackedStringArray("hit_box", "extra_hit")]
+script = ExtResource("1_ueo5d")
+speed = 30.0
+hit_box = NodePath("SmallHit")
+extra_hit = NodePath("ExplosionHit")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("SphereMesh_ueo5d")
+
+[node name="SmallHit" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_v75e6")
+damage = 5
+metadata/_custom_type_script = "uid://doort545tcub4"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SmallHit"]
+shape = SubResource("SphereShape3D_ueo5d")
+
+[node name="ExplosionHit" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_v75e6")
+damage = 50
+knockback = 150.0
+metadata/_custom_type_script = "uid://doort545tcub4"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionHit"]
+shape = SubResource("SphereShape3D_g8lt0")
