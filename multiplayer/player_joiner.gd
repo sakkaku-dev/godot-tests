@@ -1,7 +1,7 @@
 class_name PlayerJoiner
 extends Node
 
-signal received_input(input: String)
+signal received_input(player_num: int, input: String)
 
 signal players_reset()
 signal all_players_ready()
@@ -64,7 +64,7 @@ func _join_player(input: String):
 		return
 	
 	joined_players[unique_id] = true
-	player_spawned.rpc(unique_id)
+	player_spawned.rpc(joined_players.size(), unique_id)
 
 ### Client Side ###
 var spawned_players := []
@@ -76,10 +76,10 @@ func init_players():
 	_request_spawned_players.rpc_id(1)
 
 @rpc("call_local", "reliable")
-func player_spawned(input: String):
+func player_spawned(player_num: int, input: String):
 	print("Spawning %s" % input)
 	if input not in spawned_players:
-		received_input.emit(input)
+		received_input.emit(player_num, input)
 		spawned_players.append(input)
 
 func player_join(event: InputEvent):

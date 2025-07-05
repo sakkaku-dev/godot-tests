@@ -5,7 +5,9 @@ extends Node3D
 @export var map: GameMap
 @export var player_scene: PackedScene
 @export var root_spawn: Node3D
+
 @export var player_joiner: PlayerJoiner
+@export var colors: Array[Color] = []
 
 @onready var main_base: MainBase = $MainBase
 @onready var enemy_spawner: EnemySpawner = $EnemySpawner
@@ -56,9 +58,10 @@ func place_block(res: BlockResource, coord: Vector3i) -> void:
 func _game_over():
 	game_over_ui.show()
 
-func _spawn_player(input: String):
+func _spawn_player(player_num: int, input: String):
 	var player = player_scene.instantiate()
 	player.name = input
+	player.color = colors[player_num % colors.size()]
 	player.placed_block.connect(func(res: BlockResource, coord: Vector3i): place_block.rpc_id(1, res, coord))
 	player.player_ready.connect(func():
 		if enemy_spawner.is_active(): return

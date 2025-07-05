@@ -3,13 +3,18 @@ extends Area3D
 
 signal died()
 signal knockbacked(dir: Vector3)
+signal health_changed()
 
 @export var max_health := 10.0
 @onready var health = max_health:
 	set(v):
 		health = clamp(v, 0, max_health)
+		health_changed.emit()
 		if health <= 0:
 			died.emit()
+
+func _ready() -> void:
+	self.health = health
 
 func hurt(dmg: int):
 	health -= dmg

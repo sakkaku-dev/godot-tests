@@ -23,6 +23,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 @export var menu: RadialMenu
 @export var player_input: PlayerInput
 @export var characters: Node3D
+@export var color_ring: ColorRect
 
 @export_category("Classes")
 @export var type := Type.KNIGHT:
@@ -34,6 +35,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 		
 		for c in characters.get_children():
 			c.hide()
+			c.process_mode = PROCESS_MODE_DISABLED
 
 		match type:
 			Type.KNIGHT: active_class = knight
@@ -43,6 +45,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 		
 		active_class.process_mode = PROCESS_MODE_INHERIT
 		var active_char = characters.get_node(NodePath(active_class.name))
+		active_char.process_mode = Node.PROCESS_MODE_INHERIT
 		active_char.show()
 
 @export var knight: Knight
@@ -53,6 +56,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 @onready var placement_cube: Node3D = $PlacementCube
 @onready var map: GridMap = get_tree().get_first_node_in_group("map")
 
+var color := Color.WHITE
 var is_aiming := false
 var active_class = null
 
@@ -75,6 +79,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	add_to_group(GROUP)
 	placing_block = null
+	color_ring.color = color
 	self.is_character_select = is_character_select
 	self.type = type
 	
