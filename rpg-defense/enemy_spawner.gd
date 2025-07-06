@@ -24,7 +24,8 @@ var wave := 0:
 	set(v):
 		wave = v
 		wave_label.text = "Wave %s" % wave
-	
+
+var count := 0
 var alive_enemy_count := 0:
 	set(v):
 		alive_enemy_count = v
@@ -51,6 +52,8 @@ func _spawn_enemy():
 		alive_enemy_count -= 1
 	)
 	enemy.coord = map.start_coords.pick_random()
+	enemy.name = "Enemy_%s" % count
+	count += 1
 	root_spawn.add_child(enemy)
 
 func is_active():
@@ -58,6 +61,7 @@ func is_active():
 
 func start_wave():
 	wave += 1
+	count = 0
 	alive_enemy_count = 0
 	spawn_timer.start(max(base_spawn_time / difficulty, min_base_spawn_time))
 	wave_timer.start()

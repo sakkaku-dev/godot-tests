@@ -48,14 +48,14 @@ func _move_player(delta: float):
 	var vel_dot = move_dir.dot(unit_vel)
 	var accel = acceleration * _curve_minus_range(acceleration_factor_from_dot, vel_dot)
 	
-	var current_target_vel = move_dir * max_speed
+	var current_target_vel = move_dir * max_speed * speed_multiplier
 	goal_vel = goal_vel.move_toward(current_target_vel, accel * delta)
 	
 	var needed_accel = (goal_vel - linear_velocity) / delta
 	var max_accel = max_accel_force * _curve_minus_range(max_acceleration_factor_from_dot, vel_dot)
 	needed_accel = needed_accel.limit_length(max_accel)
 	
-	var force = needed_accel * mass * speed_multiplier
+	var force = needed_accel * mass
 	apply_central_force(force)
 	
 func _curve_minus_range(curve: Curve, value: float):

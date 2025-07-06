@@ -11,6 +11,7 @@ signal died()
 @onready var hurtbox: HurtBox = $Hurtbox
 @onready var soft_push: SoftPush = $SoftPush
 @onready var navigation_agent_3d: NavigationAgent3D = $NavigationAgent3D
+@onready var death_timer: Timer = $DeathTimer
 
 @onready var selection_b_2: Node3D = $"selection-b2"
 
@@ -26,10 +27,12 @@ var coord:
 
 var target: Node3D
 var attacking := false
+var has_died := false
 
 func _ready() -> void:
 	navigation_agent_3d.target_position = target.global_position
 	selection_b_2.position = map.map_to_local(coord)
+	death_timer.timeout.connect(func(): queue_free())
 	
 	hit_box.area_entered.connect(func(_a):
 		attacking = true
@@ -41,12 +44,18 @@ func _ready() -> void:
 			animation_tree.attack()
 	)
 	hurtbox.died.connect(func():
-		died.emit()
-		queue_free()
+		if not has_died:
+			animation_tree.died()
+			died.emit()
+			has_died = true
+			death_timer.start()
 	)
 	hurtbox.knockbacked.connect(func(force: Vector3):
 		apply_central_impulse(force)
 	)
+
+func is_dead():
+	return has_died
 
 func get_next_moveable_cell():
 	var cells = map.get_moveable_neighbors(coord, [prev_coord])
@@ -94,7 +103,7 @@ func get_target_position():
 	return p
 
 func get_move_dir():
-	if not ground_spring_cast.is_grounded() or attacking or coord == null:
+	if not ground_spring_cast.is_grounded() or attacking or coord == null or is_dead():
 		return Vector3.ZERO
 
 	return global_position.direction_to(get_target_position())

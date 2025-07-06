@@ -24,6 +24,7 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 @export var player_input: PlayerInput
 @export var characters: Node3D
 @export var color_ring: ColorRect
+@export var hurtbox: HurtBox
 
 @export_category("Classes")
 @export var type := Type.KNIGHT:
@@ -47,6 +48,10 @@ var BLOCK_MENU = BlockResource.Type.values().map(func(x): return {"id": x, "titl
 		var active_char = characters.get_node(NodePath(active_class.name))
 		active_char.process_mode = Node.PROCESS_MODE_INHERIT
 		active_char.show()
+		
+		speed_multiplier = active_class.speed
+		hurtbox.max_health = active_class.health
+		print("Switching to %s with speed %s and health %s" % [Type.keys()[type], active_class.speed, active_class.health])
 
 @export var knight: Knight
 @export var barbarian: Barbarian

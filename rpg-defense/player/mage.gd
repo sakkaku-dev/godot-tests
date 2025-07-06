@@ -1,20 +1,18 @@
 class_name Mage
-extends Node
+extends PlayerClass
 
 @export var anim: MageAnimation
-@onready var player: PhysicsPlayer = owner
 
-func _ready() -> void:
-	player.player_input.just_pressed.connect(func(ev: InputEvent):
-		if ev.is_action_pressed("primary"):
-			anim.attack()
-		elif ev.is_action_pressed("secondary"):
-			anim.set_is_casting(true)
-	)
-	player.player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("secondary"):
-			anim.set_is_casting(false)
-	)
+func _on_primary_pressed():
+	anim.attack()
+
+func _on_secondary_pressed():
+	anim.set_is_casting(true)
+	player.speed_multiplier = 0.0
+
+func _on_secondary_released():
+	anim.set_is_casting(false)
+	player.speed_multiplier = speed
 
 func _physics_process(delta: float) -> void:
 	anim.update(player.body.basis.z, player.linear_velocity)

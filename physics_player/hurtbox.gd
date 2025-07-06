@@ -5,7 +5,11 @@ signal died()
 signal knockbacked(dir: Vector3)
 signal health_changed()
 
-@export var max_health := 10.0
+@export var max_health := 10.0:
+	set(v):
+		max_health = v
+		health = max_health
+
 @onready var health = max_health:
 	set(v):
 		health = clamp(v, 0, max_health)

@@ -1,8 +1,7 @@
 class_name Knight
-extends Node
+extends PlayerClass
 
 @export var anim: KnightAnimation
-@onready var player: PhysicsPlayer = owner
 
 var is_blocking := false:
 	set(v):
@@ -10,21 +9,19 @@ var is_blocking := false:
 		player.is_aiming = v
 		anim.set_blocking(is_blocking)
 
-func _ready() -> void:
+func _on_primary_pressed():
+	if not is_blocking:
+		anim.attack()
+	else:
+		anim.block_attack()
+
+func _on_secondary_pressed():
+	is_blocking = true
+	player.speed_multiplier = speed * 0.5
+
+func _on_secondary_released():
 	is_blocking = false
-	player.player_input.just_pressed.connect(func(ev: InputEvent):
-		if ev.is_action_pressed("primary"):
-			if not is_blocking:
-				anim.attack()
-			else:
-				anim.block_attack()
-		elif ev.is_action_pressed("secondary"):
-			is_blocking = true
-	)
-	player.player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("secondary"):
-			is_blocking = false
-	)
+	player.speed_multiplier = speed
 
 func _physics_process(delta: float) -> void:
 	anim.update(player.body.basis.z, player.linear_velocity)
