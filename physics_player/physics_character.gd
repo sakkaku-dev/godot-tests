@@ -3,6 +3,10 @@
 class_name PhysicsCharacter
 extends RigidBody3D
 
+@export_category("Rotation")
+@export var upright_joint_spring_strength := 10
+@export var upright_joint_spring_damper := 1.5
+
 @export_category("Movement")
 @export var max_speed := 8
 @export var acceleration := 100
@@ -21,6 +25,7 @@ var goal_vel := Vector3.ZERO
 func _physics_process(delta: float) -> void:
 	_move_player(delta)
 	_float_above_ground()
+	_restore_upright_rotation()
 
 func get_move_dir():
 	return Vector3.ZERO
@@ -58,3 +63,14 @@ func _curve_minus_range(curve: Curve, value: float):
 func _float_above_ground():
 	var ground_vel = ground_spring_cast.apply_spring_force(linear_velocity)
 	apply_central_force(ground_vel)
+
+func _restore_upright_rotation():
+	var upright_rotation = Basis().rotated(Vector3.UP, 0)
+	var current_rotation = transform.basis
+	var target_rotation = upright_rotation
+	var rotation_difference = (target_rotation * current_rotation.inverse()).get_rotation_quaternion()
+
+	var axis = rotation_difference.get_axis()
+	var angle = rotation_difference.get_angle()
+
+	apply_torque(axis * angle * upright_joint_spring_strength - (angular_velocity * upright_joint_spring_damper))
