@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ced21b4vacbm2"]
 
 [ext_resource type="PackedScene" uid="uid://bpsylvgw4iysy" path="res://prototype/prototype.tscn" id="2_rej88"]
-[ext_resource type="Script" uid="uid://cbg5sl0dy2oq5" path="res://multiplayer/player_list.gd" id="3_rej88"]
+[ext_resource type="Script" uid="uid://it4qm1l3y4vu" path="res://multiplayer/multiplayer_start.gd" id="3_rej88"]
 
 [node name="MultiplayerLobby" type="Control" node_paths=PackedStringArray("container")]
 layout_mode = 3
