@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://nefgs0da0y8o"]
+
+[ext_resource type="Script" uid="uid://dmgimpgip2anh" path="res://dungeon-papers/item/ingredient.gd" id="1_51hrl"]
+[ext_resource type="PackedScene" uid="uid://bxdtly5nc4syy" path="res://dungeon-papers/item/molten_metal.tscn" id="2_fjo11"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_51hrl"]
+
+[node name="Metal" type="Area3D"]
+collision_layer = 32768
+collision_mask = 0
+script = ExtResource("1_51hrl")
+station_outputs = Dictionary[String, PackedScene]({
+"Furnace": ExtResource("2_fjo11")
+})
+item_name = "Metal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+shape = SubResource("BoxShape3D_51hrl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+size = Vector3(1, 0.220947, 0.439697)

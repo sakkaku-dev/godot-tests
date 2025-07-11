@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyl53awisdj7w"]
+
+[ext_resource type="Script" uid="uid://c2mfnx48pqwdl" path="res://dungeon-papers/grid_item.gd" id="1_bt40q"]
+[ext_resource type="Script" uid="uid://dmy673lb6y7se" path="res://physics_player/interactable_3d.gd" id="2_8xf7y"]
+
+[node name="GridItem" type="Node3D" node_paths=PackedStringArray("interactable", "process_timer")]
+script = ExtResource("1_bt40q")
+interactable = NodePath("Interactable3D")
+process_timer = NodePath("Timer")
+
+[node name="Interactable3D" type="Area3D" parent="."]
+script = ExtResource("2_8xf7y")
+metadata/_custom_type_script = "uid://dmy673lb6y7se"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

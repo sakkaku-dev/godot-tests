@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://c74cmvvqmsfm5"]
+
+[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="1_ew6rd"]
+[ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="1_mrg5d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hedmm"]
+shader = ExtResource("1_ew6rd")
+shader_parameter/radius = 0.9
+shader_parameter/inner_radius = 0.6
+shader_parameter/fill = 0.0
+shader_parameter/blur = 0.01
+shader_parameter/bg_color = Color(0, 0, 0, 1)
+shader_parameter/inner_color = Color(0, 0, 0, 0)
+
+[node name="CircleTimer" type="Sprite3D" node_paths=PackedStringArray("color_rect")]
+billboard = 1
+script = ExtResource("1_mrg5d")
+color_rect = NodePath("SubViewport/ColorRect")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(64, 64)
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_hedmm")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

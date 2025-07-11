@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://dojmx6h5t5t70"]
+
+[ext_resource type="Script" uid="uid://ddkigcrqgthhu" path="res://dungeon-papers/dungeon_monster.gd" id="1_uqs4g"]
+[ext_resource type="Script" uid="uid://dmy673lb6y7se" path="res://physics_player/interactable_3d.gd" id="2_ii34p"]
+[ext_resource type="PackedScene" uid="uid://br0fd5nnfheb2" path="res://assets/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Minion.glb" id="2_ou1bp"]
+[ext_resource type="Texture2D" uid="uid://ckjh8xopcqpv7" path="res://icon.svg" id="4_evkpt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ii34p"]
+radius = 0.529649
+height = 2.04068
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ou1bp"]
+size = Vector3(3.9082, 1, 1.59473)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ou1bp"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[node name="DungeonMonster" type="RigidBody3D" node_paths=PackedStringArray("interactable")]
+collision_layer = 4
+lock_rotation = true
+script = ExtResource("1_uqs4g")
+interactable = NodePath("Interactable3D")
+
+[node name="Skeleton_Minion" parent="." instance=ExtResource("2_ou1bp")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08286, 0)
+shape = SubResource("CapsuleShape3D_ii34p")
+
+[node name="Interactable3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("2_ii34p")
+metadata/_custom_type_script = "uid://dmy673lb6y7se"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04361, 0)
+shape = SubResource("BoxShape3D_ou1bp")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.23358, 0)
+billboard = 1
+no_depth_test = true
+render_priority = 5
+texture = SubResource("ViewportTexture_ou1bp")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="TextureRect" type="TextureRect" parent="Sprite3D/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_evkpt")

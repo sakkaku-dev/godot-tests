@@ -78,3 +78,4 @@ func handle_input(event: InputEvent) -> void:
 		return
 
 	super.handle_input(event)
+	get_viewport().set_input_as_handled()

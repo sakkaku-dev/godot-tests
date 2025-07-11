@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://b51wp2a8oodu7"]
+
+[ext_resource type="Script" uid="uid://db3bg2vwjy11y" path="res://dungeon-papers/stations/station.gd" id="1_umjil"]
+[ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="2_urlw3"]
+[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="3_yp2kw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n6jsj"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gta8c"]
+viewport_path = NodePath("CircleTimer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hedmm"]
+shader = ExtResource("3_yp2kw")
+shader_parameter/radius = 0.9
+shader_parameter/inner_radius = 0.6
+shader_parameter/fill = 0.0
+shader_parameter/blur = 0.01
+shader_parameter/bg_color = Color(0, 0, 0, 1)
+shader_parameter/inner_color = Color(0, 0, 0, 0)
+
+[node name="CuttingBoard" type="Area3D"]
+script = ExtResource("1_umjil")
+processing_time = 3.0
+item_name = "CuttingBoard"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503922, 0)
+shape = SubResource("BoxShape3D_n6jsj")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503922, 0)
+
+[node name="ItemPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01045, 0)
+
+[node name="CircleTimer" type="Sprite3D" parent="." node_paths=PackedStringArray("color_rect")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67967, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_gta8c")
+script = ExtResource("2_urlw3")
+color_rect = NodePath("SubViewport/ColorRect")
+
+[node name="Timer" type="Timer" parent="CircleTimer"]
+one_shot = true
+
+[node name="SubViewport" type="SubViewport" parent="CircleTimer"]
+transparent_bg = true
+size = Vector2i(64, 64)
+
+[node name="ColorRect" type="ColorRect" parent="CircleTimer/SubViewport"]
+material = SubResource("ShaderMaterial_hedmm")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

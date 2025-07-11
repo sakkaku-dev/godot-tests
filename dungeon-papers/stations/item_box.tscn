@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq8wwlgxp3nr6"]
+
+[ext_resource type="Script" uid="uid://b645jqpy2eg5t" path="res://dungeon-papers/stations/item_box.gd" id="1_5jdlp"]
+[ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="2_rsi6r"]
+[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="3_eikky"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rsi6r"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5jdlp"]
+viewport_path = NodePath("CircleTimer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hedmm"]
+shader = ExtResource("3_eikky")
+shader_parameter/radius = 0.9
+shader_parameter/inner_radius = 0.6
+shader_parameter/fill = 0.0
+shader_parameter/blur = 0.01
+shader_parameter/bg_color = Color(0, 0, 0, 1)
+shader_parameter/inner_color = Color(0, 0, 0, 0)
+
+[node name="ItemBox" type="Area3D" node_paths=PackedStringArray("label")]
+script = ExtResource("1_5jdlp")
+label = NodePath("Label3D")
+processing_time = 0.0
+item_name = "ItemBox"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503922, 0)
+shape = SubResource("BoxShape3D_rsi6r")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503922, 0)
+
+[node name="ItemPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01045, 0)
+
+[node name="CircleTimer" type="Sprite3D" parent="." node_paths=PackedStringArray("color_rect")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67967, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_5jdlp")
+script = ExtResource("2_rsi6r")
+color_rect = NodePath("SubViewport/ColorRect")
+
+[node name="Timer" type="Timer" parent="CircleTimer"]
+one_shot = true
+
+[node name="SubViewport" type="SubViewport" parent="CircleTimer"]
+transparent_bg = true
+size = Vector2i(64, 64)
+
+[node name="ColorRect" type="ColorRect" parent="CircleTimer/SubViewport"]
+material = SubResource("ShaderMaterial_hedmm")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.84, 0)
+billboard = 1
+text = "Test"

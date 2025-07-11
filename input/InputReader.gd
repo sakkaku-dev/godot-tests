@@ -28,16 +28,17 @@ func handle_input(event: InputEvent):
 		action_strength[action] = event.get_action_strength(action)
 		_register_action(event, action)
 
+	if event.is_pressed():
+		just_pressed.emit(event)
+	else:
+		just_released.emit(event)
 
 func _register_action(event: InputEvent, action: String):
 	if event.is_action_pressed(action):
 		if not inputs.has(action):
 			inputs.append(action)
-		emit_signal("just_pressed", event)
 	if event.is_action_released(action):
 		inputs.erase(action)
-		emit_signal("just_released", event)
-
 
 func _get_actions_for_event(event: InputEvent) -> Array:
 	var actions = []
