@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b36wqn71hc2b1"]
+
+[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="1_u1uh6"]
+
+[resource]
+shader = ExtResource("1_u1uh6")
+shader_parameter/radius = 1.0
+shader_parameter/inner_radius = 0.5
+shader_parameter/fill = 0.0
+shader_parameter/blur = 0.01
+shader_parameter/bg_color = Color(0, 0, 0, 1)
+shader_parameter/inner_color = Color(0, 0, 0, 0)

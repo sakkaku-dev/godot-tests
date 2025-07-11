@@ -1,22 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://b51wp2a8oodu7"]
+[gd_scene load_steps=6 format=3 uid="uid://b51wp2a8oodu7"]
 
 [ext_resource type="Script" uid="uid://db3bg2vwjy11y" path="res://dungeon-papers/stations/station.gd" id="1_umjil"]
 [ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="2_urlw3"]
-[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="3_yp2kw"]
+[ext_resource type="Material" uid="uid://b36wqn71hc2b1" path="res://dungeon-papers/stations/work_timer.tres" id="3_urlw3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n6jsj"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_gta8c"]
 viewport_path = NodePath("CircleTimer/SubViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hedmm"]
-shader = ExtResource("3_yp2kw")
-shader_parameter/radius = 0.9
-shader_parameter/inner_radius = 0.6
-shader_parameter/fill = 0.0
-shader_parameter/blur = 0.01
-shader_parameter/bg_color = Color(0, 0, 0, 1)
-shader_parameter/inner_color = Color(0, 0, 0, 0)
 
 [node name="CuttingBoard" type="Area3D"]
 script = ExtResource("1_umjil")
@@ -48,7 +39,7 @@ transparent_bg = true
 size = Vector2i(64, 64)
 
 [node name="ColorRect" type="ColorRect" parent="CircleTimer/SubViewport"]
-material = SubResource("ShaderMaterial_hedmm")
+material = ExtResource("3_urlw3")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b1r0rbpyb2ocs"]
+
+[ext_resource type="Shader" uid="uid://cud2upjeppa2q" path="res://physics_player/toon.gdshader" id="1_ln8ee"]
+[ext_resource type="Texture2D" uid="uid://xhlw3e8rgeij" path="res://assets/KayKit_Dungeon/dungeon_texture.png" id="2_e0rbg"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ln8ee")
+shader_parameter/ToonRampOffset = 0.5
+shader_parameter/ToonRampSmoothness = 0.05
+shader_parameter/ToonRampTinting = Color(0, 0, 0, 1)
+shader_parameter/RimPower = 1.0
+shader_parameter/RimCutOff = 0.5
+shader_parameter/RimSmoothness = 0.05
+shader_parameter/RimLightBrightness = 20.0
+shader_parameter/SubSurfDistortion = 1.0
+shader_parameter/SubSurfTint = Color(0, 0, 0, 1)
+shader_parameter/SubSurfBrightness = 3.0
+shader_parameter/SubSurfCutoff = 0.5
+shader_parameter/SubSurfSmoothness = 0.05
+shader_parameter/Texture = ExtResource("2_e0rbg")

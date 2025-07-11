@@ -5,7 +5,6 @@ extends Item
 @export var automatic := false
 
 var current_item: Ingredient = null
-
 var is_working: bool = false:
 	set(v):
 		is_working = v and has_item_to_work()
@@ -28,8 +27,9 @@ func pick_up(holder: Node3D):
 	if DungeonGame.is_prepping():
 		collision_shape.disabled = true
 		return super.pick_up(holder)
-	elif current_item and not circle_timer.is_working():
+	elif current_item:
 		var item = current_item.pick_up(holder)
+		item.enable_pickup()
 		reset()
 		return item
 
@@ -62,12 +62,14 @@ func rotate_step():
 	rotation.y += PI/2
 
 func put_item(item: Item):
-	if current_item: return
+	if current_item: return false
 
 	current_item = item
 	move_item(item, self)
 	item.position = item_position.position
+	item.disable_pickup()
 	is_working = automatic and can_do_work()
+	return true
 
 func finish_processing():
 	if not current_item: return
@@ -77,9 +79,10 @@ func finish_processing():
 	reset()
 
 	if output_scene:
-		var new_item = output_scene.instantiate()
-		add_child(new_item)
+		var new_item = output_scene.instantiate() as Item
+		new_item.pick_up(self)
 		new_item.position = item_position.position
+		new_item.disable_pickup()
 		current_item = new_item
 
 func start_work():

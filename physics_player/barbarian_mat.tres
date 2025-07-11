@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://btujd4srgw3qs"]
+
+[ext_resource type="Shader" uid="uid://cud2upjeppa2q" path="res://physics_player/toon.gdshader" id="1_peulc"]
+[ext_resource type="Texture2D" uid="uid://csfssgm2nxis4" path="res://assets/KayKit_Adventurers_1.0_FREE/Textures/barbarian_texture.png" id="2_avfv8"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_peulc")
+shader_parameter/ToonRampOffset = 0.5
+shader_parameter/ToonRampSmoothness = 0.05
+shader_parameter/ToonRampTinting = Color(0, 0, 0, 1)
+shader_parameter/RimPower = 1.0
+shader_parameter/RimCutOff = 0.5
+shader_parameter/RimSmoothness = 0.05
+shader_parameter/RimLightBrightness = 20.0
+shader_parameter/SubSurfDistortion = 1.0
+shader_parameter/SubSurfTint = Color(0, 0, 0, 1)
+shader_parameter/SubSurfBrightness = 3.0
+shader_parameter/SubSurfCutoff = 0.5
+shader_parameter/SubSurfSmoothness = 0.05
+shader_parameter/Texture = ExtResource("2_avfv8")

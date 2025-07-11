@@ -44,12 +44,18 @@ func _ready() -> void:
 				try_put_down()
 			else:
 				try_pick_up()
+		elif ev.is_action_pressed("work"):
+			var nearest_object = get_nearest_object(false)
+			if not DungeonGame.is_prepping() and nearest_object.can_do_work():
+				working_station = nearest_object
+				working_station.start_work()
+				print("Working on station %s" % working_station)
 		elif ev.is_action_pressed("rotate") and held_object is Station:
 			rotate_held_station()
 
 	)
 	player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("interact") and working_station:
+		if ev.is_action_released("work") and working_station:
 			working_station.stop_work()
 			working_station = null
 			print("Stopped working on station %s" % working_station)
@@ -59,8 +65,6 @@ func get_move_dir():
 	if menu and menu.visible: return Vector3.ZERO
 	if working_station: return Vector3.ZERO
 
-	#if hand.last_interactable: return Vector3.ZERO
-	
 	var motion = player_input.get_vector("move_right", "move_left", "move_down", "move_up")
 	var move_dir = Vector3(motion.x, 0, motion.y)
 	if move_dir.length() > 1:
@@ -72,8 +76,6 @@ func get_aim_dir():
 	if not is_aiming: return Vector3.ZERO
 	if working_station: return Vector3.ZERO
 
-	#if hand.last_interactable: return Vector3.ZERO
-	
 	var aim = player_input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 	if aim: return Vector3(aim.x, 0, aim.y)
 	
@@ -92,29 +94,26 @@ func rotate_held_station():
 
 @rpc("any_peer", "call_local", "reliable")
 func try_pick_up():
+	var nearest_object = get_nearest_object()
+	print("Try picking up object %s" % nearest_object)
+	if nearest_object:
+		held_object = nearest_object.pick_up(pickup_area)
+
+func get_nearest_object(find_items = true, find_stations = true):
 	var nearest_object: Node = null
 	var nearest_distance: float = INF
 	
 	for area in pickup_area.get_overlapping_areas():
 		var distance = global_position.distance_to(area.global_position)
 		if distance < nearest_distance:
-			if area is Station:
+			if area is Station and area.is_pickupable() and find_stations:
 				nearest_object = area
 				nearest_distance = distance
-			elif area is Ingredient:
+			elif area is Ingredient and area.is_pickupable() and find_items:
 				nearest_object = area
 				nearest_distance = distance
 	
-	print("Try picking up object %s" % nearest_object)
-	if nearest_object:
-		# TODO: cannot pick up the item anymore
-		if nearest_object is Station and not DungeonGame.is_prepping() and nearest_object.can_do_work():
-			working_station = nearest_object
-			working_station.start_work()
-			print("Working on station %s" % working_station)
-			return
-
-		held_object = nearest_object.pick_up(pickup_area)
+	return nearest_object
 
 @rpc("any_peer", "call_local", "reliable")
 func try_put_down():
@@ -129,7 +128,7 @@ func try_put_down():
 		elif held_object is Ingredient:
 			for area in pickup_area.get_overlapping_areas():
 				if area is Station:
-					area.put_item(held_object)
-					held_object = null
-					return
+					if area.put_item(held_object):
+						held_object = null
+						return
 			

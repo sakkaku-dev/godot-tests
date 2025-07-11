@@ -11,7 +11,7 @@ func _ready() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func pick_up(holder: Node3D):
-	if not DungeonGame.is_prepping():
+	if not DungeonGame.is_prepping() and current_item == null:
 		var item_scene = DungeonGame.get_item_scene(item)
 		if item_scene:
 			var node = item_scene.instantiate()

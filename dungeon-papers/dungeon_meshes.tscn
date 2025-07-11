@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://4216s4rehiwn"]
+[gd_scene load_steps=10 format=3 uid="uid://4216s4rehiwn"]
 
 [ext_resource type="PackedScene" uid="uid://bkjhsybpqy2be" path="res://assets/KayKit_Dungeon/wall_counter_gated.glb" id="1_piudk"]
 [ext_resource type="PackedScene" uid="uid://cswl4nupv5r4y" path="res://assets/KayKit_Dungeon/floor_dirt_large.gltf" id="1_r40it"]
 [ext_resource type="PackedScene" uid="uid://d3522a75gyxdr" path="res://assets/KayKit_Dungeon/floor_wood_large.gltf" id="1_urww2"]
 [ext_resource type="PackedScene" uid="uid://bwr1rh5ym18ne" path="res://assets/KayKit_Dungeon/wall_fixed.glb" id="4_piudk"]
 [ext_resource type="PackedScene" uid="uid://cqdot216wcfkv" path="res://assets/KayKit_Dungeon/floor_wood_small.gltf" id="5_buwo1"]
+[ext_resource type="Material" uid="uid://b1r0rbpyb2ocs" path="res://dungeon-papers/dungeon_map_mat.tres" id="6_t22wo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r40it"]
 size = Vector3(4, 4.05488, 0.988403)
@@ -12,10 +13,17 @@ size = Vector3(4, 4.05488, 0.988403)
 [sub_resource type="BoxShape3D" id="BoxShape3D_urww2"]
 size = Vector3(4, 0.146191, 4)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_buwo1"]
+size = Vector3(2, 0.146, 2)
+
 [node name="dungeon_meshes" type="Node3D"]
 
 [node name="wall_counter_gated" parent="." instance=ExtResource("1_piudk")]
 visible = false
+
+[node name="wall_archedwindow_open" parent="wall_counter_gated" index="0"]
+material_override = ExtResource("6_t22wo")
+surface_material_override/0 = ExtResource("6_t22wo")
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="wall_counter_gated/wall_archedwindow_open" index="0"]
 
@@ -26,6 +34,10 @@ shape = SubResource("BoxShape3D_r40it")
 [node name="floor_dirt_large2" parent="." instance=ExtResource("1_r40it")]
 visible = false
 
+[node name="floor_dirt_large" parent="floor_dirt_large2" index="0"]
+material_override = ExtResource("6_t22wo")
+surface_material_override/0 = ExtResource("6_t22wo")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="floor_dirt_large2/floor_dirt_large" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor_dirt_large2/floor_dirt_large/StaticBody3D"]
@@ -33,6 +45,10 @@ shape = SubResource("BoxShape3D_urww2")
 
 [node name="floor_wood_large2" parent="." instance=ExtResource("1_urww2")]
 visible = false
+
+[node name="floor_wood_large" parent="floor_wood_large2" index="0"]
+material_override = ExtResource("6_t22wo")
+surface_material_override/0 = ExtResource("6_t22wo")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="floor_wood_large2/floor_wood_large" index="0"]
 
@@ -43,6 +59,10 @@ shape = SubResource("BoxShape3D_urww2")
 [node name="wall_fixed" parent="." instance=ExtResource("4_piudk")]
 visible = false
 
+[node name="wall" parent="wall_fixed" index="0"]
+material_override = ExtResource("6_t22wo")
+surface_material_override/0 = ExtResource("6_t22wo")
+
 [node name="StaticBody3D2" type="StaticBody3D" parent="wall_fixed/wall" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="wall_fixed/wall/StaticBody3D2"]
@@ -51,7 +71,15 @@ shape = SubResource("BoxShape3D_r40it")
 
 [node name="floor_wood_small2" parent="." instance=ExtResource("5_buwo1")]
 
+[node name="floor_wood_small" parent="floor_wood_small2" index="0"]
+material_override = ExtResource("6_t22wo")
+surface_material_override/0 = ExtResource("6_t22wo")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="floor_wood_small2/floor_wood_small" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_wood_small2/floor_wood_small/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0230957, 0)
+shape = SubResource("BoxShape3D_buwo1")
 
 [editable path="wall_counter_gated"]
 [editable path="floor_dirt_large2"]

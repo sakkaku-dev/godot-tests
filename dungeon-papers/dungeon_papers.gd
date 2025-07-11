@@ -33,7 +33,6 @@ var is_running := false:
 			DungeonGame.end_round()
 			_end_round()
 
-
 var available_monsters: Array[DungeonMonster.Type] = []
 var processed_monsters: Array[Dropout.Builds] = []
 var failed_monsters: Array[DungeonMonster.Type] = []
