@@ -15,9 +15,9 @@ station_outputs = Dictionary[String, PackedScene]({
 item_name = "Metal"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.143671, 0)
 shape = SubResource("BoxShape3D_51hrl")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.143671, 0)
 size = Vector3(1, 0.220947, 0.439697)

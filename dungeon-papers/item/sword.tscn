@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq2t3p6rcws5u"]
+
+[ext_resource type="Script" uid="uid://dmgimpgip2anh" path="res://dungeon-papers/item/ingredient.gd" id="1_dawd7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dawd7"]
+size = Vector3(3.47241, 0.331055, 0.508057)
+
+[node name="Sword" type="Area3D"]
+script = ExtResource("1_dawd7")
+item_name = "Sword"
+metadata/_custom_type_script = "uid://dmgimpgip2anh"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+shape = SubResource("BoxShape3D_dawd7")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0962034, 0)
+size = Vector3(3.29468, 0.0957031, 0.342041)

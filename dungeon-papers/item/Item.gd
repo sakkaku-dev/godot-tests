@@ -2,8 +2,7 @@ class_name Item
 extends Area3D
 
 @export var item_name: String = "Item"
-
-var pickupable := true
+@export var pickupable := true
 
 func _ready() -> void:
 	collision_layer = 1 << 15

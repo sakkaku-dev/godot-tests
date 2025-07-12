@@ -127,7 +127,9 @@ func try_put_down():
 				held_object = null
 		elif held_object is Ingredient:
 			for area in pickup_area.get_overlapping_areas():
-				if area is Station:
+				if area is Dish:
+					held_object = area.put_item(held_object)
+				elif area is Station:
 					if area.put_item(held_object):
 						held_object = null
 						return

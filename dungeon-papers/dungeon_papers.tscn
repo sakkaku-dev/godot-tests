@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dvdu2npcnr3cf"]
+[gd_scene load_steps=24 format=3 uid="uid://dvdu2npcnr3cf"]
 
 [ext_resource type="MeshLibrary" uid="uid://ce45q6vqek1w7" path="res://dungeon-papers/dungeon_mesh.tres" id="1_ptcyr"]
 [ext_resource type="Script" uid="uid://bjvcr1hx8sx27" path="res://dungeon-papers/dungeon_papers.gd" id="1_w70f4"]
@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://dq8wwlgxp3nr6" path="res://dungeon-papers/stations/item_box.tscn" id="9_5hqmm"]
 [ext_resource type="PackedScene" uid="uid://byfy3d6r0q32n" path="res://dungeon-papers/stations/anvil.tscn" id="10_gdi6c"]
 [ext_resource type="PackedScene" uid="uid://wyw6e2ak4h10" path="res://dungeon-papers/torch.tscn" id="11_aq1ue"]
+[ext_resource type="PackedScene" uid="uid://ll1imetce5jy" path="res://assets/KayKit_Dungeon/chest.gltf" id="12_v2f36"]
+[ext_resource type="Script" uid="uid://drpftkjvhoy2x" path="res://dungeon-papers/chest.gd" id="12_voecl"]
+[ext_resource type="Script" uid="uid://243s8vwjlc83" path="res://dungeon-papers/ui/timer_ui.gd" id="15_3c3vd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5g6nn"]
 sky_top_color = Color(0.420377, 0.437952, 0.569708, 1)
@@ -29,15 +32,19 @@ sky = SubResource("Sky_gmdig")
 [sub_resource type="BoxShape3D" id="BoxShape3D_dfumo"]
 size = Vector3(45.0315, 1.11035, 4)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_v2f36"]
+size = Vector3(1.92358, 1.8064, 1.71899)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_gmdig"]
 size = Vector3(3, 1, 3)
 
-[node name="DungeonPapers" type="Node3D" node_paths=PackedStringArray("player_joiner", "round_timer", "dropout", "enemy_spawner")]
+[node name="DungeonPapers" type="Node3D" node_paths=PackedStringArray("player_joiner", "round_timer", "dropout", "enemy_spawner", "money_label")]
 script = ExtResource("1_w70f4")
 player_joiner = NodePath("PlayerJoiner")
 round_timer = NodePath("RoundTimer")
 dropout = NodePath("Dropout")
 enemy_spawner = NodePath("EnemySpawner")
+money_label = NodePath("CanvasLayer/Control/MarginContainer/Money")
 
 [node name="RoundTimer" type="Timer" parent="."]
 wait_time = 500.0
@@ -98,6 +105,7 @@ shape = SubResource("BoxShape3D_dfumo")
 
 [node name="Melter" parent="GridMap" instance=ExtResource("7_gdi6c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65075, 0.399536, 8.214)
+processing_time = 2.0
 
 [node name="CuttingBoard" parent="GridMap" instance=ExtResource("6_5hqmm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6121, 0.399536, 9.18967)
@@ -170,6 +178,16 @@ transform = Transform3D(0.616541, 0.787323, -3.69042e-09, 0.28106, -0.220094, 0.
 visible = false
 light_energy = 0.2
 
+[node name="Chest" type="Area3D" parent="GridMap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.7065)
+script = ExtResource("12_voecl")
+
+[node name="chest2" parent="GridMap/Chest" instance=ExtResource("12_v2f36")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GridMap/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.632232, 0)
+shape = SubResource("BoxShape3D_v2f36")
+
 [node name="PlayerSpawn" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.51807)
 
@@ -184,12 +202,57 @@ _spawnable_scenes = PackedStringArray("uid://dojmx6h5t5t70")
 spawn_path = NodePath("..")
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
-wait_time = 3.0
+wait_time = 6.0
 
 [node name="Dropout" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, -3)
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("7_3dmyq")
 metadata/_custom_type_script = "uid://crm3xm7ifas7e"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dropout"]
 shape = SubResource("BoxShape3D_gmdig")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Money" type="Label" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+text = "100$"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -47.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Timer" type="Label" parent="CanvasLayer/Control/MarginContainer2" node_paths=PackedStringArray("timer")]
+layout_mode = 2
+text = "12s"
+horizontal_alignment = 2
+script = ExtResource("15_3c3vd")
+timer = NodePath("../../../../RoundTimer")

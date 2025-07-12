@@ -1,18 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxdtly5nc4syy"]
+[gd_scene load_steps=4 format=3 uid="uid://bxdtly5nc4syy"]
 
 [ext_resource type="Script" uid="uid://dmgimpgip2anh" path="res://dungeon-papers/item/ingredient.gd" id="1_44jps"]
+[ext_resource type="PackedScene" uid="uid://cq2t3p6rcws5u" path="res://dungeon-papers/item/sword.tscn" id="2_ct86d"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_44jps"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_44jps"]
 
 [node name="MoltenMetal" type="Area3D"]
 script = ExtResource("1_44jps")
+station_outputs = Dictionary[String, PackedScene]({
+"Anvil": ExtResource("2_ct86d")
+})
 item_name = "MoltenMetal"
 metadata/_custom_type_script = "uid://dmgimpgip2anh"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.228858, 0)
-shape = SubResource("BoxShape3D_44jps")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35693, 0)
+shape = SubResource("SphereShape3D_44jps")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.269581, 0)
-radius = 0.375886
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.266992, 0)
+radius = 0.273126

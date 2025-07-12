@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="1_u1uh6"]
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource("1_u1uh6")
 shader_parameter/radius = 1.0
 shader_parameter/inner_radius = 0.5

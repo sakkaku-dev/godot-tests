@@ -26,6 +26,10 @@ Networking="*res://network/networking.gd"
 SteamManager="*res://network/steam_manager.gd"
 DungeonGame="*res://dungeon-papers/dungeon_game.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")

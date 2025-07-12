@@ -12,10 +12,11 @@ enum Type {
 }
 
 var type: Type
-#var items: Array[Item.Type] = []
 
-@export var interactable: Interactable3D
+@onready var dish: Dish = $Dish
 
 func _ready() -> void:
 	add_to_group(GROUP)
-	#interactable.interacted.connect(func(hand: Hand3D): items.append(hand.take_item()))
+
+func get_items():
+	return dish.components

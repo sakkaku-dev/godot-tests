@@ -1,10 +1,5 @@
 extends Node3D
 
-const TYPE_BUILD_MAP = {
-	DungeonMonster.Type.SKELETON: [Dropout.Builds.SKELETON_MAGE, Dropout.Builds.SKELETON_WARRIOR, Dropout.Builds.SKELETON_ARCHER],
-	DungeonMonster.Type.GOBLIN: [Dropout.Builds.GOBLIN_WARRIOR, Dropout.Builds.GOBLIN_SHAMAN],
-}
-
 const BUILD_ATTACKS = {
 	Dropout.Builds.SKELETON_MAGE: 1,
 	Dropout.Builds.SKELETON_WARRIOR: 2,
@@ -17,9 +12,13 @@ const BUILD_ATTACKS = {
 @export var round_timer: Timer
 @export var dropout: Dropout
 @export var enemy_spawner: EnemySpawner
+@export var money_label: Label
 
 var health := 3
-var money := 0
+var money := 0:
+	set(v):
+		money = v
+		money_label.text = "%s$" % money
 var rounds := 0
 var is_running := false:
 	set(v):
@@ -64,7 +63,7 @@ func setup_round(round: int):
 	processed_monsters.clear()
 
 	if round == 0:
-		available_monsters = [DungeonMonster.Type.SKELETON, DungeonMonster.Type.GOBLIN]
+		available_monsters = [DungeonMonster.Type.SKELETON]
 		hero_attack_value = 5
 	elif round == 1:
 		available_monsters = [DungeonMonster.Type.SKELETON, DungeonMonster.Type.GOBLIN, DungeonMonster.Type.SLIME]

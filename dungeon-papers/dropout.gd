@@ -14,9 +14,11 @@ enum Builds {
 }
 
 const BUILD_ITEMS_MAP = {
+	DungeonMonster.Type.SKELETON: {
 	#Builds.SKELETON_MAGE: [Item.Type.POTION, Item.Type.ROBE, Item.Type.STAFF],
-	#Builds.SKELETON_WARRIOR: [Item.Type.SWORD, Item.Type.SHIELD, Item.Type.ARMOR],
+	Builds.SKELETON_WARRIOR: ["Sword"],
 	#Builds.SKELETON_ARCHER: [Item.Type.CROSSBOW, Item.Type.QUIVER, Item.Type.ARROW, Item.Type.ARROW, Item.Type.ARROW, Item.Type.ARROW, Item.Type.ARROW],
+	}
 	#Builds.GOBLIN_SHAMAN: [Item.Type.POTION],
 	#Builds.GOBLIN_WARRIOR: [Item.Type.SWORD, Item.Type.SHIELD],
 }
@@ -37,13 +39,15 @@ func on_body_entered(body: Node3D) -> void:
 		build_failed.emit(type)
 		return
 
-	print("Build found for monster: ", type, " - ", build)
+	print("Build found for monster: ", DungeonMonster.Type.keys()[type], " - ", Builds.keys()[build])
 	build_successful.emit(build)
 
 func get_build_for_monster(monster: DungeonMonster):
-	var items = monster.items
-	var possible_builds = BUILD_ITEMS_MAP.keys().filter(func(x): return BUILD_ITEMS_MAP[x].size() == items.size())
-
+	var items = monster.get_items()
+	var builds = BUILD_ITEMS_MAP.get(monster.type)
+	if not builds: return
+	
+	var possible_builds = builds.keys().filter(func(x): return builds[x].size() == items.size())
 	var unique_items = []
 	for i in items:
 		if not i in unique_items:

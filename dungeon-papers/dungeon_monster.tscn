@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dojmx6h5t5t70"]
+[gd_scene load_steps=9 format=3 uid="uid://dojmx6h5t5t70"]
 
 [ext_resource type="Script" uid="uid://ddkigcrqgthhu" path="res://dungeon-papers/dungeon_monster.gd" id="1_uqs4g"]
 [ext_resource type="Script" uid="uid://dmy673lb6y7se" path="res://physics_player/interactable_3d.gd" id="2_ii34p"]
 [ext_resource type="PackedScene" uid="uid://br0fd5nnfheb2" path="res://assets/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Minion.glb" id="2_ou1bp"]
+[ext_resource type="Script" uid="uid://llqsc28eoe7b" path="res://dungeon-papers/item/dish.gd" id="3_ve633"]
 [ext_resource type="Texture2D" uid="uid://ckjh8xopcqpv7" path="res://icon.svg" id="4_evkpt"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ii34p"]
@@ -10,16 +11,15 @@ radius = 0.529649
 height = 2.04068
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ou1bp"]
-size = Vector3(3.9082, 1, 1.59473)
+size = Vector3(4.25, 1.19141, 2.14551)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ou1bp"]
 viewport_path = NodePath("Sprite3D/SubViewport")
 
-[node name="DungeonMonster" type="RigidBody3D" node_paths=PackedStringArray("interactable")]
+[node name="DungeonMonster" type="RigidBody3D"]
 collision_layer = 4
 lock_rotation = true
 script = ExtResource("1_uqs4g")
-interactable = NodePath("Interactable3D")
 
 [node name="Skeleton_Minion" parent="." instance=ExtResource("2_ou1bp")]
 
@@ -27,7 +27,18 @@ interactable = NodePath("Interactable3D")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08286, 0)
 shape = SubResource("CapsuleShape3D_ii34p")
 
+[node name="Dish" type="Area3D" parent="."]
+script = ExtResource("3_ve633")
+item_name = "Monster"
+pickupable = false
+metadata/_custom_type_script = "uid://llqsc28eoe7b"
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Dish"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.947907, 0)
+shape = SubResource("BoxShape3D_ou1bp")
+
 [node name="Interactable3D" type="Area3D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("2_ii34p")
