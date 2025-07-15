@@ -72,11 +72,12 @@ shape = SubResource("CapsuleShape3D_2gucp")
 
 [node name="Body" type="Node3D" parent="."]
 
-[node name="Hand" type="Area3D" parent="Body"]
+[node name="Hand" type="Area3D" parent="Body" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98754, 0.85939)
 collision_layer = 0
 collision_mask = 32776
 script = ExtResource("3_du341")
+player = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body/Hand"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0948993)

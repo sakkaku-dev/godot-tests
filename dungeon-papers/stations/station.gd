@@ -14,19 +14,21 @@ var is_working: bool = false:
 			circle_timer.stop()
 
 @onready var item_position: Marker3D = $ItemPosition
-@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var circle_timer: CircleTimer = $CircleTimer
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var dungeon_map: DungeonMap = get_tree().get_first_node_in_group(DungeonMap.GROUP)
 
 func _ready() -> void:
 	super._ready()
-	circle_timer.finished.connect(func(): finish_processing())
+	if circle_timer:
+		circle_timer.finished.connect(func(): finish_processing())
 
 @rpc("any_peer", "call_local", "reliable")
 func pick_up(holder: Node3D):
 	if DungeonGame.is_prepping():
+		var item = super.pick_up(holder)
 		collision_shape.disabled = true
-		return super.pick_up(holder)
+		return item
 	elif current_item:
 		var item = current_item.pick_up(holder)
 		item.enable_pickup()
@@ -66,7 +68,8 @@ func put_item(item: Item):
 
 	current_item = item
 	move_item(item, self)
-	item.position = item_position.position
+	if item_position:
+		item.position = item_position.position
 	item.disable_pickup()
 	is_working = automatic and can_do_work()
 	return true
@@ -81,7 +84,8 @@ func finish_processing():
 	if output_scene:
 		var new_item = output_scene.instantiate() as Item
 		new_item.pick_up(self)
-		new_item.position = item_position.position
+		if item_position:
+			new_item.position = item_position.position
 		new_item.disable_pickup()
 		current_item = new_item
 

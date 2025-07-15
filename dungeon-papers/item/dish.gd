@@ -7,4 +7,4 @@ func put_item(item: Item):
 	var item_name = item.item_name
 	item.queue_free()
 	components.append(item_name)
-	return null
+	return true

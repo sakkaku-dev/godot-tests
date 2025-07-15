@@ -3,14 +3,15 @@ extends Node
 const ITEMS = {
 	"Metal": preload("res://dungeon-papers/item/metal.tscn"),
 	"MoltenMetal": preload("res://dungeon-papers/item/molten_metal.tscn"),
-}
-
-const STATIONS = {
+	
+	# Stations
 	"Furnace": preload("res://dungeon-papers/stations/furnace.tscn"),
 	"Anvil": preload("res://dungeon-papers/stations/anvil.tscn"),
 	"CuttingBoard": preload("res://dungeon-papers/stations/cutting_board.tscn"),
 	"ItemBox": preload("res://dungeon-papers/stations/item_box.tscn"),
 }
+
+const ITEM_TEXTURES = {}
 
 enum GameState {PREP, ROUND, END}
 var current_state: GameState = GameState.PREP

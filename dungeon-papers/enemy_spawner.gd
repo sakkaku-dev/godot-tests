@@ -18,8 +18,8 @@ func start(types: Array[DungeonMonster.Type] = []):
 
 func stop():
 	spawn_timer.stop()
-	for e in get_tree().get_nodes_in_group(DungeonMonster.GROUP):
-		e.queue_free()
+	#for e in get_tree().get_nodes_in_group(DungeonMonster.GROUP):
+		#e.queue_free()
 
 func get_current_enemy_count() -> int:
 	return enemy_spawned

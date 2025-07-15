@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://pl2rdmv4x3a0"]
+
+[ext_resource type="Script" uid="uid://8pifntj4gpee" path="res://dungeon-papers/ui/item_slot.gd" id="1_rmswp"]
+[ext_resource type="Texture2D" uid="uid://ckjh8xopcqpv7" path="res://icon.svg" id="2_07hog"]
+
+[node name="ItemSlot" type="PanelContainer" node_paths=PackedStringArray("texture")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_rmswp")
+texture = NodePath("MarginContainer/TextureRect")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_07hog")
+expand_mode = 2
+stretch_mode = 5

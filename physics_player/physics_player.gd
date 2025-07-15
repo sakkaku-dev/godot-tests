@@ -9,7 +9,7 @@ const GROUP = "PLAYER"
 @export var player_input: PlayerInput
 @export var color_ring: ColorRect
 @export var label: Label3D
-@export var pickup_area: Area3D
+@export var pickup_area: Hand3D
 
 var color := Color.WHITE
 var is_aiming := false
@@ -81,6 +81,9 @@ func get_aim_dir():
 	
 	return _get_mouse_direction()
 
+func reset_inputs():
+	player_input.reset()
+
 func _get_mouse_direction():
 	var screen_pos = get_viewport().get_camera_3d().unproject_position(body.global_transform.origin)
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -95,9 +98,12 @@ func rotate_held_station():
 @rpc("any_peer", "call_local", "reliable")
 func try_pick_up():
 	var nearest_object = get_nearest_object()
-	print("Try picking up object %s" % nearest_object)
-	if nearest_object:
-		held_object = nearest_object.pick_up(pickup_area)
+	pickup_item(nearest_object)
+
+func pickup_item(item):
+	if item:
+		held_object = item.pick_up(pickup_area)
+		print("Picking up object %s" % item)
 
 func get_nearest_object(find_items = true, find_stations = true):
 	var nearest_object: Node = null
@@ -128,7 +134,9 @@ func try_put_down():
 		elif held_object is Ingredient:
 			for area in pickup_area.get_overlapping_areas():
 				if area is Dish:
-					held_object = area.put_item(held_object)
+					if area.put_item(held_object):
+						held_object = null
+						return
 				elif area is Station:
 					if area.put_item(held_object):
 						held_object = null

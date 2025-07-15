@@ -4,6 +4,8 @@ extends Area3D
 signal item_changed()
 signal grid_item_grabbed(pos)
 
+@export var player: PhysicsPlayer
+
 var is_grid_item := false
 var item:
 	set(v):

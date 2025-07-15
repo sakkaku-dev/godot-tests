@@ -13,6 +13,7 @@ const BUILD_ATTACKS = {
 @export var dropout: Dropout
 @export var enemy_spawner: EnemySpawner
 @export var money_label: Label
+@export var chest: Chest
 
 var health := 3
 var money := 0:
@@ -39,6 +40,7 @@ var hero_attack_value := 0
 
 func _ready() -> void:
 	if not multiplayer.is_server(): return
+	chest.add_items(["Furnace", "Anvil"])
 
 	round_timer.timeout.connect(func(): _end_round())
 	dropout.build_successful.connect(func(build): processed_monsters.append(build))

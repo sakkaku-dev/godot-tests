@@ -12,6 +12,7 @@ enum Type {
 }
 
 var type: Type
+var requested_items: Array[String]= []
 
 @onready var dish: Dish = $Dish
 
@@ -20,3 +21,4 @@ func _ready() -> void:
 
 func get_items():
 	return dish.components
+	
