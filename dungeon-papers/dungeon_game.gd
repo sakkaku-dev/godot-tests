@@ -1,5 +1,28 @@
 extends Node
 
+enum Monster {
+	SKELETON,
+	GOBLIN,
+	SLIME,
+	OGRE,
+	DRAGON,
+}
+
+enum Builds {
+	SKELETON_MAGE,
+	SKELETON_WARRIOR,
+	SKELETON_ARCHER,
+
+	GOBLIN_SHAMAN,
+	GOBLIN_WARRIOR,
+}
+
+const BUILD_ITEMS_MAP = {
+	Builds.SKELETON_WARRIOR: ["Sword"],
+	Builds.SKELETON_ARCHER: ["Bow", "Arrow", "Arrow", "Arrow"],
+	Builds.GOBLIN_WARRIOR: ["Axe", "Shield"],
+}
+
 const ITEMS = {
 	"Metal": preload("res://dungeon-papers/item/metal.tscn"),
 	"MoltenMetal": preload("res://dungeon-papers/item/molten_metal.tscn"),
