@@ -1,27 +1,30 @@
 class_name Station
 extends Item
 
-@export var processing_time: float = 2.0
-@export var automatic := false
+@export var station_work: StationWork
+@export var requires_item := true
 
 var current_item: Ingredient = null
-var is_working: bool = false:
-	set(v):
-		is_working = v and has_item_to_work()
-		if is_working:
-			circle_timer.start(processing_time)
-		else:
-			circle_timer.stop()
+var working_player: PhysicsPlayer
 
 @onready var item_position: Marker3D = $ItemPosition
-@onready var circle_timer: CircleTimer = $CircleTimer
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
-@onready var dungeon_map: DungeonMap = get_tree().get_first_node_in_group(DungeonMap.GROUP)
+@onready var dungeon_map: DungeonMap = get_tree().get_first_node_in_group("DungeonMap")
 
 func _ready() -> void:
 	super._ready()
-	if circle_timer:
-		circle_timer.finished.connect(func(): finish_processing())
+	if station_work:
+		station_work.finished.connect(finish_processing)
+
+func handle_input(event: InputEvent) -> void:
+	if not station_work: return
+	
+	if event.is_action_pressed("work"):
+		station_work.work()
+	elif event.is_action_released("work"):
+		station_work.stop_work()
+	elif event.is_action_pressed("cancel"):
+		working_player.stop_work()
 
 @rpc("any_peer", "call_local", "reliable")
 func pick_up(holder: Node3D):
@@ -32,7 +35,9 @@ func pick_up(holder: Node3D):
 	elif current_item:
 		var item = current_item.pick_up(holder)
 		item.enable_pickup()
-		reset()
+		current_item = null
+		if station_work:
+			station_work.item_removed()
 		return item
 
 @rpc("any_peer", "call_local", "reliable")
@@ -54,10 +59,8 @@ func can_place_at(pos: Vector3) -> bool:
 	var results = space_state.intersect_shape(query)
 	return results.is_empty()
 
-func can_do_work() -> bool:
-	return not is_working and has_item_to_work() and processing_time > 0
-
 func has_item_to_work() -> bool:
+	if not requires_item: return true
 	return current_item != null and current_item.can_station_process(self)
 
 func rotate_step():
@@ -71,7 +74,9 @@ func put_item(item: Item):
 	if item_position:
 		item.position = item_position.position
 	item.disable_pickup()
-	is_working = automatic and can_do_work()
+
+	if station_work:
+		station_work.item_placed(self)
 	return true
 
 func finish_processing():
@@ -79,7 +84,9 @@ func finish_processing():
 
 	var output_scene = current_item.get_output_for_station(self)
 	current_item.queue_free()
-	reset()
+	current_item = null
+	if working_player:
+		working_player.stop_work()
 
 	if output_scene:
 		var new_item = output_scene.instantiate() as Item
@@ -89,14 +96,12 @@ func finish_processing():
 		new_item.disable_pickup()
 		current_item = new_item
 
-func start_work():
-	if processing_time <= 0: return
-	is_working = true
+func start_work(player: PhysicsPlayer):
+	working_player = player
+	if station_work and has_item_to_work():
+		station_work.started_work()
 	
 func stop_work():
-	if processing_time <= 0: return
-	is_working = false
-
-func reset():
-	current_item = null
-	is_working = false
+	working_player = null
+	if station_work:
+		station_work.stopped_work()

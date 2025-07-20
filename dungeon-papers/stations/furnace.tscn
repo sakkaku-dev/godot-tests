@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://fvaxmebru3c2"]
 
 [ext_resource type="Script" uid="uid://db3bg2vwjy11y" path="res://dungeon-papers/stations/station.gd" id="1_e2etj"]
-[ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="2_cku0n"]
+[ext_resource type="Script" uid="uid://bbvjvgmxg2fuj" path="res://dungeon-papers/stations/auto_work.gd" id="2_cku0n"]
 [ext_resource type="Material" uid="uid://b36wqn71hc2b1" path="res://dungeon-papers/stations/work_timer.tres" id="3_cku0n"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h3xra"]
@@ -9,12 +9,11 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_yg1i2"]
 viewport_path = NodePath("CircleTimer/SubViewport")
 
-[node name="Furnace" type="Area3D"]
+[node name="Furnace" type="Area3D" node_paths=PackedStringArray("station_work")]
 collision_layer = 32768
 collision_mask = 0
 script = ExtResource("1_e2etj")
-processing_time = 8.0
-automatic = true
+station_work = NodePath("CircleTimer")
 item_name = "Furnace"
 
 [node name="ItemPosition" type="Marker3D" parent="."]
@@ -31,12 +30,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505127, 0)
 operation = 2
 size = Vector3(0.8, 0.8, 1)
 
-[node name="CircleTimer" type="Sprite3D" parent="." node_paths=PackedStringArray("color_rect")]
+[node name="CircleTimer" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67967, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_yg1i2")
 script = ExtResource("2_cku0n")
-color_rect = NodePath("SubViewport/ColorRect")
 
 [node name="Timer" type="Timer" parent="CircleTimer"]
 one_shot = true

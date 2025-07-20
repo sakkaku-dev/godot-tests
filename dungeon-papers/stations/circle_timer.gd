@@ -1,24 +1,10 @@
 # This somehow canne be used as a scene itself and needs to be copied to all places
 # There is a problem with the reference to the SubViewport
 class_name CircleTimer
-extends Sprite3D
+extends StationWork
 
-signal finished()
-
-@export var color_rect: ColorRect
 @onready var timer: Timer = $Timer
-
-func _ready() -> void:
-	timer.timeout.connect(func(): finished.emit())
-
-func start(time: float):
-	timer.start(time)
-
-func stop():
-	timer.stop()
-
-func is_working():
-	return not timer.is_stopped()
+@onready var color_rect: ColorRect = $SubViewport/ColorRect
 
 func _process(_d: float) -> void:
 	if timer.is_stopped():

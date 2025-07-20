@@ -11,7 +11,12 @@ signal closed()
 var player_input: PlayerInput
 var current_selected := 0:
 	set(v):
-		current_selected = clamp(v, 0, container.get_child_count() - 1)
+		var next_idx = clamp(v, 0, container.get_child_count() - 1)
+		var next_slot = container.get_child(next_idx) as ItemSlot
+		if not next_slot or next_slot.is_empty():
+			return
+		
+		current_selected = next_idx
 		selected_label.text = ""
 		
 		for i in container.get_child_count():
@@ -42,9 +47,9 @@ func _gui_input(event: InputEvent) -> void:
 			current_selected += container.get_child_count() / 2
 		elif event.is_action_pressed("move_up"):
 			current_selected -= container.get_child_count() / 2
-		elif event.is_action_pressed("ui_accept"):
+		elif event.is_action_pressed("interact"):
 			selected.emit(current_selected)
-		elif event.is_action_pressed("ui_cancel"):
+		elif event.is_action_pressed("cancel"):
 			close()
 
 func close():

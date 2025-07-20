@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dojmx6h5t5t70"]
+[gd_scene load_steps=10 format=3 uid="uid://dojmx6h5t5t70"]
 
 [ext_resource type="Script" uid="uid://ddkigcrqgthhu" path="res://dungeon-papers/dungeon_monster.gd" id="1_uqs4g"]
 [ext_resource type="Script" uid="uid://dmy673lb6y7se" path="res://physics_player/interactable_3d.gd" id="2_ii34p"]
 [ext_resource type="PackedScene" uid="uid://br0fd5nnfheb2" path="res://assets/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Minion.glb" id="2_ou1bp"]
 [ext_resource type="Script" uid="uid://llqsc28eoe7b" path="res://dungeon-papers/item/dish.gd" id="3_ve633"]
 [ext_resource type="Texture2D" uid="uid://ckjh8xopcqpv7" path="res://icon.svg" id="4_evkpt"]
+[ext_resource type="Theme" uid="uid://da2vjf23p5g2g" path="res://dungeon-papers/dungeon_papers_theme.tres" id="5_gpfwp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ii34p"]
 radius = 0.529649
@@ -16,10 +17,11 @@ size = Vector3(4.25, 1.19141, 2.14551)
 [sub_resource type="ViewportTexture" id="ViewportTexture_ou1bp"]
 viewport_path = NodePath("Sprite3D/SubViewport")
 
-[node name="DungeonMonster" type="RigidBody3D"]
+[node name="DungeonMonster" type="RigidBody3D" node_paths=PackedStringArray("label")]
 collision_layer = 4
 lock_rotation = true
 script = ExtResource("1_uqs4g")
+label = NodePath("Sprite3D/SubViewport/VBoxContainer/Monster")
 
 [node name="Skeleton_Minion" parent="." instance=ExtResource("2_ou1bp")]
 
@@ -59,10 +61,20 @@ texture = SubResource("ViewportTexture_ou1bp")
 transparent_bg = true
 size = Vector2i(256, 256)
 
-[node name="TextureRect" type="TextureRect" parent="Sprite3D/SubViewport"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sprite3D/SubViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("5_gpfwp")
+
+[node name="TextureRect" type="TextureRect" parent="Sprite3D/SubViewport/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 texture = ExtResource("4_evkpt")
+
+[node name="Monster" type="Label" parent="Sprite3D/SubViewport/VBoxContainer"]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1

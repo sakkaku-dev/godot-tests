@@ -3,6 +3,8 @@ extends Item
 
 @export var station_outputs: Dictionary[String, PackedScene] = {}
 
+var quality := 1.0
+
 func can_station_process(station: Station) -> bool:
 	for type in station_outputs:
 		if station.item_name == type:

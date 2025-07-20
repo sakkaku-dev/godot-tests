@@ -18,14 +18,15 @@ enum Builds {
 }
 
 const BUILD_ITEMS_MAP = {
-	Builds.SKELETON_WARRIOR: ["Sword"],
-	Builds.SKELETON_ARCHER: ["Bow", "Arrow", "Arrow", "Arrow"],
-	Builds.GOBLIN_WARRIOR: ["Axe", "Shield"],
+	"SKELETON_WARRIOR": ["Sword"],
+	"SKELETON_ARCHER": ["Bow", "Arrow", "Arrow", "Arrow"],
+	"GOBLIN_WARRIOR": ["Axe", "Shield"],
 }
 
 const ITEMS = {
 	"Metal": preload("res://dungeon-papers/item/metal.tscn"),
 	"MoltenMetal": preload("res://dungeon-papers/item/molten_metal.tscn"),
+	"Sword": preload("res://dungeon-papers/item/sword.tscn"),
 	
 	# Stations
 	"Furnace": preload("res://dungeon-papers/stations/furnace.tscn"),

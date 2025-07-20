@@ -1,17 +1,19 @@
 [gd_scene load_steps=6 format=3 uid="uid://byfy3d6r0q32n"]
 
 [ext_resource type="Script" uid="uid://db3bg2vwjy11y" path="res://dungeon-papers/stations/station.gd" id="1_m1u2t"]
-[ext_resource type="Script" uid="uid://uv45md21wtnk" path="res://dungeon-papers/circle_timer.gd" id="2_v0p3e"]
 [ext_resource type="Material" uid="uid://b36wqn71hc2b1" path="res://dungeon-papers/stations/work_timer.tres" id="3_v0p3e"]
+[ext_resource type="Script" uid="uid://dgf8qypxalpq3" path="res://dungeon-papers/stations/timed_tap_work.gd" id="4_q5sw7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v0p3e"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_hafiq"]
 viewport_path = NodePath("CircleTimer/SubViewport")
 
-[node name="Anvil" type="Area3D"]
+[node name="Anvil" type="Area3D" node_paths=PackedStringArray("station_work")]
+collision_layer = 32768
+collision_mask = 0
 script = ExtResource("1_m1u2t")
-processing_time = 5.0
+station_work = NodePath("CircleTimer")
 item_name = "Anvil"
 metadata/_custom_type_script = "uid://db3bg2vwjy11y"
 
@@ -26,12 +28,11 @@ size = Vector3(1, 0.238281, 1)
 [node name="ItemPosition" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01045, 0)
 
-[node name="CircleTimer" type="Sprite3D" parent="." node_paths=PackedStringArray("color_rect")]
+[node name="CircleTimer" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67967, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_hafiq")
-script = ExtResource("2_v0p3e")
-color_rect = NodePath("SubViewport/ColorRect")
+script = ExtResource("4_q5sw7")
 
 [node name="Timer" type="Timer" parent="CircleTimer"]
 one_shot = true

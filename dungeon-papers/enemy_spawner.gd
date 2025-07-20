@@ -3,7 +3,6 @@ extends Marker3D
 
 signal finished()
 
-@export var max_enemy_count := 8
 @export var enemy_scene: PackedScene
 @export var spawn_timer: Timer
 
@@ -29,10 +28,6 @@ func get_current_enemy_count() -> int:
 	return enemy_spawned
 
 func spawn():
-	if get_current_enemy_count() >= max_enemy_count:
-		print("Max enemy count reached, cannot spawn more.")
-		return
-
 	var enemy = enemy_scene.instantiate()
 	enemy.name = "Enemy %s" % enemy_spawned
 

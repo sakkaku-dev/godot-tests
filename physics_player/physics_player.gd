@@ -36,6 +36,10 @@ func _ready() -> void:
 	var parts = name.split("_")
 	player_input.set_for_id(parts[1])
 	player_input.just_pressed.connect(func(ev):
+		if working_station:
+			working_station.handle_input(ev)
+			return
+		
 		if ev.is_action_pressed("ready"):
 			if DungeonGame.is_prepping():
 				player_ready.emit()
@@ -46,20 +50,24 @@ func _ready() -> void:
 				try_pick_up()
 		elif ev.is_action_pressed("work"):
 			var nearest_object = get_nearest_object(false)
-			if not DungeonGame.is_prepping() and nearest_object.can_do_work():
+			if not DungeonGame.is_prepping() and nearest_object and nearest_object.has_item_to_work():
 				working_station = nearest_object
-				working_station.start_work()
+				working_station.start_work(self)
 				print("Working on station %s" % working_station)
 		elif ev.is_action_pressed("rotate") and held_object is Station:
 			rotate_held_station()
+	)
+	player_input.just_released.connect(func(ev):
+		if working_station:
+			working_station.handle_input(ev)
+			return
+	)
 
-	)
-	player_input.just_released.connect(func(ev: InputEvent):
-		if ev.is_action_released("work") and working_station:
-			working_station.stop_work()
-			working_station = null
-			print("Stopped working on station %s" % working_station)
-	)
+func stop_work():
+	if not working_station: return
+	working_station.stop_work()
+	working_station = null
+	print("Stopped working on station %s" % working_station)
 
 func get_move_dir():
 	if menu and menu.visible: return Vector3.ZERO
