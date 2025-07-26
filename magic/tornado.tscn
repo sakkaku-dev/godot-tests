@@ -1,0 +1,151 @@
+[gd_scene load_steps=23 format=3 uid="uid://b6cxw3y4xo030"]
+
+[ext_resource type="PackedScene" uid="uid://j20efs01x4vh" path="res://assets/particles/tornado.glb" id="1_2b65w"]
+[ext_resource type="Shader" uid="uid://chdpydvkec36m" path="res://magic/tornado.tres" id="2_8eafj"]
+[ext_resource type="Shader" uid="uid://bgf21trwrtlwv" path="res://magic/basic_dissolve.tres" id="3_2b1s6"]
+[ext_resource type="Texture2D" uid="uid://coikxo5mcrjkl" path="res://assets/particles/T_Noise1_nk.png" id="3_7ooeq"]
+[ext_resource type="ArrayMesh" uid="uid://cpngxjtkb7f5q" path="res://assets/particles/tornado_waves.obj" id="3_eve0y"]
+[ext_resource type="Texture2D" uid="uid://bk6tg2q61esxn" path="res://assets/particles/T_FirePanningCyl45.png" id="4_geje6"]
+
+[sub_resource type="Gradient" id="Gradient_eve0y"]
+offsets = PackedFloat32Array(0, 0.218868, 0.449057, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.3, 0.7, 5, 0.42, 0.6, 1, 3, 0.906, 2, 2, 2, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2b1s6"]
+gradient = SubResource("Gradient_eve0y")
+use_hdr = true
+
+[sub_resource type="Gradient" id="Gradient_8eafj"]
+offsets = PackedFloat32Array(0, 0.0641509, 0.898113, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eve0y"]
+gradient = SubResource("Gradient_8eafj")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eve0y"]
+render_priority = 0
+shader = ExtResource("2_8eafj")
+shader_parameter/Speed = Vector2(-1, 1.8)
+shader_parameter/BaseTexture = ExtResource("3_7ooeq")
+shader_parameter/Subtract_Texture = SubResource("GradientTexture2D_eve0y")
+shader_parameter/Color1DGradient = SubResource("GradientTexture1D_2b1s6")
+shader_parameter/Opacity = 0.437
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_geje6"]
+render_priority = 0
+shader = ExtResource("3_2b1s6")
+shader_parameter/BaseTexture = ExtResource("4_geje6")
+
+[sub_resource type="Curve" id="Curve_7ooeq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 2.78587, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rbhhk"]
+curve = SubResource("Curve_7ooeq")
+
+[sub_resource type="Gradient" id="Gradient_geje6"]
+offsets = PackedFloat32Array(0.13834, 0.774704, 1)
+colors = PackedColorArray(0.00789999, 0.24253, 0.79, 1, 0.14, 0.742, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ooeq"]
+gradient = SubResource("Gradient_geje6")
+
+[sub_resource type="Curve" id="Curve_rbhhk"]
+_data = [Vector2(0, 0.192308), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_57xxv"]
+curve = SubResource("Curve_rbhhk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2b1s6"]
+particle_flag_rotate_y = true
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(1, 1, 0)
+initial_velocity_max = 3.0
+angular_velocity_min = 350.0
+angular_velocity_max = 500.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_57xxv")
+color = Color(1.5, 1.5, 1.5, 1)
+color_ramp = SubResource("GradientTexture1D_7ooeq")
+alpha_curve = SubResource("CurveTexture_rbhhk")
+
+[sub_resource type="Animation" id="Animation_eve0y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("tornado:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8eafj"]
+resource_name = "spin"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("tornado:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eve0y"]
+_data = {
+&"RESET": SubResource("Animation_eve0y"),
+&"spin": SubResource("Animation_8eafj")
+}
+
+[node name="Tornado" type="Node3D"]
+
+[node name="tornado" parent="." instance=ExtResource("1_2b65w")]
+
+[node name="Cylinder" parent="tornado" index="0"]
+material_override = SubResource("ShaderMaterial_eve0y")
+cast_shadow = 0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="tornado"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.184103, -0.260679, 0)
+material_override = SubResource("ShaderMaterial_geje6")
+cast_shadow = 0
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_2b1s6")
+draw_pass_1 = ExtResource("3_eve0y")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="tornado"]
+transform = Transform3D(0.391743, 0, -0.920075, 0, 1, 0, 0.920075, 0, 0.391743, -0.0721212, 5.13437, -0.169389)
+material_override = SubResource("ShaderMaterial_geje6")
+cast_shadow = 0
+lifetime = 0.5
+fixed_fps = 60
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_2b1s6")
+draw_pass_1 = ExtResource("3_eve0y")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(13.7854, 0.0556641, 12.7659)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_eve0y")
+}
+autoplay = "spin"
+
+[editable path="tornado"]

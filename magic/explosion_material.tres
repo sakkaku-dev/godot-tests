@@ -1,0 +1,43 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://cmmi0nr3vhk52"]
+
+[ext_resource type="Shader" uid="uid://68fwlu68x7l2" path="res://magic/explosion_cloud.tres" id="1_jinxo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yffge"]
+noise_type = 3
+fractal_octaves = 2
+fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lf4e1"]
+seamless = true
+noise = SubResource("FastNoiseLite_yffge")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lf4e1"]
+noise_type = 2
+frequency = 0.0031
+fractal_type = 2
+fractal_octaves = 2
+fractal_gain = 2.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ofbmo"]
+seamless = true
+noise = SubResource("FastNoiseLite_lf4e1")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jinxo"]
+noise_type = 3
+frequency = 0.0046
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yffge"]
+seamless = true
+noise = SubResource("FastNoiseLite_jinxo")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_jinxo")
+shader_parameter/CloudMove = Vector2(0, 1)
+shader_parameter/Texture2DParameter = SubResource("NoiseTexture2D_yffge")
+shader_parameter/CloudIntensity = 0.2
+shader_parameter/SmokeColor = Color(0.0627451, 0.0313726, 0.0156863, 1)
+shader_parameter/DissolveTexture = SubResource("NoiseTexture2D_lf4e1")
+shader_parameter/FlareColor = Color(1, 0.384314, 0, 1)
+shader_parameter/FlareStrength = 0.0
+shader_parameter/FlareTexture = SubResource("NoiseTexture2D_ofbmo")
