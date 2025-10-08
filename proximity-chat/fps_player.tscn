@@ -33,11 +33,10 @@ properties/3/path = NodePath("CameraRoot/SpotLight3D:light_energy")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root", "light", "hand")]
+[node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root", "hand")]
 script = ExtResource("1_krq8x")
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
-light = NodePath("CameraRoot/SpotLight3D")
 hand = NodePath("CameraRoot/Camera3D/Hand3D")
 
 [node name="PlayerInput" type="Node" parent="."]
@@ -72,7 +71,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.039682478, -0.7575803)
 collision_layer = 0
 collision_mask = 32768
 script = ExtResource("6_eodsd")
-metadata/_custom_type_script = "uid://bwykobxm0l3y"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CameraRoot/Camera3D/Hand3D"]
 shape = SubResource("BoxShape3D_eodsd")
@@ -91,6 +89,7 @@ audio_player = NodePath("../ProximityAudioPlayer")
 replication_config = SubResource("SceneReplicationConfig_t1bxn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="MicrophoneIcon" type="TextureButton" parent="CanvasLayer" node_paths=PackedStringArray("microphone", "fade_timer", "icon_texture")]
 anchors_preset = 7

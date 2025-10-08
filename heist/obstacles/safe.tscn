@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwgre4ho14ajf"]
+
+[ext_resource type="Script" uid="uid://ch2g1u5kmjvoo" path="res://heist/obstacles/safe.gd" id="1_q5gvk"]
+[ext_resource type="Texture2D" uid="uid://ch5iklyksy0t6" path="res://assets/Prototype Textures/PNG/Dark/texture_01.png" id="2_voahu"]
+[ext_resource type="Texture2D" uid="uid://ch2q1520jwpqm" path="res://assets/Prototype Textures/PNG/Light/texture_11.png" id="3_jt4yl"]
+[ext_resource type="Script" uid="uid://bcectixr83myi" path="res://physics_player/interactable_3d.gd" id="4_y1rpr"]
+[ext_resource type="AudioStream" uid="uid://b6oeb5tpklwh2" path="res://heist/assets/sounds/safe_hint.mp3" id="5_voahu"]
+[ext_resource type="AudioStream" uid="uid://drcglrqd75c1w" path="res://heist/assets/sounds/safe_correct.mp3" id="6_jt4yl"]
+[ext_resource type="AudioStream" uid="uid://bpcu8c4xsbvl4" path="res://heist/assets/sounds/safe_open.mp3" id="7_y1rpr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfian"]
+albedo_texture = ExtResource("2_voahu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03n6r"]
+albedo_texture = ExtResource("3_jt4yl")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ewoy"]
+size = Vector3(3.5, 3.5, 3.5)
+
+[node name="Safe" type="Node3D" node_paths=PackedStringArray("safe_lock_rotator", "hint_sound", "correct_sound", "open_sound", "value_label", "controls")]
+script = ExtResource("1_q5gvk")
+safe_lock_rotator = NodePath("SafeModel/CSGCylinder3D/CSGCylinder3D2")
+hint_sound = NodePath("HintSound")
+correct_sound = NodePath("CorrectSound")
+open_sound = NodePath("OpenSound")
+value_label = NodePath("Value")
+controls = NodePath("CanvasLayer/Controls")
+
+[node name="SafeModel" type="Node3D" parent="."]
+
+[node name="Safe" type="CSGBox3D" parent="SafeModel"]
+material_override = SubResource("StandardMaterial3D_hfian")
+use_collision = true
+size = Vector3(3, 3, 3)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="SafeModel"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.5969019)
+material_override = SubResource("StandardMaterial3D_03n6r")
+radius = 0.3
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="SafeModel/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.038994312, 0)
+radius = 0.2
+sides = 16
+
+[node name="Interactable3D" type="Area3D" parent="." node_paths=PackedStringArray("camera")]
+collision_layer = 32768
+collision_mask = 0
+script = ExtResource("4_y1rpr")
+camera = NodePath("../Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable3D"]
+shape = SubResource("BoxShape3D_1ewoy")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.9665856)
+
+[node name="HintSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_voahu")
+volume_db = -10.0
+
+[node name="CorrectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_jt4yl")
+volume_db = -10.0
+
+[node name="OpenSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_y1rpr")
+volume_db = -5.0
+pitch_scale = 0.8
+
+[node name="Value" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0038149357, -0.0025165826, 1.6858499)
+text = "50"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Controls" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2

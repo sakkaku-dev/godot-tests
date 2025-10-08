@@ -4,8 +4,6 @@
 [ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="3_1yvub"]
 [ext_resource type="Script" uid="uid://bwykobxm0l3y" path="res://physics_player/hand_3d.gd" id="3_du341"]
 [ext_resource type="Script" uid="uid://eux0ef0rg11v" path="res://input/PlayerInput.gd" id="4_rwr02"]
-[ext_resource type="Material" uid="uid://btujd4srgw3qs" path="res://physics_player/barbarian_mat.tres" id="5_5ujn3"]
-[ext_resource type="PackedScene" uid="uid://didkx6svqndkt" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="5_l3lhk"]
 [ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="6_du341"]
 
 [sub_resource type="Curve" id="Curve_nfugg"]
