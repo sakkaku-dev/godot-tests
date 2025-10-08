@@ -2,14 +2,14 @@ extends Node
 
 const APP_ID = 3191960
 
-var log_level := Logger.Level.DEBUG
+var log_level := KumaLog.Level.DEBUG
 var version := Build.VERSION
 
-var _logger := Logger.new("Env")
+var _logger := KumaLog.new("Env")
 
 var _live := true
 var _enable_steam := false
-var _default_log_level := Logger.Level.INFO
+var _default_log_level := KumaLog.Level.INFO
 
 func _ready():
 	var args = _args_dictionary()
@@ -22,8 +22,8 @@ func _ready():
 	
 	if "logging" in args:
 		var lvl_str = args["logging"].to_upper()
-		log_level = Logger.Level[lvl_str] if lvl_str in Logger.Level else _default_log_level
-		_logger.info("Setting log level to %s" % Logger.Level.keys()[log_level])
+		log_level = KumaLog.Level[lvl_str] if lvl_str in KumaLog.Level else _default_log_level
+		_logger.info("Setting log level to %s" % KumaLog.Level.keys()[log_level])
 	
 	if args.has("steam"):
 		_enable_steam = true
@@ -42,7 +42,7 @@ func _ready():
 	_logger.info("Running version %s (%s) on %s: %s" % [version, Build.GIT_SHA, OS.get_name(), {
 		"demo": is_demo(),
 		"steam": is_steam(),
-		"log_level": Logger.Level.keys()[log_level],
+		"log_level": KumaLog.Level.keys()[log_level],
 	}])
 
 func is_editor():
@@ -58,7 +58,7 @@ func is_steam() -> bool:
 	return _enable_steam
 
 func is_debug_level():
-	return log_level == Logger.Level.DEBUG
+	return log_level == KumaLog.Level.DEBUG
 
 func _args_dictionary():
 	var arguments = {}

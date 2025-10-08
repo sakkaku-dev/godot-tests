@@ -1,4 +1,4 @@
-class_name Logger
+class_name KumaLog
 
 const COLORS = {
 	Level.ERROR: Color.RED,

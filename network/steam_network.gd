@@ -9,7 +9,7 @@ var lobby_name : String
 var max_peers: int
 var port: int
 var steam
-var logger = Logger.new("SteamNetwork")
+var logger = KumaLog.new("SteamNetwork")
 
 var multiplayer_class = "SteamMultiplayerPeer"
 

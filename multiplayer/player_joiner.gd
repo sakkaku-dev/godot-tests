@@ -11,7 +11,7 @@ var joined_players := {}
 var players_ready := []
 var disabled := false
 
-var logger := Logger.new("PlayerJoiner")
+var logger := KumaLog.new("PlayerJoiner")
 
 func reset():
 	reset_ready_state()

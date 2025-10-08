@@ -14,7 +14,7 @@ const Device = {
 @export var device_id = 0
 
 var _device := Device.KEYBOARD
-var _logger = Logger.new("Player")
+var _logger = KumaLog.new("Player")
 
 func _set_joypad(is_joypad: bool):
 	joypad = is_joypad
@@ -43,8 +43,8 @@ func _get_simplified_device(raw_name: String) -> String:
 
 func get_vector(left: String, right: String, up: String, down: String):
 	return Vector2(
-		get_action_strength(left) - get_action_strength(right),
-		get_action_strength(up) - get_action_strength(down),
+		get_action_strength(right) - get_action_strength(left),
+		get_action_strength(down) - get_action_strength(up),
 	)
 
 func is_player_event(event: InputEvent) -> bool:

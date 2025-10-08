@@ -19,13 +19,13 @@ func _ready() -> void:
 	if Networking.has_network():
 		set_process_unhandled_input(is_multiplayer_authority())
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("push_to_talk"):
-		play()
-		microphone_toggled.emit(playing)
-	elif event.is_action_released("push_to_talk"):
-		stop()
-		microphone_toggled.emit(playing)
+#func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action_pressed("push_to_talk"):
+		#play()
+		#microphone_toggled.emit(playing)
+	#elif event.is_action_released("push_to_talk"):
+		#stop()
+		#microphone_toggled.emit(playing)
 
 func _process(_delta: float) -> void:
 	_process_voice()

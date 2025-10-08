@@ -3,7 +3,7 @@ extends Node
 
 @export var input: PlayerInput
 
-var logger = Logger.new("DeviceSwitcher")
+var logger = KumaLog.new("DeviceSwitcher")
 
 func _unhandled_input(event: InputEvent):
 	if input == null or input.is_player_event(event):

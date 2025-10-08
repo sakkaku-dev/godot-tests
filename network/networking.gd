@@ -11,7 +11,7 @@ signal connection_success()
 signal game_error(err)
 
 var network: Network
-var logger = Logger.new("Networking")
+var logger = KumaLog.new("Networking")
 
 var players := {}
 var connected := false

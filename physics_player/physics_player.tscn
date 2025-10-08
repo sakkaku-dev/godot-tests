@@ -1,10 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://c7exu8d63ypbl"]
 
-[ext_resource type="Script" path="res://physics_player/physics_player.gd" id="1_hhr6h"]
-[ext_resource type="PackedScene" uid="uid://cchxvyy7i7i02" path="res://physics_player/projectile.tscn" id="2_52fws"]
-[ext_resource type="Script" path="res://physics_player/ground_spring_cast.gd" id="3_1yvub"]
-[ext_resource type="Script" path="res://util/chargeable.gd" id="3_lin6f"]
-[ext_resource type="Script" path="res://input/PlayerInput.gd" id="4_rwr02"]
+[ext_resource type="Script" uid="uid://drji3q1phkfux" path="res://physics_player/physics_player.gd" id="1_hhr6h"]
+[ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="3_1yvub"]
+[ext_resource type="Script" uid="uid://bwykobxm0l3y" path="res://physics_player/hand_3d.gd" id="3_du341"]
+[ext_resource type="Script" uid="uid://eux0ef0rg11v" path="res://input/PlayerInput.gd" id="4_rwr02"]
+[ext_resource type="Material" uid="uid://btujd4srgw3qs" path="res://physics_player/barbarian_mat.tres" id="5_5ujn3"]
+[ext_resource type="PackedScene" uid="uid://didkx6svqndkt" path="res://assets/KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="5_l3lhk"]
+[ext_resource type="Shader" uid="uid://dlhybhm0yy0wa" path="res://physics_player/circle.gdshader" id="6_du341"]
 
 [sub_resource type="Curve" id="Curve_nfugg"]
 min_value = 1.0

@@ -4,6 +4,7 @@ extends Node
 signal disabled(disable)
 signal just_pressed(ev: InputEvent)
 signal just_released(ev: InputEvent)
+signal input_event(ev: InputEvent)
 
 var input_types = InputMap.get_actions()
 
@@ -28,6 +29,12 @@ func handle_input(event: InputEvent):
 		action_strength[action] = event.get_action_strength(action)
 		_register_action(event, action)
 
+	if event.is_pressed():
+		just_pressed.emit(event)
+	else:
+		just_released.emit(event)
+	
+	input_event.emit(event)
 
 func _register_action(event: InputEvent, action: String):
 	if event.is_action_pressed(action):
