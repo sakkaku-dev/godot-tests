@@ -37,10 +37,6 @@ folder_colors={
 "res://proximity-chat/": "red"
 }
 
-[global_group]
-
-DungeonMap=""
-
 [input]
 
 move_up={

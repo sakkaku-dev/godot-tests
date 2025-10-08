@@ -1,23 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhy7vo82ooo18"]
+[gd_scene load_steps=10 format=3 uid="uid://dhy7vo82ooo18"]
 
+[ext_resource type="Script" uid="uid://cx5ynt3mk1qm7" path="res://heist/heist.gd" id="1_nctga"]
 [ext_resource type="PackedScene" uid="uid://bjemhxyjs5ne6" path="res://proximity-chat/fps_player.tscn" id="1_nu6wg"]
 [ext_resource type="PackedScene" uid="uid://bwgre4ho14ajf" path="res://heist/obstacles/safe.tscn" id="2_1ewoy"]
 [ext_resource type="Script" uid="uid://br6g4w860kedt" path="res://util/countdown_timer.gd" id="3_vwxcx"]
+[ext_resource type="PackedScene" uid="uid://hwatorhikb10" path="res://heist/obstacles/pressure_grid.tscn" id="4_h5f8m"]
+[ext_resource type="Script" uid="uid://dtite0vanjfe6" path="res://heist/ui/game_over.gd" id="6_hfian"]
+[ext_resource type="Script" uid="uid://c0e28eui3xpbg" path="res://heist/checkpoint.gd" id="7_03n6r"]
+[ext_resource type="Script" uid="uid://cj8kldglc2yet" path="res://heist/respawner.gd" id="7_blfr3"]
 
-[node name="Heist" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_nctga"]
+size = Vector3(50, 1, 50)
+
+[node name="Heist" type="Node3D" node_paths=PackedStringArray("alert_timer", "gameover_ui", "root")]
+script = ExtResource("1_nctga")
+obstacles = Array[PackedScene]([ExtResource("4_h5f8m")])
+safe_scene = ExtResource("2_1ewoy")
+alert_timer = NodePath("AlertTimer")
+gameover_ui = NodePath("CanvasLayer/Control/GameOver")
+root = NodePath("Root")
+run = true
 
 [node name="FPSPlayer" parent="." instance=ExtResource("1_nu6wg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25318724, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48847443, 0.87217224)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46069336, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 use_collision = true
-size = Vector3(20, 0.079, 20)
+size = Vector3(4, 0.05, 4)
 
-[node name="Safe" parent="." instance=ExtResource("2_1ewoy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1205674, -5.8434772)
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -2, 1, 0)
+use_collision = true
+size = Vector3(2, 0.05, 4)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 2, 1, 0)
+use_collision = true
+size = Vector3(2, 0.05, 4)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 1, 2)
+use_collision = true
+size = Vector3(2, 0.05, 4)
 
 [node name="AlertTimer" type="Timer" parent="."]
+wait_time = 10.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -45,3 +73,56 @@ layout_mode = 2
 text = "00:00"
 script = ExtResource("3_vwxcx")
 timer = NodePath("../../../../AlertTimer")
+
+[node name="GameOver" type="ColorRect" parent="CanvasLayer/Control" node_paths=PackedStringArray("restart_btn")]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.47058824)
+script = ExtResource("6_hfian")
+restart_btn = NodePath("CenterContainer/VBoxContainer/Button")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/GameOver/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "You've been caught!"
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.88769484, 0.31622285, 0.33466533, -0.45778832, 0.52838385, 0.71501064, 0.04927099, -0.7879172, 0.6138068, 0, 0, 0)
+
+[node name="Root" type="Node3D" parent="."]
+
+[node name="Respawner" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_blfr3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Respawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23)
+shape = SubResource("BoxShape3D_nctga")
+
+[node name="Checkpoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+script = ExtResource("7_03n6r")
+is_active = true

@@ -19,17 +19,16 @@ const TYPE_OFFSET = {
 @export var code_length := 3
 @export var max_code := 100
 @export var allowed_hint_delta := 0.05
-@export var safe_lock_rotator: Node3D
 @export var lock_mouse_sensitivity := 0.01
 
 @export var safe_type := Type.BLACK
 @export var hint_sound: AudioStreamPlayer
 @export var correct_sound: AudioStreamPlayer
 @export var open_sound: AudioStreamPlayer
-@export var value_label: Label3D
 @export var controls: Control
-
-@onready var interactable_3d: Interactable3D = $Interactable3D
+@export var value_label: Label3D
+@export var safe_lock_rotator: Node3D
+@export var interactable_3d: Interactable3D
 
 var code := []
 var seed := 0

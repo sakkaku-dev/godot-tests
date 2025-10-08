@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bjemhxyjs5ne6"]
+[gd_scene load_steps=14 format=3 uid="uid://bjemhxyjs5ne6"]
 
 [ext_resource type="Script" uid="uid://b4aianeydif4r" path="res://proximity-chat/fps_player.gd" id="1_krq8x"]
 [ext_resource type="Script" uid="uid://cqobewhbocpir" path="res://proximity-chat/microphone_audio.gd" id="2_ehckg"]
@@ -7,9 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://8mfn6xq54pgk" path="res://proximity-chat/flair_disabled_cross.png" id="4_lg10s"]
 [ext_resource type="Script" uid="uid://c5iwsm6uf3wtg" path="res://physics_player/hand_3d.gd" id="6_eodsd"]
 [ext_resource type="Script" uid="uid://eux0ef0rg11v" path="res://input/PlayerInput.gd" id="7_ubged"]
+[ext_resource type="Script" uid="uid://dno2tbjdt3x22" path="res://physics_player/ground_spring_cast.gd" id="8_ffq0p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1rodb"]
-radius = 0.206044
+radius = 0.1
 height = 1.12775
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eodsd"]
@@ -34,7 +35,9 @@ properties/3/spawn = true
 properties/3/replication_mode = 2
 
 [node name="FPSPlayer" type="CharacterBody3D" node_paths=PackedStringArray("camera", "camera_root", "hand")]
+collision_layer = 2
 script = ExtResource("1_krq8x")
+SPEED = 3.0
 camera = NodePath("CameraRoot/Camera3D")
 camera_root = NodePath("CameraRoot")
 hand = NodePath("CameraRoot/Camera3D/Hand3D")
@@ -50,6 +53,11 @@ shape = SubResource("CapsuleShape3D_1rodb")
 visible = false
 radius = 0.2
 height = 1.0
+
+[node name="GroundSpringCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36249754, 0)
+script = ExtResource("8_ffq0p")
+metadata/_custom_type_script = "uid://dno2tbjdt3x22"
 
 [node name="CameraRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4408564, 0)
