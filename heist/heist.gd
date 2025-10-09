@@ -5,9 +5,14 @@ extends Node3D
 @export var obstacles: Array[PackedScene] = []
 @export var safe_scene: PackedScene
 @export var num_of_obstacles := 3
+
 @export var alert_timer: Timer
 @export var gameover_ui: Control
+@export var unlocked_ui: Control
 
+@export var hacker_room: Node3D
+@export var player: CharacterBody3D
+@export var hacker_spawn: Node3D
 @export var root: Node3D
 @export var run := false:
 	set(v):
@@ -18,20 +23,22 @@ extends Node3D
 			for child in root.get_children():
 				child.queue_free()
 
-var seed := 0
+var logger := KumaLog.new("Heist")
 
 func _ready() -> void:
+	if GameManager.is_hacker:
+		player.global_position = hacker_spawn.global_position
+	
+	hacker_room.visible = GameManager.is_hacker
 	get_tree().paused = false
 	gameover_ui.hide()
 
-	_generate_heist()
+	_generate_heist(GameManager.seed)
 	alert_timer.timeout.connect(func(): gameover_ui.show())
 
-func _generate_heist():
-	seed = randi()
-
+func _generate_heist(_seed = 0):
 	var rng = RandomNumberGenerator.new()
-	rng.seed = seed
+	rng.seed = _seed
 
 	var available_obstacles = obstacles.duplicate()
 	var previous_obstacle = null
@@ -43,7 +50,7 @@ func _generate_heist():
 		available_obstacles.erase(obstacle_scene)
 
 		var obstacle_instance = obstacle_scene.instantiate() as Obstacle
-		obstacle_instance.seed = seed + i
+		obstacle_instance.seed = rng.seed + i
 		obstacle_instance.failed.connect(func(): _start_alert())
 		root.add_child(obstacle_instance)
 		
@@ -51,9 +58,17 @@ func _generate_heist():
 			_connect_to(previous_obstacle, obstacle_instance)
 		previous_obstacle = obstacle_instance
 		
-	var safe_instance = safe_scene.instantiate()
+	var safe_instance = safe_scene.instantiate() as Safe
+	safe_instance.seed = rng.seed
+	safe_instance.unlocked.connect(func(): _safe_unlocked())
+
 	root.add_child(safe_instance)
 	_connect_to(previous_obstacle, safe_instance)
+
+func _safe_unlocked():
+	GameManager.money_in_millions += randi_range(1, 5)
+	logger.info("Heist successful! Stole $%d million!" % GameManager.money_in_millions)
+	unlocked_ui.open(GameManager.money_in_millions)
 
 func _start_alert():
 	if alert_timer.is_stopped():

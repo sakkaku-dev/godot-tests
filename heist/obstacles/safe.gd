@@ -20,8 +20,8 @@ const TYPE_OFFSET = {
 @export var max_code := 100
 @export var allowed_hint_delta := 0.05
 @export var lock_mouse_sensitivity := 0.01
-
 @export var safe_type := Type.BLACK
+
 @export var hint_sound: AudioStreamPlayer
 @export var correct_sound: AudioStreamPlayer
 @export var open_sound: AudioStreamPlayer

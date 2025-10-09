@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb1ijyua8l2hd"]
+
+[ext_resource type="Script" uid="uid://i7uwxdxjfapm" path="res://heist/ui/mode_select.gd" id="1_r7ry3"]
+
+[node name="ModeSelect" type="Control" node_paths=PackedStringArray("mode_container", "infiltrator_btn", "hacker_btn", "infiltrator_container", "infiltrator_start_btn", "infiltrator_seed_label", "infiltrator_back_btn", "infiltrator_copy_btn", "hacker_container", "hacker_data_input", "hacker_start_btn", "hacker_back_btn")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r7ry3")
+mode_container = NodePath("CenterContainer/HBoxContainer")
+infiltrator_btn = NodePath("CenterContainer/HBoxContainer/Infiltrator")
+hacker_btn = NodePath("CenterContainer/HBoxContainer/Hacker")
+infiltrator_container = NodePath("CenterContainer/Infiltrator")
+infiltrator_start_btn = NodePath("CenterContainer/Infiltrator/Start")
+infiltrator_seed_label = NodePath("CenterContainer/Infiltrator/HBoxContainer/Seed")
+infiltrator_back_btn = NodePath("CenterContainer/Infiltrator/Back")
+infiltrator_copy_btn = NodePath("CenterContainer/Infiltrator/HBoxContainer/Copy")
+hacker_container = NodePath("CenterContainer/Hacker")
+hacker_data_input = NodePath("CenterContainer/Hacker/LineEdit")
+hacker_start_btn = NodePath("CenterContainer/Hacker/Start")
+hacker_back_btn = NodePath("CenterContainer/Hacker/Back")
+metadata/_custom_type_script = "uid://i7uwxdxjfapm"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Infiltrator" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Infiltrator"
+
+[node name="Hacker" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Hacker"
+
+[node name="Hacker" type="VBoxContainer" parent="CenterContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/Hacker"]
+layout_mode = 2
+placeholder_text = "Seed"
+
+[node name="Start" type="Button" parent="CenterContainer/Hacker"]
+layout_mode = 2
+text = "Start"
+
+[node name="Back" type="Button" parent="CenterContainer/Hacker"]
+layout_mode = 2
+text = "Back"
+
+[node name="Infiltrator" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Infiltrator"]
+layout_mode = 2
+
+[node name="Seed" type="Label" parent="CenterContainer/Infiltrator/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Copy" type="Button" parent="CenterContainer/Infiltrator/HBoxContainer"]
+layout_mode = 2
+text = "Copy"
+
+[node name="Start" type="Button" parent="CenterContainer/Infiltrator"]
+layout_mode = 2
+text = "Start"
+
+[node name="Back" type="Button" parent="CenterContainer/Infiltrator"]
+layout_mode = 2
+text = "Back"

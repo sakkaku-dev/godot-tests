@@ -23,7 +23,7 @@ hint_sound = NodePath("HintSound")
 correct_sound = NodePath("CorrectSound")
 open_sound = NodePath("OpenSound")
 controls = NodePath("CanvasLayer/Controls")
-value_label = NodePath("SafeModel/CSGCylinder3D/CSGCylinder3D2/Value")
+value_label = NodePath("SafeModel/CSGCylinder3D/Value")
 safe_lock_rotator = NodePath("SafeModel/CSGCylinder3D/CSGCylinder3D2")
 interactable_3d = NodePath("SafeModel/Interactable3D")
 
@@ -55,8 +55,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.038994312, 0)
 radius = 0.2
 sides = 16
 
-[node name="Value" type="Label3D" parent="SafeModel/CSGCylinder3D/CSGCylinder3D2"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.0038149357, 1.0499537, 0.002516508)
+[node name="Value" type="Label3D" parent="SafeModel/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.0038149357, 1.0889479, 0.002516389)
 text = "50"
 
 [node name="Camera3D" type="Camera3D" parent="SafeModel"]
