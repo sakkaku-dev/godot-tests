@@ -2,6 +2,13 @@
 class_name PressureGrid
 extends Obstacle
 
+const NEIGHBORS = [
+	Vector2i(0, 1),  # Up
+	Vector2i(1, 0),  # Right
+	Vector2i(0, -1), # Down
+	Vector2i(-1, 0)  # Left
+]
+
 @export var grid_size := Vector2i(4, 4)
 @export var cell_size := 1.0
 @export var cell_scene: PackedScene
@@ -41,30 +48,39 @@ func _generate_path():
 	path.append(Vector2i(x, z))
 	visited[Vector2i(x, z)] = true
 
+	var dirs := []
+
 	while z < grid_size.y - 1:
 		var options = []
-		# Up (z+1)
-		if z + 1 < grid_size.y and not visited.has(Vector2i(x, z + 1)):
-			options.append(Vector2i(x, z + 1))
-		# Left (x-1)
-		if x - 1 >= 0 and not visited.has(Vector2i(x - 1, z)):
-			options.append(Vector2i(x - 1, z))
-		# Right (x+1)
-		if x + 1 < grid_size.x and not visited.has(Vector2i(x + 1, z)):
-			options.append(Vector2i(x + 1, z))
+		for n in NEIGHBORS:
+			if n.y == -1: continue # Don't go back down
 
-		# Always prefer moving up if possible, but randomize among all options
-		if options.size() == 0:
-			break # No more moves possible
+			var count = dirs.count(n)
+			var neighbor = Vector2i(x, z) + n
+			if not visited.has(neighbor) and _is_in_grid(neighbor) and count < 3:
+				options.append(neighbor)
+
+		if options.size() == 0: break
 
 		var next_cell = options[rng.randi_range(0, options.size() - 1)]
+
+		dirs.append(next_cell - Vector2i(x, z))
+		if dirs.size() > 3:
+			dirs.remove_at(0)
+
 		path.append(next_cell)
-		visited[next_cell] = true
+		for n in NEIGHBORS:
+			var neighbor = Vector2i(x, z) + n
+			visited[neighbor] = true
+
 		x = next_cell.x
 		z = next_cell.y
 
 	logger.debug("Generated path: %s" % [path])
 	return path
+
+func _is_in_grid(pos: Vector2i) -> bool:
+	return pos.x >= 0 and pos.x < grid_size.x and pos.y >= 0 and pos.y < grid_size.y
 
 func _generate_grid():
 	for child in get_children():
